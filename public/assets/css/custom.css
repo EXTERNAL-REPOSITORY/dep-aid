@@ -1,0 +1,78 @@
+html, body{
+    height:100%;
+    padding:0px;
+    margin:0px;
+}
+
+.text-black{
+    color: black !important;
+}
+
+.navbar-vertical.navbar-expand-xs .navbar-collapse{
+    height: calc(100vh - 150px) !important;
+    overflow: none !important;
+}
+
+.scheduler-calendar{
+    /* width:1500px; 
+    height:750px; */
+    margin-left: auto; 
+    margin-right: auto;
+}
+
+#regForm {
+  background-color: #ffffff;
+  margin: 100px auto;
+  padding: 40px;
+  width: 70%;
+  min-width: 300px;
+}
+
+/* Style the input fields */
+input {
+  padding: 10px;
+  width: 100%;
+  font-size: 17px;
+  /* font-family: Raleway; */
+  border: 1px solid #aaaaaa;
+}
+
+/* Mark input boxes that gets an error on validation: */
+input.invalid {
+  background-color: #ffdddd;
+}
+
+/* Hide all steps by default: */
+.tab {
+  display: none;
+}
+
+/* Make circles that indicate the steps of the form: */
+.step {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbbbbb;
+  border: none;
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.5;
+}
+
+/* Mark the active step: */
+.step.active {
+  opacity: 1;
+}
+
+/* Mark the steps that are finished and valid: */
+.step.finish {
+  background-color: #04AA6D;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=radio]:checked {
+  padding: 7px !important;
+}
+
+.mt-2-custom{
+  margin-top: 2.4rem;
+}
