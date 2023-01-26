@@ -82,7 +82,7 @@ class PatientFormFactory extends Factory
             'maintenance_medications' => 'Herbal',
             'current_medications' => 'Herbal, Alternative Medicines',
             'is_done_consulting' => 0,
-            'created_at' => Carbon::now(),
+            'created_at' => fake()->dateTimeBetween('1990-01-01', '2022-12-31'),
             'updated_at' => Carbon::now(),
         ];
     }
