@@ -57,13 +57,13 @@
                 <div class="row">
                     <div class="col-md-12">
                         @component('components.inputs.input')
-                            @slot('label', 'Quantity')
+                            @slot('label', 'Stock Balance')
                             @slot('attributes', [
                                 'class' => 'form-control',
                                 'type' => 'number',
-                                'name' => 'quantity',
-                                'id' => 'quantity',
-                                'placeholder' => 'Quantity',
+                                'name' => 'stock_balance',
+                                'id' => 'stock_balance',
+                                'placeholder' => 'Stock Balance',
                                 'value' => '',
                             ])          
                         @endcomponent

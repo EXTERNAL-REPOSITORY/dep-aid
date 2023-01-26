@@ -40,7 +40,7 @@
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">ID</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text ps-2">Medicine Name</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text ps-2">Brand</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text ps-2">Quantity</th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text ps-2">Stock Balance</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Manufacturer Date</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Expiration Date</th>
                                     <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Action</th>
@@ -59,7 +59,7 @@
                                             <span class="text-secondary text-xs font-weight-bold table-text">{{ ucfirst($row->brand) }}</span>
                                         </td>
                                         <td class="align-middle text-center text-sm">
-                                            <span class="text-secondary text-xs font-weight-bold table-text">{{ $row->quantity }}</span>
+                                            <span class="text-secondary text-xs font-weight-bold table-text">{{ $row->stock_balance }}</span>
                                         </td>
                                         <td class="align-middle text-center">
                                             <span class="text-secondary text-xs font-weight-bold table-text">{{ date('m/d/Y', strtotime($row->manufacturer_date)) }}</span>
@@ -137,7 +137,7 @@
 
             $('#edit_medicine_name').val(detail.medicine_name);            
             $('#edit_brand').val(detail.brand);            
-            $('#edit_quantity').val(detail.quantity);            
+            $('#edit_stock_balance').val(detail.stock_balance);            
             $('#edit_manufacturer_date').val(newManufacturerDate);
             $('#edit_expiration_date').val(newExpirationDate);
             $('#edit-topicals-form').attr('action', `/topicals/update/${detail.id}`)
@@ -149,15 +149,15 @@
             $('#delete-form').attr('action', url);
         }
 
-        $('.quantity-btn').on('click', function(){
+        $('.stock-balance-btn').on('click', function(){
             console.log($(this).attr('id'))
 
             if ($(this).attr('id') == 'add-btn') {
-                var getInput = $('#edit_quantity').val();
-                var newValue = $('#edit_quantity').val(parseInt(getInput) + 1)
+                var getInput = $('#edit_stock_balance').val();
+                var newValue = $('#edit_stock_balance').val(parseInt(getInput) + 1)
             } else {
-                var getInput = $('#edit_quantity').val();
-                var newValue = $('#edit_quantity').val(parseInt(getInput) - 1)
+                var getInput = $('#edit_stock_balance').val();
+                var newValue = $('#edit_stock_balance').val(parseInt(getInput) - 1)
             }
 
         })

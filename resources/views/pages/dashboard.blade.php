@@ -241,12 +241,12 @@
             var newArr = [];
 
             topMedicines.filter(function (element) {
-                var arr = [`${element.medicine_name}`, parseInt(`${element.quantity}`)];
+                var arr = [`${element.medicine_name}`, parseInt(`${element.stock_balance}`)];
                 newArr.push(arr)
             });
             
             var dataPie = google.visualization.arrayToDataTable([
-                    ['Medicines', 'Quantity'],
+                    ['Medicines', 'Stock Balance'],
                    ...newArr
             ]);
 

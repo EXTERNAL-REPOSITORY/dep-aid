@@ -38,7 +38,7 @@ class HomeController extends Controller
             'anti-inflammatory' => Inventory::where('type', 'Anti-Inflammatory')->count(),
         ];
 
-        $getTopMedicines = Inventory::orderBy('quantity', 'DESC')->select('medicine_name', 'quantity')->take(3)->get();
+        $getTopMedicines = Inventory::orderBy('stock_balance', 'DESC')->select('medicine_name', 'stock_balance')->take(3)->get();
 
         $illnesses = PatientForm::select('main_reason_for_consultation', DB::raw('count(*) as illnessCount'))->groupBy('main_reason_for_consultation')->get();
         

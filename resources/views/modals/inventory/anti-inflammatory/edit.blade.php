@@ -41,25 +41,25 @@
                 </div>
                 <div class="row">
                     <div class="col-md-2">
-                        <a href="javascript:void(0)" class="btn btn-default mt-4 quantity-btn" id="minus-btn">
+                        <a href="javascript:void(0)" class="btn btn-default mt-4 stock-balance-btn" id="minus-btn">
                             <i class="fa-solid fa-minus"></i>
                         </a>
                     </div>
                     <div class="col-md-8">
                         @component('components.inputs.input')
-                            @slot('label', 'Quantity')
+                            @slot('label', 'Stock Balance')
                             @slot('attributes', [
                                 'class' => 'form-control',
                                 'type' => 'number',
-                                'name' => 'quantity',
-                                'id' => 'edit_quantity',
-                                'placeholder' => 'Quantity',
+                                'name' => 'stock_balance',
+                                'id' => 'edit_stock_balance',
+                                'placeholder' => 'Stock Balance',
                                 'value' => '',
                             ])          
                         @endcomponent
                     </div>
                     <div class="col-md-2">
-                        <a href="javascript:void(0)" class="btn btn-default mt-4 quantity-btn" id="add-btn">
+                        <a href="javascript:void(0)" class="btn btn-default mt-4 stock-balance-btn" id="add-btn">
                             <i class="fa-solid fa-plus"></i>
                         </a>
                     </div>

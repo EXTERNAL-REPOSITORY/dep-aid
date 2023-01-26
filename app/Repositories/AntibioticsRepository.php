@@ -35,7 +35,7 @@ class AntibioticsRepository
         $query = Inventory::insertGetId([
             'medicine_name' => $request->medicine_name,
             'brand' => $request->brand,
-            'quantity' => $request->quantity,
+            'stock_balance' => $request->stock_balance,
             'manufacturer_date' => $request->manufacturer_date,
             'expiration_date' => $request->expiration_date,
             'type' => $request->type,
@@ -51,7 +51,7 @@ class AntibioticsRepository
         $query = Inventory::where('id', $antibioticId->id)->update([
             'medicine_name' => $request->medicine_name,
             'brand' => $request->brand,
-            'quantity' => $request->quantity,
+            'stock_balance' => $request->stock_balance,
             'manufacturer_date' => $request->manufacturer_date,
             'expiration_date' => $request->expiration_date,
             'type' => $request->type,
