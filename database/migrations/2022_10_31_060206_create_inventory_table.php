@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('brand')->nullable();
             $table->string('beginning_balance')->nullable();
             $table->string('stock_balance')->nullable();
+            $table->string('reorder_level')->nullable();
             $table->dateTime('manufacturer_date')->nullable();
             $table->dateTime('expiration_date')->nullable();
             $table->string('type')->nullable();
