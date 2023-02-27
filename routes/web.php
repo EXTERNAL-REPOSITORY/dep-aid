@@ -29,26 +29,33 @@ use App\Http\Controllers\EarMedController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\PatientsController;
+use App\Http\Controllers\PatientQueuedController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SendDiagnosisPrescription;
 use App\Http\Controllers\TopicalController;
+use App\Http\Controllers\ExpiredMedsController;
+use App\Http\Controllers\NearExpiryMedsController;
+use App\Http\Controllers\ReorderLevelController;
 use App\Mail\SendMail;
 use App\Models\SendDiagnosis;
 
 //Patient Form
 Route::get('/patient-form', [MainController::class, 'index'])->name('patient-form');
+Route::get('/districts', [MainController::class, 'getDistrictsWithBarangays'])->name('districts');
+Route::get('/barangays', [MainController::class, 'getBarangays'])->name('barangays');
+
 Route::post('/success', [MainController::class, 'store'])->name('patient-form.store');
-Route::post('/done/{id}', [MainController::class, 'done'])->name('patients.done');
+Route::post('/done/{id}', [MainController::class, 'done'])->name('patient-queued.done');
 
 
 //Get Schedule of Doctor for Patient Form
 Route::get('/get-schedules', [DoctorNurseController::class, 'getSchedules'])->name('getSchedules');
 
 //FOR LIVE USE ONLY
-Route::match(['get', 'post'], 'public/botman', [BotManController::class, 'handle'])->name('handle'); 
+// Route::match(['get', 'post'], 'public/botman', [BotManController::class, 'handle'])->name('handle'); 
 
 //FOR LOCAL USE ONLY
-Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle'])->name('handle'); 
+// Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle'])->name('handle'); 
  
 
 Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
@@ -67,12 +74,12 @@ Route::group(['middleware' => 'auth'], function () {
 	//Schedules
 	Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
 
-	//Patients
-	Route::get('/patients', [PatientsController::class, 'index'])->name('patients.index');
-	Route::post('/patients/store', [PatientsController::class, 'store'])->name('patients.store');
-	Route::put('/patients/update/{id}', [PatientsController::class, 'update'])->name('patients.update');
-	Route::delete('/patients/destroy/{id}', [PatientsController::class, 'destroy'])->name('patients.destroy');
-	Route::post('/patients/generate-pdf', [PatientsController::class, 'generatePdf'])->name('patients.generatePdf');
+	//Patient Queued
+	Route::get('/patient-queued', [PatientQueuedController::class, 'index'])->name('patient-queued.index');
+	Route::post('/patient-queued/store', [PatientQueuedController::class, 'store'])->name('patient-queued.store');
+	Route::put('/patient-queued/update/{id}', [PatientQueuedController::class, 'update'])->name('patient-queued.update');
+	Route::delete('/patient-queued/destroy/{id}', [PatientQueuedController::class, 'destroy'])->name('patient-queued.destroy');
+	Route::post('/patient-queued/generate-pdf', [PatientQueuedController::class, 'generatePdf'])->name('patient-queued.generatePdf');
 	
 	//Doctor-Nurse
 	Route::get('/doctor-nurse', [DoctorNurseController::class, 'index'])->name('doctor-nurse.index');
@@ -117,7 +124,20 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('/topicals/update/{id}', [TopicalController::class, 'update'])->name('topicals.update');
 	Route::delete('/topicals/destroy/{id}', [TopicalController::class, 'destroy'])->name('topicals.destroy');
 	Route::post('/topicals/generate-pdf', [TopicalController::class, 'generatePdf'])->name('topicals.generatePdf');
+	
+	// Near Expiry Medicines
+	Route::get('/expired-meds', [ExpiredMedsController::class, 'index'])->name('expired-meds.index');
+	Route::post('/expired-meds/generate-pdf', [ExpiredMedsController::class, 'generatePdf'])->name('expired-meds.generatePdf');
 
+
+	// Near Expiry Medicines
+	Route::get('/near-expiry-meds', [NearExpiryMedsController::class, 'index'])->name('near-expiry-meds.index');
+	Route::post('/near-expiry-meds/generate-pdf', [NearExpiryMedsController::class, 'generatePdf'])->name('near-expiry-meds.generatePdf');
+	
+	// Reorder Level Medicines
+	Route::get('/reorder-lvl-meds', [ReorderLevelController::class, 'index'])->name('reorder-lvl-meds.index');
+	Route::post('/reorder-lvl-meds/generate-pdf', [ReorderLevelController::class, 'generatePdf'])->name('reorder-lvl-meds.generatePdf');
+
+	// Prescription
 	Route::post('/send-prescription-diagnosis/{id}', [SendDiagnosisPrescription::class, 'store'])->name('send-prescription-diagnosis.store');
-
 });

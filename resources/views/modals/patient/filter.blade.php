@@ -1,13 +1,13 @@
-<div class="modal fade" id="filterPatient" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="filterPatient" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel5" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Filter</h5>
+          <h5 class="modal-title" id="exampleModalLabel5">Filter</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="{{ route('patients.index') }}" method="GET" id="filter-patient" enctype="multipart/form-data">
+        <form action="{{ route('patient-queued.index') }}" method="GET" id="filter-patient" enctype="multipart/form-data">
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">

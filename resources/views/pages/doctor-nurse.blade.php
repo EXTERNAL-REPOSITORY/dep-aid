@@ -1,7 +1,7 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Patients'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Doctor/Nurse'])
     <div class="container-fluid py-4">
         <div class="row mt-4">
             <div class="col-lg-12 mb-lg-0 mb-4">
@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <div class="input-group">
                             <input class="form-control" type="text" placeholder="Search.." name="search" value="{{ $requestData['search'] }}">
-                            <button class="search-btn" type="submit" style="border: none; border-top-right-radius: 10px; border-bottom-right-radius: 10px; backgropund-color: #ededed;"><i class="ni ni-zoom-split-in" style="padding-left: 5px; padding-right: 5px"></i></button>
+                            <button class="search-btn" type="submit" style="border: none; border-top-right-radius: 10px; border-bottom-right-radius: 10px; background-color: #ededed;"><i class="ni ni-zoom-split-in" style="padding-left: 5px; padding-right: 5px"></i></button>
                         </div>
                     </div>
                 </form>
@@ -50,19 +50,19 @@
                                     <tr>
                                         <tr class="text-center">
                                             <td>
-                                                <p class="text-xs font-weight-bold table-text mb-0">{{ $row->employee_id }}</p>
+                                                <p class="text-xs font-weight-bold table-text mb-0 text-uppercase">{{ $row->employee_id }}</p>
                                             </td>
                                             <td>
-                                                <p class="text-xs font-weight-bold table-text mb-0">{{ ucfirst($row->first_name) }}</p>
+                                                <p class="text-xs font-weight-bold table-text mb-0 text-uppercase">{{ ucfirst($row->first_name) }}</p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                <span class="text-secondary text-xs font-weight-bold table-text">{{ ucfirst($row->middle_name) }}</span>
+                                                <span class="text-secondary text-xs font-weight-bold table-text text-uppercase">{{ ucfirst($row->middle_name) }}</span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold table-text">{{ ucfirst($row->last_name) }}</span>
+                                                <span class="text-secondary text-xs font-weight-bold table-text text-uppercase">{{ ucfirst($row->last_name) }}</span>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold table-text">{{ ucfirst($row->position) }}</span>
+                                                <span class="text-secondary text-xs font-weight-bold table-text text-uppercase">{{ ucfirst($row->position) }}</span>
                                             </td>
                                             <td class="align-middle">
                                                 <input type="hidden" id="doctor-nurse-details-{{$row->id}}" data-detail="{{ $row }}">
@@ -70,7 +70,7 @@
                                                     type="button" 
                                                     class="btn bg-gradient-info z-index-2" 
                                                     data-bs-toggle="modal" 
-                                                    data-bs-target="#showScheduleModal" 
+                                                    data-bs-target="#showDoctorNurse" 
                                                     onclick = "showSchedules('{{$row->id}}')">
                                                     Show
                                                 </button>
@@ -104,7 +104,7 @@
                         </div>
                         {{-- <div class="table-pagination p-5">
                             <div class="item">
-                                <div class="row col-sm-12 col-md-12 col-lg-12 font-weight-600"">
+                                <div class="row col-sm-12 col-md-12 col-lg-12 font-weight-600">
                                     {{$doctorNurse->appends(['search' => isset($requestData->search) ? $requestData->search : null])->links('components.pagination')}}
                                 </div>
                             </div>
@@ -122,6 +122,65 @@
 
 @push('js')
     <script>
+        function showSchedules(id){
+            const details = $(`#doctor-nurse-details-${id}`).data().detail;
+
+            $.ajax({
+                url: "{{ route('doctor-nurse.show') }}",
+                method: "GET",
+                data: {
+                    employee_id: details.employee_id
+                }, 
+                success: function(response){
+                    const detail = $(`#patient-details-${id}`).data().detail; 
+                    newscheduledAppointment = formatDate(detail.scheduled_appointment);
+                    console.log(detail);
+                    $('#patient_name').val(detail.name);
+                    $('#patient_age').val(detail.age);
+                    $('#patient_address').val(detail.address);
+                    $('#patient_gender').val(detail.gender);
+                    $('#patient_contact_number').val(detail.contact_number);
+                    $('#patient_birthdate').val(detail.birthdate);
+                    $('#patient_height').val(detail.height);
+                    $('#patient_weight').val(detail.weight);
+                    $('#patient_heart_rate').val(detail.heart_rate);
+                    $('#patient_blood_pressure').val(detail.blood_pressure);
+                    $('#patient_oxygen_saturation').val(detail.oxygen_saturation);
+                    $('#patient_temperature').val(detail.temperature);
+                    $('#patient_allergies').val(detail.allergies);
+                    $('#patient_main_reason_for_consultation').val(detail.main_reason_for_consultation);
+                    $('#patient_other_reason_for_consultation').val(detail.other_reason_for_consultation);
+                    $('#patient_current_medications').val(detail.current_medications);
+                    $('#patient_maintenance_medications').val(detail.maintenance_medications);
+                    $('#patient_doctor_consulting').val(detail.doctor_consulting);
+                    $('#patient_day').val(detail.day);
+                    $('#patient_available_from').val(detail.available_from);
+                    $('#patient_available_to').val(detail.available_to);
+                },
+                error: function(response){
+                    console.log(response)
+                }
+            })
+        }
+
+        function editDoctorNurse(id) {
+            const detail = $(`#doctor-nurse-details-${id}`).data().detail;     
+            newManufacturerDate = formatDate(detail.manufacturer_date);
+            newExpirationDate = formatDate(detail.expiration_date);
+
+            $('#edit_medicine_name').val(detail.medicine_name);            
+            $('#edit_brand').val(detail.brand);            
+            $('#edit_manufacturer_date').val(newManufacturerDate);
+            $('#edit_expiration_date').val(newExpirationDate);
+            $('#edit-anti-inflammatory-form').attr('action', `/anti-inflammatory/update/${detail.id}`)
+        }
+
+        function deleteDoctorNurse(btn) {
+            var data = $(btn).data();
+            var url = data.url;
+            $('#delete-form').attr('action', url);
+        }
+
         $('#is_working_monday').on('change', function() {
             if (this.checked == true){
                 $(this).val("1");
@@ -171,41 +230,5 @@
                 $(this).val("0");
             }
         })
-
-        function showSchedules(id){
-            const details = $(`#doctor-nurse-details-${id}`).data().detail;
-
-            $.ajax({
-                url: "{{ route('doctor-nurse.show') }}",
-                method: "GET",
-                data: {
-                    employee_id: details.employee_id
-                }, 
-                success: function(response){
-                    console.log(response)
-                },
-                error: function(response){
-
-                }
-            })
-        }
-
-        function editDoctorNurse(id) {
-            const detail = $(`#doctor-nurse-details-${id}`).data().detail;     
-            newManufacturerDate = formatDate(detail.manufacturer_date);
-            newExpirationDate = formatDate(detail.expiration_date);
-
-            $('#edit_medicine_name').val(detail.medicine_name);            
-            $('#edit_brand').val(detail.brand);            
-            $('#edit_manufacturer_date').val(newManufacturerDate);
-            $('#edit_expiration_date').val(newExpirationDate);
-            $('#edit-anti-inflammatory-form').attr('action', `/anti-inflammatory/update/${detail.id}`)
-        }
-
-        function deleteDoctorNurse(btn) {
-            var data = $(btn).data();
-            var url = data.url;
-            $('#delete-form').attr('action', url);
-        }
     </script>
 @endpush

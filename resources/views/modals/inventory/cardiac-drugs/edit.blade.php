@@ -40,6 +40,33 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-12 col-md-6">
+                        @component('components.inputs.input')
+                            @slot('label', 'Beginning Balance')
+                            @slot('attributes', [
+                                'class' => 'form-control',
+                                'type' => 'number',
+                                'name' => 'beginning_balance',
+                                'id' => 'edit_beginning_balance',
+                                'placeholder' => 'Beginning Balance',
+                                'readonly' => true
+                            ])          
+                        @endcomponent
+                    </div>
+                    <div class="col-12 col-md-6">
+                        @component('components.inputs.input')
+                            @slot('label', 'Reorder Level %')
+                            @slot('attributes', [
+                                'class' => 'form-control',
+                                'type' => 'number',
+                                'name' => 'reorder_level',
+                                'id' => 'edit_reorder_level',
+                                'placeholder' => 'Reorder Level',
+                            ])          
+                        @endcomponent
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-2">
                         <a href="javascript:void(0)" class="btn btn-default mt-4 stock-balance-btn" id="minus-btn">
                             <i class="fa-solid fa-minus"></i>
@@ -59,7 +86,7 @@
                         @endcomponent
                     </div>
                     <div class="col-md-2">
-                        <a href="javascript:void(0)" class="btn btn-default mt-4 quantity-btn" id="add-btn">
+                        <a href="javascript:void(0)" class="btn btn-default mt-4 stock-balance-btn" id="add-btn">
                             <i class="fa-solid fa-plus"></i>
                         </a>
                     </div>

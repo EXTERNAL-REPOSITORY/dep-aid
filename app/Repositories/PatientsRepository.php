@@ -71,7 +71,7 @@ class PatientsRepository
             'users' => $query
         ];
 
-        $pdf = PDF::loadView('pdf.patient', $data);
+        $pdf = PDF::loadView('pdf.queued-patient', $data);
 
         return $pdf->download('DEP-AID Patient List Report.pdf');
     }

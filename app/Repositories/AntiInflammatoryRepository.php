@@ -25,7 +25,9 @@ class AntiInflammatoryRepository
             ])->thenReturn();
         
         $data = $result ? $result : $query;
-        $antiInflammatory = $data->where('type', 'Anti-inflammatory')->paginate(10);
+        $antiInflammatory = $data->whereRaw('inventory.expiration_date >= NOW()')
+        ->where('type', 'Anti-inflammatory')
+        ->paginate(10);
 
         return compact('antiInflammatory', 'requestData');
     }
@@ -35,6 +37,8 @@ class AntiInflammatoryRepository
         $query = Inventory::insertGetId([
             'medicine_name' => $request->medicine_name,
             'brand' => $request->brand,
+            'beginning_balance' => $request->beginning_balance,
+            'reorder_level' => $request->reorder_level,
             'stock_balance' => $request->stock_balance,
             'manufacturer_date' => $request->manufacturer_date,
             'expiration_date' => $request->expiration_date,
@@ -51,6 +55,8 @@ class AntiInflammatoryRepository
         $query = Inventory::where('id', $antibioticId)->update([
             'medicine_name' => $request->medicine_name,
             'brand' => $request->brand,
+            'beginning_balance' => $request->beginning_balance,
+            'reorder_level' => $request->reorder_level,
             'stock_balance' => $request->stock_balance,
             'manufacturer_date' => $request->manufacturer_date,
             'expiration_date' => $request->expiration_date,

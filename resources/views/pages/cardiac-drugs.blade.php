@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <div class="input-group">
                             <input class="form-control" type="text" placeholder="Search.." name="search" value="{{ $requestData['search'] }}">
-                            <button class="search-btn" type="submit" style="border: none; border-top-right-radius: 10px; border-bottom-right-radius: 10px; backgropund-color: #ededed;"><i class="ni ni-zoom-split-in" style="padding-left: 5px; padding-right: 5px"></i></button>
+                            <button class="search-btn" type="submit" style="border: none; border-top-right-radius: 10px; border-bottom-right-radius: 10px; background-color: #ededed;"><i class="ni ni-zoom-split-in" style="padding-left: 5px; padding-right: 5px"></i></button>
                         </div>
                     </div>
                 </form>
@@ -53,10 +53,10 @@
                                             <p class="text-xs font-weight-bold table-text mb-0">{{ $row->id }}</p>
                                         </td>
                                         <td>
-                                            <p class="text-xs font-weight-bold table-text mb-0">{{ ucfirst($row->medicine_name) }}</p>
+                                            <p class="text-xs font-weight-bold table-text mb-0 text-uppercase">{{ ucfirst($row->medicine_name) }}</p>
                                         </td>
                                         <td class="align-middle text-center text-sm">
-                                            <span class="text-secondary text-xs font-weight-bold table-text">{{ ucfirst($row->brand) }}</span>
+                                            <span class="text-secondary text-xs font-weight-bold table-text text-uppercase">{{ ucfirst($row->brand) }}</span>
                                         </td>
                                         <td class="align-middle text-center text-sm">
                                             <span class="text-secondary text-xs font-weight-bold table-text">{{ $row->stock_balance }}</span>
@@ -134,10 +134,12 @@
             const detail = $(`#cardiac-drugs-details-${id}`).data().detail;     
             newManufacturerDate = formatDate(detail.manufacturer_date);
             newExpirationDate = formatDate(detail.expiration_date);
-
+            console.log(detail.manufacturer_date);
             $('#edit_medicine_name').val(detail.medicine_name);            
             $('#edit_brand').val(detail.brand);       
-            $('#edit_stock_balance').val(detail.stock_balance);      
+            $('#edit_beginning_balance').val(detail.beginning_balance); 
+            $('#edit_reorder_level').val(detail.reorder_level); 
+            $('#edit_stock_balance').val(detail.stock_balance);   
             $('#edit_manufacturer_date').val(newManufacturerDate);
             $('#edit_expiration_date').val(newExpirationDate);
             $('#edit-cardiac-drug-form').attr('action', `/cardiac-drugs/update/${detail.id}`)
@@ -149,7 +151,7 @@
             $('#delete-form').attr('action', url);
         }
 
-        $('.stock_balance-btn').on('click', function(){
+        $('.stock-balance-btn').on('click', function(){
             console.log($(this).attr('id'))
 
             if ($(this).attr('id') == 'add-btn') {
@@ -160,6 +162,10 @@
                 var newValue = $('#edit_stock_balance').val(parseInt(getInput) - 1)
             }
 
+        })
+
+        $('#edit_manufacturer_date').on('change', function(){
+            console.log($(this).val());
         })
     </script>
 @endpush

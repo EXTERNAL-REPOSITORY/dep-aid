@@ -1,7 +1,7 @@
 @if ($paginator->hasPages())
     <nav role="navigation" aria-label="{{ __('Pagination Navigation') }}" class="flex justify-content-between">
         <div class="d-flex justify-content-between">
-            <div class="col-sm-auto col-md-auto col-lg-10">
+            <div class="col-sm-auto col-md-auto col-lg-3">
                 <p class="text-sm text-gray-700 leading-5">
                     {!! __('Showing') !!}
                     <span class="font-medium">{{ $paginator->firstItem() }}</span>
@@ -13,7 +13,7 @@
                 </p>
             </div>
 
-            <div class="col-md-7 col-lg-2 text-right" id="number-pagination">
+            <div class="col-md-12 col-lg-9 text-right d-flex justify-content-end" id="number-pagination">
                 <ul class="pagination">
                     {{-- Previous Page Link --}}
                     @if ($paginator->onFirstPage())
@@ -27,21 +27,47 @@
                     @endif
         
                     {{-- Pagination Elements --}}
-                    @foreach ($elements as $element)
-                        {{-- "Three Dots" Separator --}}
-                        @if (is_string($element))
-                            <li class="page-item disabled" aria-disabled="true"><span class="page-link">{{ $element }}</span></li>
-                        @endif
-        
+                    @foreach ($elements as $element)        
                         {{-- Array Of Links --}}
                         @if (is_array($element))
-                            @foreach ($element as $page => $url)
-                                @if ($page == $paginator->currentPage())
-                                    <li class="page-item active" aria-current="page"><span class="page-link">{{ $page }}</span></li>
+                            @if ( count($element) < 5)
+                                @for($x = 1; $x <= count($element); $x++)
+                                    <li class="page-item {{$paginator->currentPage()== $x ?'active':''}}"><a class="page-link" href="{{ $element[$x] }}">{{ $x }}</a></li>
+                                @endfor
+                            @else
+                                @if ( count($element) <=5)
+                                    @for($x = 1; $x < count($element); $x++)
+                                        <li class="page-item {{$paginator->currentPage()== $x ?'active':''}}"><a class="page-link" href="{{ $element[$paginator->currentPage()] }}">{{ $paginator->currentPage() }}</a></li>
+                                    @endfor
                                 @else
-                                    <li class="page-item"><a class="page-link" href="{{ $url }}">{{ $page }}</a></li>
+                                    @if($paginator->currentPage() > 3)
+                                        <li class="page-item {{$paginator->currentPage() == 1 ?'active':''}}"><a class="page-link" href="{{ $element[1] }}">{{ 1 }}</a></li>
+                                        <li class="page-item disabled" aria-disabled="true"><span class="page-link">...</span></li>
+                                    @endif
+                                    
+                                    @if($paginator->currentPage() <= 3)
+                                        @for ($x = 1; $x < 5; $x++)
+                                            <li class="page-item {{$paginator->currentPage()== $x ?'active':''}}"><a class="page-link" href="{{ $element[$x] }}">{{ $x }}</a></li>
+                                        @endfor
+                                    @else
+                                        @php($diff = count($element) - $paginator->currentPage())
+                                        @if($diff < 4)
+                                            @for ($x = ($paginator->currentPage() - (5- $diff)); $x < ($paginator->currentPage() + $diff); $x++)
+                                                <li class="page-item {{$paginator->currentPage()== $x+1 ?'active':''}}"><a class="page-link" href="{{ $element[$x+1] }}">{{ $x+1 }}</a></li>
+                                            @endfor
+                                        @else
+                                            @for($x = ($paginator->currentPage() - 3); $x < ($paginator->currentPage() + 2); $x++)
+                                                <li class="page-item {{$paginator->currentPage()== $x+1 ?'active':''}}"><a class="page-link" href="{{ $element[$x+1] }}">{{ $x+1 }}</a></li>
+                                            @endfor
+                                        @endif
+                                    @endif
+                                        
+                                    @if ($paginator->currentPage() < count($element) - 3)
+                                        <li class="page-item disabled" aria-disabled="true"><span class="page-link">...</span></li>
+                                        <li class="page-item {{$paginator->currentPage() == count($element) ?'active':''}}"><a class="page-link" href="{{ $element[count($element)] }}">{{ count($element) }}</a></li>
+                                    @endif
                                 @endif
-                            @endforeach
+                            @endif
                         @endif
                     @endforeach
         
@@ -58,7 +84,7 @@
                 </ul>
             </div>
 
-            <div class="flex justify-between flex-1 col-md-8 text-right" id="prev-next-pagination">
+            <!-- <div class="flex justify-between flex-1 col-md-8 text-right" id="prev-next-pagination">
                 @if ($paginator->onFirstPage())
                     <span class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5 rounded-md">
                         {!! __('pagination.previous') !!}
@@ -78,7 +104,7 @@
                         {!! __('pagination.next') !!}
                     </span>
                 @endif
-            </div>
+            </div> -->
         </div>
     </nav>
 @endif

@@ -11,8 +11,8 @@ class SearchInventoryTable
     {
         if (request()->has('search')) {
             $query->where(function($query){
-                $query->orWhere('medicine_name', 'LIKE', "%".request('search')."%")
-                    ->orWhere('brand', 'LIKE', "%".request('search')."%");
+                $query->orWhere('inventory.medicine_name', 'LIKE', "%".request('search')."%")
+                    ->orWhere('inventory.brand', 'LIKE', "%".request('search')."%");
             });
         }
         $next($query);

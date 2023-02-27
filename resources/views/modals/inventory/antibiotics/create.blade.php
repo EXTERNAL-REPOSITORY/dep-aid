@@ -13,6 +13,22 @@
                 <div class="row">
                     <div class="col-md-12">
                         @component('components.inputs.input')
+                            @slot('label', 'Type')
+                            @slot('attributes', [
+                                'class' => 'form-control',
+                                'type' => 'text',
+                                'name' => 'type',
+                                'id' => 'type',
+                                'placeholder' => 'Type',
+                                'value' => 'Antibiotics',
+                                'readonly' => true
+                            ])          
+                        @endcomponent
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @component('components.inputs.input')
                             @slot('label', 'Medicine Name')
                             @slot('attributes', [
                                 'class' => 'form-control',
@@ -39,17 +55,27 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-12 col-md-6">
                         @component('components.inputs.input')
-                            @slot('label', 'Type')
+                            @slot('label', 'Beginning Balance')
                             @slot('attributes', [
                                 'class' => 'form-control',
-                                'type' => 'text',
-                                'name' => 'type',
-                                'id' => 'type',
-                                'placeholder' => 'Type',
-                                'value' => 'Antibiotics',
-                                'readonly' => true
+                                'type' => 'number',
+                                'name' => 'beginning_balance',
+                                'id' => 'beginning_balance',
+                                'placeholder' => 'Beginning Balance',
+                            ])          
+                        @endcomponent
+                    </div>
+                    <div class="col-12 col-md-6">
+                        @component('components.inputs.input')
+                            @slot('label', 'Reorder Level %')
+                            @slot('attributes', [
+                                'class' => 'form-control',
+                                'type' => 'number',
+                                'name' => 'reorder_level',
+                                'id' => 'reorder_level',
+                                'placeholder' => 'Reorder Level',
                             ])          
                         @endcomponent
                     </div>
@@ -63,7 +89,7 @@
                                 'type' => 'number',
                                 'name' => 'stock_balance',
                                 'id' => 'stock_balance',
-                                'placeholder' => 'stock_balance',
+                                'placeholder' => 'stock balance',
                                 'value' => '',
                             ])          
                         @endcomponent

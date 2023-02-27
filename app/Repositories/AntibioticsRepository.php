@@ -25,7 +25,9 @@ class AntibioticsRepository
             ])->thenReturn();
         
         $data = $result ? $result : $query;
-        $antibiotic = $data->where('type', 'Antibiotics')->paginate(10);
+        $antibiotic = $data->whereRaw('inventory.expiration_date >= NOW()')
+        ->where('type', 'Antibiotics')
+        ->paginate(10);
 
         return compact('antibiotic', 'requestData');
     }
@@ -35,6 +37,8 @@ class AntibioticsRepository
         $query = Inventory::insertGetId([
             'medicine_name' => $request->medicine_name,
             'brand' => $request->brand,
+            'beginning_balance' => $request->beginning_balance,
+            'reorder_level' => $request->reorder_level,
             'stock_balance' => $request->stock_balance,
             'manufacturer_date' => $request->manufacturer_date,
             'expiration_date' => $request->expiration_date,
@@ -48,9 +52,11 @@ class AntibioticsRepository
 
     public function updateAntibiotic($request, $antibioticId)
     {
-        $query = Inventory::where('id', $antibioticId->id)->update([
+        $query = Inventory::where('id', $antibioticId)->update([
             'medicine_name' => $request->medicine_name,
             'brand' => $request->brand,
+            'beginning_balance' => $request->beginning_balance,
+            'reorder_level' => $request->reorder_level,
             'stock_balance' => $request->stock_balance,
             'manufacturer_date' => $request->manufacturer_date,
             'expiration_date' => $request->expiration_date,

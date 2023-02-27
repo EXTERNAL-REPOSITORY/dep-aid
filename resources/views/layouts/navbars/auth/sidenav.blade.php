@@ -84,6 +84,35 @@
                                 Topicals
                             </a>
                         </li>
+                        <hr class="horizontal dark mt-0">
+                        <li class="nav-item">
+                            <a class="nav-link {{ Route::currentRouteName() == 'near-expiry-meds.index' ? 'active' : '' }}" href="{{ route('near-expiry-meds.index') }}">
+                                <span ></span>
+                                <div
+                                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="fa-solid  fa-clock text-info text-sm opacity-10"></i>
+                                </div>
+                                Near Expiry
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Route::currentRouteName() == 'reorder-lvl-meds.index' ? 'active' : '' }}" href="{{ route('reorder-lvl-meds.index') }}">
+                                <div
+                                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="fa-solid  fa-list text-info text-sm opacity-10"></i>
+                                </div>
+                                Reorder Levels
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Route::currentRouteName() == 'expired-meds.index' ? 'active' : '' }}" href="{{ route('expired-meds.index') }}">
+                                <div
+                                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="fa-solid fas fa-hourglass-end text-info text-sm opacity-10"></i>
+                                </div>
+                                Expired Medicines
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
@@ -97,7 +126,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Route::currentRouteName() == 'patients.index' ? 'active' : '' }}" href="{{ route('patients.index') }}">
+                <a class="nav-link {{ Route::currentRouteName() == 'patient-queued.index' ? 'active' : '' }}" href="{{ route('patient-queued.index') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fa fa-user text-info text-sm opacity-10"></i>

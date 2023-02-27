@@ -20195,11 +20195,11 @@ textarea.form-control-lg {
   border-right: 1px solid #d2d6da;
 }
 .input-group .input-group-text {
-  border-right: 0;
+  /* border-right: 0; */
 }
 .input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
-  border-left: #fff !important;
-  border-right: #fff !important;
+  /* border-left: #fff !important;
+  border-right: #fff !important; */
 }
 .input-group.focused .input-group-text {
   border-color: #fb6340 !important;

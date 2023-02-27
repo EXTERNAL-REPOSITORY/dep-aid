@@ -29,7 +29,7 @@ class SendDiagnosisPrescriptionRespository
             'prescriptions' => $request->prescriptions,
         ];
          
-        Mail::to($request->email)->send(new SendMail($data));
+        Mail::to('rickycanonigo51@gmail.com')->send(new SendMail($data));
            
         return $query;
     }   

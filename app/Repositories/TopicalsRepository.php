@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Inventory;
 use Illuminate\Pipeline\Pipeline;
-
+use PDF;
 class TopicalsRepository
 {
     public function getAllTopicals($request)
@@ -23,7 +23,8 @@ class TopicalsRepository
             ])->thenReturn();
         
         $data = $result ? $result : $query;
-        $topicals = $data->where('type', 'Topicals')->paginate(10);
+        $topicals = $data->whereRaw('inventory.expiration_date >= NOW()')
+        ->where('type', 'Topicals')->paginate(10);
 
         return compact('topicals', 'requestData');
     }
@@ -33,6 +34,8 @@ class TopicalsRepository
         $query = Inventory::insertGetId([
             'medicine_name' => $request->medicine_name,
             'brand' => $request->brand,
+            'beginning_balance' => $request->beginning_balance,
+            'reorder_level' => $request->reorder_level,
             'stock_balance' => $request->stock_balance,
             'manufacturer_date' => $request->manufacturer_date,
             'expiration_date' => $request->expiration_date,
@@ -49,6 +52,8 @@ class TopicalsRepository
         $query = Inventory::where('id', $topicalsId->id)->update([
             'medicine_name' => $request->medicine_name,
             'brand' => $request->brand,
+            'beginning_balance' => $request->beginning_balance,
+            'reorder_level' => $request->reorder_level,
             'stock_balance' => $request->stock_balance,
             'manufacturer_date' => $request->manufacturer_date,
             'expiration_date' => $request->expiration_date,

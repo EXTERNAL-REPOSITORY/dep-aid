@@ -25,7 +25,8 @@ class EarMedsRepository
             ])->thenReturn();
         
         $data = $result ? $result : $query;
-        $earMeds = $data->where('type', 'Ear Meds')->paginate(10);
+        $earMeds = $data->whereRaw('inventory.expiration_date >= NOW()')
+        ->where('type', 'Ear Meds')->paginate(10);
 
         return compact('earMeds', 'requestData');
     }
@@ -35,6 +36,8 @@ class EarMedsRepository
         $query = Inventory::insertGetId([
             'medicine_name' => $request->medicine_name,
             'brand' => $request->brand,
+            'beginning_balance' => $request->beginning_balance,
+            'reorder_level' => $request->reorder_level,
             'stock_balance' => $request->stock_balance,
             'manufacturer_date' => $request->manufacturer_date,
             'expiration_date' => $request->expiration_date,
@@ -51,6 +54,8 @@ class EarMedsRepository
         $query = Inventory::where('id', $earMedsId)->update([
             'medicine_name' => $request->medicine_name,
             'brand' => $request->brand,
+            'beginning_balance' => $request->beginning_balance,
+            'reorder_level' => $request->reorder_level,
             'stock_balance' => $request->stock_balance,
             'manufacturer_date' => $request->manufacturer_date,
             'expiration_date' => $request->expiration_date,

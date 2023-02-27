@@ -25,7 +25,8 @@ class CardiacDrugsRepository
             ])->thenReturn();
         
         $data = $result ? $result : $query;
-        $cardiacDrugs = $data->where('type', 'Cardiac Drugs')->paginate(10);
+        $cardiacDrugs = $data->whereRaw('inventory.expiration_date >= NOW()')
+        ->where('type', 'Cardiac Drugs')->paginate(10);
 
         return compact('cardiacDrugs', 'requestData');
     }
@@ -35,6 +36,8 @@ class CardiacDrugsRepository
         $query = Inventory::insertGetId([
             'medicine_name' => $request->medicine_name,
             'brand' => $request->brand,
+            'beginning_balance' => $request->beginning_balance,
+            'reorder_level' => $request->reorder_level,
             'stock_balance' => $request->stock_balance,
             'manufacturer_date' => $request->manufacturer_date,
             'expiration_date' => $request->expiration_date,
@@ -51,6 +54,8 @@ class CardiacDrugsRepository
         $query = Inventory::where('id', $cardiacDrugsId)->update([
             'medicine_name' => $request->medicine_name,
             'brand' => $request->brand,
+            'beginning_balance' => $request->beginning_balance,
+            'reorder_level' => $request->reorder_level,
             'stock_balance' => $request->stock_balance,
             'manufacturer_date' => $request->manufacturer_date,
             'expiration_date' => $request->expiration_date,

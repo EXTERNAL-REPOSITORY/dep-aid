@@ -9,7 +9,7 @@
                 <div class="card z-index-2 h-100" style="background-color: transparent; border: none; box-shadow: none;">
                     <div class="col-lg-12 col-md-12 d-flex justify-content-end">
                         <button class="btn bg-gradient-info z-index-2 me-2" data-bs-toggle="modal" data-bs-target="#filterPatient">Filter</button>
-                        <form action="{{ route('patients.generatePdf') }}" method="POST" id="generate-report">
+                        <form action="{{ route('patient-queued.generatePdf') }}" method="POST" id="generate-report">
                             @csrf
                             <button type="submit" class="btn bg-gradient-info z-index-2 me-2">Generate Report</button>
                         </form>
@@ -20,11 +20,11 @@
         </div>
         <div class="row">
             <div class="col-lg-6 col-md-6">
-                <form action="{{route('patients.index')}}" method="GET">
+                <form action="{{route('patient-queued.index')}}" method="GET">
                     <div class="form-group">
                         <div class="input-group">
                             <input class="form-control" type="text" placeholder="Search.." name="search" value="{{ $requestData['search'] }}">
-                            <button class="search-btn" type="submit" style="border: none; border-top-right-radius: 10px; border-bottom-right-radius: 10px; backgropund-color: #ededed;"><i class="ni ni-zoom-split-in" style="padding-left: 5px; padding-right: 5px"></i></button>
+                            <button class="search-btn" type="submit" style="border: none; border-top-right-radius: 10px; border-bottom-right-radius: 10px; background-color: #ededed;"><i class="ni ni-zoom-split-in" style="padding-left: 5px; padding-right: 5px"></i></button>
                         </div>
                     </div>
                 </form>
@@ -53,18 +53,19 @@
                                         <td>
                                             <p class="text-xs font-weight-bold table-text mb-0">{{ $row->id }}</p>
                                         </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold table-text mb-0">{{ ucfirst($row->name) }}</p>
+                                        <td class="text-justify">
+                                            <p class="text-xs font-weight-bold table-text mb-0 text-uppercase">{{ ucfirst($row->name) }}</p>
                                         </td>
-                                        <td class="align-middle text-center">
-                                            <span class="text-secondary text-xs font-weight-bold table-text">{{ date('M d, Y', strtotime($row->available_from)) }}</span>
+                                        <td class="align-middle">
+                                            <span class="text-secondary text-xs font-weight-bold table-text text-uppercase">{{ date('M d, Y', strtotime($row->available_from)) }}</span>
                                         </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold table-text mb-0">{{ $row->reason_for_consultation }}</p>
+                                        <td class="align-middle">
+                                            <p class="text-xs font-weight-bold table-text mb-0 text-uppercase">chief complaint: <b>{{ $row->main_reason_for_consultation }}</b> 
+                                            @if($row->other_reason_for_consultation !=null && $row->other_reason_for_consultation !=$row->main_reason_for_consultation)
+                                                <br>Other: <b>{{$row->other_reason_for_consultation }}</b>
+                                           @endif
+                                           </p>
                                         </td>
-                                        {{-- <td>
-                                            <p class="text-xs font-weight-bold table-text mb-0">{{ $row->remarks }}</p>
-                                        </td> --}}
                                         <td class="align-middle">
                                             <input type="hidden" id="patient-details-{{$row->id}}" data-detail="{{ $row }}">
                                             <button 
@@ -88,7 +89,7 @@
                                                 class="btn bg-gradient-danger z-index-2 drop" 
                                                 data-bs-toggle="modal" 
                                                 data-bs-target="#deleteModal"
-                                                data-url="{{ route('patients.destroy', $row->id) }}"
+                                                data-url="{{ route('patient-queued.destroy', $row->id) }}"
                                                 onclick = "deletePatient(this)">
                                                 Delete
                                             </button>
@@ -107,7 +108,7 @@
                                                     class="btn bg-gradient-success z-index-2 drop" 
                                                     data-bs-toggle="modal" 
                                                     data-bs-target="#doneModal"
-                                                    data-url="{{ route('patients.done', $row->id) }}"
+                                                    data-url="{{ route('patient-queued.done', $row->id) }}"
                                                     onclick = "donePatient(this)">
                                                     Done Consulting
                                                 </button>
@@ -122,11 +123,11 @@
                                 @endforelse
                               </tbody>
                             </table>
-                            <div class="table-pagination p-5">
-                                <div class="row">
-                                    <div class="row col-sm-12 col-md-12 col-lg-12 font-weight-600"">
-                                        {{$patient->appends(['search' => isset($requestData->search) ? $requestData->search : null])->links('components.pagination')}}
-                                    </div>
+                        </div>
+                        <div class="table-pagination p-5">
+                            <div class="row">
+                                <div class="row col-sm-12 col-md-12 col-lg-12 font-weight-600"">
+                                    {{$patient->appends(['search' => isset($requestData->search) ? $requestData->search : null])->links('components.pagination')}}
                                 </div>
                             </div>
                         </div>
@@ -173,7 +174,7 @@
                 
             newscheduledAppointment = formatDate(detail.scheduled_appointment);
             console.log(detail);
-            $('.sidenav').css('opacity', '50%');
+            // $('.sidenav').css('opacity', '50%');
             
             $('#patient_name').val(detail.name);
             $('#patient_age').val(detail.age);
@@ -206,7 +207,7 @@
             $('#edit_reasons_for_consultation').val(detail.reasons_for_consultation);            
             $('#edit_remarks').val(detail.remarks);            
             $('#edit_scheduled_appointment').val(newscheduledAppointment);
-            $('#edit-patient-form').attr('action', `/patients/update/${detail.id}`)
+            $('#edit-patient-form').attr('action', `/patient-queued/update/${detail.id}`)
         }
 
         function deletePatient(btn) {

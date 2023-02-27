@@ -12,4 +12,9 @@ class DoctorNurse extends Model
     protected $table = 'doctor_nurse';
     protected $fillable = ['first_name', 'middle_name', 'last_name', 'position', 'specialization', 'availability'];
     protected $guarded = [];
+
+    protected $casts = [
+        'available_from'  => 'datetime:h:i:s A',
+        'available_to' => 'datetime:h:i:s A',
+    ];
 }

@@ -9,6 +9,7 @@ use Illuminate\Pipeline\Pipeline;
 use BotMan\BotMan\BotMan;
 use BotMan\BotMan\BotManFactory;
 use BotMan\BotMan\Drivers\DriverManager;
+use PDF;
 
 class PatientFormRepository
 {
@@ -36,11 +37,31 @@ class PatientFormRepository
         $botman->listen();
     }
 
+    public function getAllQueuedPatient($request)
+    {
+        $requestData = [
+            'search' => isset($request->search) ? $request->search : ""
+        ];
+        $query = PatientForm::query();
+
+        $result = app(Pipeline::class)
+            ->send($query)
+            ->through([
+                \App\Pipelines\Search\SearchPatientTable::class,
+                \App\Pipelines\Filter\DateFilter::class
+            ])->thenReturn();
+        
+        $data = $result ? $result : $query;
+        $patient = $data->paginate(10);
+
+        return compact('patient', 'requestData');
+    }
+
     public function storePatientForm($request)
     {
         $getDay = DayTable::where('id', $request->day)->select('day')->first();
 
-        $patientForm = PatientForm::insert([
+        $patientForm = PatientForm::create([
             'name' => $request->name,
             'age' => $request->age,
             'gender' => $request->gender,
@@ -62,12 +83,14 @@ class PatientFormRepository
             'doctor_consulting' => $request->doctor_consulting,
             'available_from' => $request->available_from,
             'available_to' => $request->available_to,
-            // 'day' => $getDay->day ,
+            'day' => $getDay->day,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now()
         ]);
+        $patientFormId = $patientForm->id;
 
         Schedule::insert([
+            'patient_form_id' => $patientFormId,
             'text' => $request->name." ".$request->age." ".$request->gender." ".$request->current_medications." ".$request->reason_for_consultation,
             'start_date' => $request->date." ".$request->available_from,
             'end_date' => $request->date." ".$request->available_to,
@@ -85,5 +108,23 @@ class PatientFormRepository
         ]);
 
         return $query;
+    }
+
+    public function deleteFromQueue($request){
+        return PatientForm::find($request->id)->delete();
+    }
+
+    public function generatePdf()
+    {
+        $query = PatientForm::get();
+
+        $data = [
+            'title' => 'DEP-AID Patient List Report',
+            'users' => $query
+        ];
+
+        $pdf = PDF::loadView('pdf.queued-patient', $data);
+
+        return $pdf->download('DEP-AID Patient List Report.pdf');
     }
 }
