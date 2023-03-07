@@ -4,6 +4,7 @@ use App\Http\Controllers\AntibioticsController;
 use App\Http\Controllers\AntiInflammatoryController;
 use App\Http\Controllers\BotManController;
 use App\Http\Controllers\CardiacDrugsController;
+use App\Http\Controllers\DeseaseForecastController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -137,7 +138,10 @@ Route::group(['middleware' => 'auth'], function () {
 	// Reorder Level Medicines
 	Route::get('/reorder-lvl-meds', [ReorderLevelController::class, 'index'])->name('reorder-lvl-meds.index');
 	Route::post('/reorder-lvl-meds/generate-pdf', [ReorderLevelController::class, 'generatePdf'])->name('reorder-lvl-meds.generatePdf');
-
+	
 	// Prescription
 	Route::post('/send-prescription-diagnosis/{id}', [SendDiagnosisPrescription::class, 'store'])->name('send-prescription-diagnosis.store');
+
+	// Forecast Illness
+	Route::get('/top-illness', [DeseaseForecastController::class, 'getTopTen'])->name('top-illness.topTen');	
 });

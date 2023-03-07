@@ -51,6 +51,7 @@
           -moz-appearance: textfield;
         }
       </style>
+    @stack('links')
 </head>
 
 <body class="{{ $class ?? '' }}">

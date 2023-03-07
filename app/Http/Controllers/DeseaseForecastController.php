@@ -3,25 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repositories\ReorderLvlMedsRepository;
+use App\Repositories\DeseaseForecastRepository;
 
-class ReorderLevelController extends Controller
+class DeseaseForecastController extends Controller
 {
-    public $reorderLvlMeds;
 
-    public function __construct(ReorderLvlMedsRepository $reorderLvlMeds)
+    public $desease;
+
+    public function __construct(DeseaseForecastRepository $desease)
     {
-        $this->reorderLvlMeds = $reorderLvlMeds;
-    } 
+        $this->desease = $desease;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function getTopTen(Request $request)
     {
-        $result = $this->reorderLvlMeds->getAllReorderLvlMeds($request);
-        return view('pages.reorder-lvl-meds',$result);
+        $result = $this->desease->getTopTenIllnesses($request);
+        return json_encode($result);
     }
 
     /**
@@ -88,11 +89,5 @@ class ReorderLevelController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    public function generatePdf()
-    {
-        $result = $this->reorderLvlMeds->generatePdf();
-        return $result;
     }
 }

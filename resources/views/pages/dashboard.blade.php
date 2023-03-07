@@ -1,5 +1,12 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
-
+@push('links')
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<style>
+.month-forecast{
+    cursor:pointer;
+}
+</style>
+@endpush
 @section('content')
 @include('layouts.navbars.auth.topnav', ['title' => 'Dashboard'])
 <div class="container-fluid py-4">
@@ -50,175 +57,6 @@
                         <div class="col-4 text-end">
                             <div class="icon icon-shape bg-gradient-info shadow-success text-center rounded-circle">
                                 <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row mt-3 mb-3">
-        <div class="col-xl-12 col-md-12 col-sm-12 mb-xl-0 mb-4">
-            <div class="card">
-                <div class="card-body p-3">
-                    <div class="row">
-                        <h6 class="font-weight-bolder text-uppercase pb-0 mb-0">YEAR {{ now()->year }} FORECAST</h6>
-                        <small class="mt-0">highest probability rate of illness this year</small>
-                    </div>
-
-                    <div class="row mt-3 mb-3">
-                        <div class="col-xl-1 col-xs-4 col-sm-12 col-mb-3 mb-xl-0 mb-1">
-                            <div class="card" title="view list of possible illnesses">
-                                <div class="card-body p-3">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">JAN <i class="fa fa-eye"></i></p>
-                                        <h5 class="font-weight-bolder">
-                                            {{ $inventory['cardiac-drugs'] }}
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-1 col-xs-4 col-sm-12 col-mb-3 mb-xl-0 mb-1">
-                            <div class="card" title="view list of possible illnesses">
-                                <div class="card-body p-3">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">FEB <i class="fa fa-eye"></i>
-                                        </p>
-                                        <h5 class="font-weight-bolder">
-                                            {{ $inventory['cardiac-drugs'] }}
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-1 col-xs-4 col-sm-12 col-mb-3 mb-xl-0 mb-1">
-                            <div class="card" title="view list of possible illnesses">
-                                <div class="card-body p-3">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">MAR <i class="fa fa-eye"></i>
-                                        </p>
-                                        <h5 class="font-weight-bolder">
-                                            {{ $inventory['cardiac-drugs'] }}
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-1 col-xs-4 col-sm-12 col-mb-3 mb-xl-0 mb-1">
-                            <div class="card" title="view list of possible illnesses">
-                                <div class="card-body p-3">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">APR <i class="fa fa-eye"></i></p>
-                                        <h5 class="font-weight-bolder">
-                                            {{ $inventory['cardiac-drugs'] }}
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-1 col-xs-4 col-sm-12 col-mb-3 mb-xl-0 mb-1">
-                            <div class="card" title="view list of possible illnesses">
-                                <div class="card-body p-3">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">MAY <i class="fa fa-eye"></i>
-                                        </p>
-                                        <h5 class="font-weight-bolder">
-                                            {{ $inventory['cardiac-drugs'] }}
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-1 col-xs-4 col-sm-12 col-mb-3 mb-xl-0 mb-1">
-                            <div class="card" title="view list of possible illnesses">
-                                <div class="card-body p-3">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">JUN <i class="fa fa-eye"></i>
-                                        </p>
-                                        <h5 class="font-weight-bolder">
-                                            {{ $inventory['cardiac-drugs'] }}
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-1 col-xs-4 col-sm-12 col-mb-3 mb-xl-0 mb-1">
-                            <div class="card" title="view list of possible illnesses">
-                                <div class="card-body p-3">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">JUL <i class="fa fa-eye"></i>
-                                        </p>
-                                        <h5 class="font-weight-bolder">
-                                            {{ $inventory['cardiac-drugs'] }}
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-1 col-xs-4 col-sm-12 col-mb-3 mb-xl-0 mb-1">
-                            <div class="card" title="view list of possible illnesses">
-                                <div class="card-body p-3">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">AUG <i class="fa fa-eye"></i>
-                                        </p>
-                                        <h5 class="font-weight-bolder">
-                                            {{ $inventory['cardiac-drugs'] }}
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-1 col-xs-4 col-sm-12 col-mb-3 mb-xl-0 mb-1">
-                            <div class="card" title="view list of possible illnesses">
-                                <div class="card-body p-3">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">SEPT <i class="fa fa-eye"></i>
-                                        </p>
-                                        <h5 class="font-weight-bolder">
-                                            {{ $inventory['cardiac-drugs'] }}
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-1 col-xs-4 col-sm-12 col-mb-3 mb-xl-0 mb-1">
-                            <div class="card" title="view list of possible illnesses">
-                                <div class="card-body p-3">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">OCT <i class="fa fa-eye"></i>
-                                        </p>
-                                        <h5 class="font-weight-bolder">
-                                            {{ $inventory['cardiac-drugs'] }}
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-1 col-xs-4 col-sm-12 col-mb-3 mb-xl-0 mb-1">
-                            <div class="card" title="view list of possible illnesses">
-                                <div class="card-body p-3">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">NOV <i class="fa fa-eye"></i>
-                                        </p>
-                                        <h5 class="font-weight-bolder">
-                                            {{ $inventory['cardiac-drugs'] }}
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-1 col-xs-4 col-sm-12 col-mb-3 mb-xl-0 mb-1">
-                            <div class="card" title="view list of possible illnesses">
-                                <div class="card-body p-3">
-                                    <div class="numbers">
-                                        <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">DEC <i class="fa fa-eye"></i>
-                                        </p>
-                                        <h5 class="font-weight-bolder">
-                                            {{ $inventory['cardiac-drugs'] }}
-                                        </h5>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -363,21 +201,10 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="font-weight-bolder text-uppercase">Top Five Illness</h6>
-                    {{--<div class="col-3 float-right">
-                        @component('components.inputs.select')
-                        @slot('label', 'Year')
-                        @slot('options', ["2021" => '2021', "2022" => '2022'])
-                        @slot('attributes', [
-                        'class' => 'form-control',
-                        'name' => 'illness_year',
-                        'id' => 'illness_year',
-                        'value' => '',
-                        'placeholder' => 'Select'
-                        ])
-                        @endcomponent
-                    </div>--}}
-                    <div id="topFiveIllnessChart" class="mx-auto"></div>
+                    <div class="col">
+                        <h6 class="font-weight-bolder text-uppercase">Top 5 Most Used Medicines</h6>
+                    </div>
+                    <div id="topFiveMedsChart" class="mx-auto d-flex justify-content-center"><center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</center></div>
                 </div>
             </div>
         </div>
@@ -386,78 +213,138 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="col">
-                        <h6 class="font-weight-bolder text-uppercase">Top 5 Most Used Medicines</h6>
+                    <h6 class="font-weight-bolder text-uppercase">Illness History</h6>
+                    <!-- <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">Year <i class="fa fa-eye"></i></p>
+                    <div id="reportrange" class="history-view" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                        <i class="fa fa-calendar"></i>&nbsp;
+                        <span></span> <i class="fa fa-caret-down"></i>
                     </div>
-                    <div id="topFiveMedsChart" class="mx-auto d-flex justify-content-center"></div>
+                    <hr> -->
+                    <div id="topFiveIllnessChart" class="mx-auto"><center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</center></div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- <div class="row mb-3">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div id="columnchart_material" class="mx-auto" style="width: 730px; height: 500px;"></div>
+    
+    <div class="row mt-3 mb-3">
+        <div class="col-xl-12 col-md-12 col-sm-12 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <h6 class="font-weight-bolder text-uppercase pb-0 mb-0">YEAR {{ now()->year }} PROBABILISTIC FORECAST</h6>
+                        <small class="mt-0">highest probability rate of illness this year</small>
+                    </div>
+                    <div class="row mt-3 mb-3">
+                        <div class="col-xl-12 col-xs-12 col-sm-12 col-mb-12 mb-xl-0 mb-1">
+                            <div class="card" title="view list of possible illnesses">
+                                <div class="card-body p-3">
+                                    <div class="numbers">
+                                        <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">Month <i class="fa fa-eye"></i></p>
+                                        <label for="month-forecast">Select:</label>
+                                        <select class="month-forecast" style="
+                                        display: block;
+                                        padding: 0.5rem 0.75rem;
+                                        font-size: 0.875rem;
+                                        font-weight: 400;
+                                        line-height: 1.4rem;
+                                        color: #495057;
+                                        background-color: #fff;
+                                        background-clip: padding-box;
+                                        border: 1px solid #d2d6da;
+                                        -webkit-appearance: none;
+                                        -moz-appearance: none;
+                                        appearance: none;
+                                        border-radius: 0.5rem;
+                                        transition: box-shadow 0.15s ease, border-color 0.15s ease;">
+                                            <option value="1">JANUARY</option>
+                                            <option value="2">FEBRUARY</option>
+                                            <option value="3">MARCH</option>
+                                            <option value="4">APRIL</option>
+                                            <option value="5">MAY</option>
+                                            <option value="6">JUNE</option>
+                                            <option value="7">JULY</option>
+                                            <option value="8">AUGUST</option>
+                                            <option value="9">SEPTEMBER</option>
+                                            <option value="10">OCTOBER</option>
+                                            <option value="11">NOVEMBER</option>
+                                            <option value="12">DECEMBER</option>
+                                        </select>
+                                        <hr>
+                                        <div class="font-weight-bold text-small table-responsive">
+                                            <table class="table">
+                                                <thead class="text-center">
+                                                    <tr class="bg-dark text-light">
+                                                        <th scope="col">#</th>
+                                                        <th scope="col" class="text-start">Diagnosis</th>
+                                                        <th scope="col">Probabilistic Rate(%)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="forecasting_table" class="text-center">
+                                                    <tr class="text-center">
+                                                        <td scope="col" colspan="3"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div id="piechart" class="mx-auto" style="width: 770px; height: 500px;"></div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
+    </div>
 </div>
 @endsection
 
 @push('js')
+{{--<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>--}}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript">
     drawChartBar();
     drawChartPie();
+    monthlyForecast(1);
+    
+    function getIllness(ill)
+    {
+        console.log(ill);
+        // data.push(ill);
+    }
+
     function drawChartBar() {
 
-        // const illnesses = JSON.parse('{!! $illnesses !!}');
-        // var illnessNameArr = [];
-        // var illnessCountArr = [];
+        const illnesses = JSON.parse('{!! $illnesses !!}');
+        var year =[];
+        var tempIllness=[];
+        var data = [];
+        var tempData = [];
 
-        // illnesses.forEach(element => {
-        //     var newIllnessNameArr = [`${element.main_reason_for_consultation}`]
-        //     var newIllnessCountArr = [parseInt(`${element.illnessCount}`)]
+        illnesses.forEach(element => {
+            year.push(element.created_at);
+            tempIllness.push(element.diagnosis);
+        });
 
-        //     illnessNameArr.push(newIllnessNameArr)
-        //     illnessCountArr.push(newIllnessCountArr)
-        // })
-
-        // const flatIllnessNameArr = illnessNameArr.flat(1);
-        // const flatIllnessCountArr = illnessCountArr.flat(1);
-
-        // console.log(flatIllnessNameArr, flatIllnessCountArr)
-
-
-        // var dataBar = google.visualization.arrayToDataTable([
-        //     ['Year', ...flatIllnessNameArr],
-        //     ['2022', ...flatIllnessCountArr]
-        // ]);
-
-        // var optionsBar = {
-        //     chart: {
-        //         title: 'Patient with Illness Forecast',
-        //         subtitle: 'Low, Medium and Severe Cases: 2022',
-        //     }
-        // };
-
-        // var chartBar = new google.charts.Bar(document.getElementById('columnchart_material'));
-
-        // chartBar.draw(dataBar, google.charts.Bar.convertOptions(optionsBar));
-
-
-
-
+        const illness = new Set(tempIllness);
+        illness.forEach(diagnosis => {
+            illnesses.forEach(element => {
+                if(diagnosis==element.diagnosis){
+                    tempData.push(element.consultation)
+                    console.log(element.consultation);
+                }else{
+                    tempData.push(0);
+                }
+            });
+            
+            data.push({
+                name: diagnosis,
+                data: [...tempData]
+            });
+            tempData=[];
+        });
+            
+        console.log(data);
 
         var options = {
         chart: {
@@ -473,24 +360,25 @@
         markers: {
             size: 5,
         },
-        series: [
-            {
-                name: 'Sore Throat',
-                data: [31, 40, 28, 51, 42, 109, 100]
-            }, 
-            {
-                name: 'Asthma',
-                data: [11, 32, 20, 32, 34, 52, 41]
-            }, 
-            {
-                name: 'Urinary Tract Infection',
-                data: [11, 20, 45, 30, 10, 100, 200,32]
-            }
-        ],
+        series: data,
+        // [
+        //     {
+        //         name: 'Sore Throat',
+        //         data: [31, 40, 28, 51, 42, 109, 100,0]
+        //     }, 
+        //     {
+        //         name: 'Asthma',
+        //         data: [11, 32, 20, 32, 34, 52, 41,0]
+        //     }, 
+        //     {
+        //         name: 'Urinary Tract Infection',
+        //         data: [11, 20, 45, 30, 10, 100, 200,32]
+        //     }
+        // ],
         // series: [],
         xaxis: {
             type: 'datetime',
-            categories: ["2017-09-19", "2018-09-19", "2020-09-19", "2020-10-20", "2021-09-19", "2022-09-19", "2023-1-19", "2023-1-22"]
+            categories: year
             // categories: []
         },
         tooltip: {
@@ -499,9 +387,11 @@
             },
         },
         };
-
-        var chart = new ApexCharts(document.querySelector("#topFiveIllnessChart"), options);
-        chart.render();
+        setTimeout(function () {
+            $("#topFiveIllnessChart").html("");
+            var chart = new ApexCharts(document.querySelector("#topFiveIllnessChart"), options);
+            chart.render();
+        },3000);
     }
 
     function drawChartPie() {
@@ -531,8 +421,83 @@
             options.labels.push(`${element.medicine_name}`);
         });
 
-        var chart = new ApexCharts(document.querySelector("#topFiveMedsChart"), options);
-        chart.render();
+        setTimeout(function () {
+            $("#topFiveMedsChart").html("");
+            var chart = new ApexCharts(document.querySelector("#topFiveMedsChart"), options);
+            chart.render();
+        },3000);
+    }
+
+    function monthlyForecast(month){
+        $('#forecasting_table').html('<tr class="text-center">\
+            <td scope="col" colspan="3"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</td>\
+        </tr>');
+        $.get( "{{route('top-illness.topTen')}}", { month: month } )
+        .done(function( data ) {
+            data = JSON.parse(data);
+            console.log("----------------------------------------------");
+            var denom=sequence=0;
+            data.forEach(element => {
+                denom+=element.consultation;
+            });
+            var body="";
+            data.forEach(element => {
+                console.log(element.diagnosis+ " : "+element.consultation);
+                sequence++;
+                body +='<tr>\
+                            <td scope="row">'+sequence+'</td>\
+                            <td class="text-start"><span class="text-nowrap">'+element.diagnosis+'</span></td>\
+                            <td>'+(element.consultation/denom*100).toFixed(2)+'%</td>\
+                        </tr>';
+            });
+            setTimeout(function () {$('#forecasting_table').html(body!=""?body:"No Data")},1000);
+        });
+    }
+
+    function historyView(year){
+        console.log(year.from+" - "+year.to);
     }
 </script>
+
+<script type="text/javascript">
+$('.month-forecast').on('change',function(e){
+    monthlyForecast($(this).val());
+});
+
+// $('#reportrange').on('change',function(e){
+//     console.log($(this).val());
+//     // monthlyForecast($(this).val());
+// });
+
+</script>
+
+<!-- <script type="text/javascript">
+    $(function() {
+    
+        var start = moment().subtract(12, 'month');
+        var end = moment();
+    
+        function cb(start, end) {
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+        }
+    
+        $('#reportrange').daterangepicker({
+            startDate: start,
+            endDate: end,
+            ranges: {
+               'Today': [moment(), moment()],
+               'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+               'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+               'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+               'This Month': [moment().startOf('month'), moment().endOf('month')],
+               'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+               'This Year': [moment().startOf('year'), moment().endOf('year')],
+               'Last Year To This Year': [moment().startOf('year').subtract(1,'year'), moment().endOf('year')],
+            }
+        }, cb);
+        
+        cb(start, end);
+    
+    });
+    </script> -->
 @endpush

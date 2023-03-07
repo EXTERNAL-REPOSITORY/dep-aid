@@ -25,24 +25,25 @@ class ReorderLvlMedsRepository
             ])->thenReturn();
         
         $data = $result ? $result : $query;
-        $nearExpiryMeds = $data->whereRaw('inventory.expiration_date >= NOW() AND
+        $reorderLevelMeds = $data->whereRaw('inventory.expiration_date >= NOW() AND
         inventory.stock_balance <= (inventory.reorder_level/100*inventory.beginning_balance)')->paginate(10);
 
 
-        return compact('nearExpiryMeds', 'requestData');
+        return compact('reorderLevelMeds', 'requestData');
     }
 
     public function generatePdf()
     {
-        $query = Inventory::where('type', 'NearExpiryMeds')->get();
+        $query = Inventory::whereRaw('inventory.expiration_date >= NOW() AND
+        inventory.stock_balance <= (inventory.reorder_level/100*inventory.beginning_balance)')->get();
 
         $data = [
-            'title' => 'DEP-AID Inventory - NearExpiryMeds Report',
+            'title' => 'DEP-AID Inventory - Reorder Level Medicines Report',
             'users' => $query
         ];
 
-        $pdf = PDF::loadView('pdf.inventory', $data);
+        $pdf = PDF::loadView('pdf.reorder-level-meds', $data)->setPaper('legal', 'landscape');
 
-        return $pdf->download('DEP-AID Inventory - NearExpiryMeds Report.pdf');
+        return $pdf->download('DEP-AID Inventory - Reorder Level Medicines Report.pdf');
     }
 }

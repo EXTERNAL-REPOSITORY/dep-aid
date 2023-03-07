@@ -47,7 +47,7 @@
                                 </tr>
                               </thead>
                               <tbody>
-                                @forelse ($nearExpiryMeds as $index => $row)
+                                @forelse ($reorderLevelMeds as $index => $row)
                                     <tr class="text-center" style="color:#e96b0b"  title="Reorder Level Medicines">
                                         <td>
                                             <p class="text-xs font-weight-bold table-text mb-0">{{ $row->id }}</p>
@@ -85,7 +85,7 @@
                         <div class="table-pagination p-5">
                             <div class="row">
                                 <div class="row col-sm-12 col-md-12 col-lg-12 font-weight-600"">
-                                    {{$nearExpiryMeds->appends(['search' => isset($requestData->search) ? $requestData->search : null])->links('components.pagination')}}
+                                    {{$reorderLevelMeds->appends(['search' => isset($requestData->search) ? $requestData->search : null])->links('components.pagination')}}
                                 </div>
                             </div>
                         </div>
