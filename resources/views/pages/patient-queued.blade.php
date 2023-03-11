@@ -76,15 +76,15 @@
                                                 onclick = "viewPatient('{{$row->id}}')">
                                                 View
                                             </button>
-                                            <button 
+                                            <!-- <button 
                                                 type="button" 
                                                 class="btn bg-gradient-warning z-index-2" 
                                                 data-bs-toggle="modal" 
-                                                data-bs-target="#editPatient" 
-                                                onclick = "editPatient('{{$row->id}}')">
-                                                Edit
-                                            </button>
-                                            <button 
+                                                data-bs-target="#schedulePatient" 
+                                                onclick = "schedulePatient('{{$row->id}}')">
+                                                Schedule Next Visit
+                                            </button> -->
+                                            <!-- <button 
                                                 type="button" 
                                                 class="btn bg-gradient-danger z-index-2 drop" 
                                                 data-bs-toggle="modal" 
@@ -92,7 +92,7 @@
                                                 data-url="{{ route('patient-queued.destroy', $row->id) }}"
                                                 onclick = "deletePatient(this)">
                                                 Delete
-                                            </button>
+                                            </button> -->
                                             @if($row->is_done_consulting)
                                                 <button
                                                     type="button"
@@ -137,7 +137,7 @@
         </div>
     </div>
     @include('modals.patient.view')
-    @include('modals.patient.edit')
+    @include('modals.patient.schedulePatient')
     @include('modals.patient.filter')
     @include('modals.delete')
     @include('modals.done')
@@ -199,7 +199,7 @@
             $('#patient_available_to').val(detail.available_to);
         }
 
-        function editPatient(id) {
+        function schedulePatient(id) {
             const detail = $(`#patient-details-${id}`).data().detail;     
             newscheduledAppointment = formatDate(detail.scheduled_appointment);
 

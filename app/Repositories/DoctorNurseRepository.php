@@ -52,7 +52,6 @@ class DoctorNurseRepository
 
         foreach($request->day as $key =>$item) {
             if(in_array($key, array_keys($day))){
-
                 $doctorNurse = DoctorNurse::insert([
                     'employee_id' => $employeeIdGenerator,
                     'first_name' => $request->first_name,
@@ -84,7 +83,7 @@ class DoctorNurseRepository
     public function generatePdf()
     {
         $query = DoctorNurse::get();
-
+        
         $data = [
             'title' => 'DEP-AID Doctor - Nurse List Report',
             'users' => $query

@@ -165,14 +165,14 @@
 
         function editDoctorNurse(id) {
             const detail = $(`#doctor-nurse-details-${id}`).data().detail;     
-            newManufacturerDate = formatDate(detail.manufacturer_date);
-            newExpirationDate = formatDate(detail.expiration_date);
+            // newManufacturerDate = formatDate(detail.manufacturer_date);
+            // newExpirationDate = formatDate(detail.expiration_date);
 
-            $('#edit_medicine_name').val(detail.medicine_name);            
-            $('#edit_brand').val(detail.brand);            
-            $('#edit_manufacturer_date').val(newManufacturerDate);
-            $('#edit_expiration_date').val(newExpirationDate);
-            $('#edit-anti-inflammatory-form').attr('action', `/anti-inflammatory/update/${detail.id}`)
+            // $('#edit_medicine_name').val(detail.medicine_name);            
+            // $('#edit_brand').val(detail.brand);            
+            // $('#edit_manufacturer_date').val(newManufacturerDate);
+            // $('#edit_expiration_date').val(newExpirationDate);
+            // $('#edit-anti-inflammatory-form').attr('action', `/anti-inflammatory/update/${detail.id}`)
         }
 
         function deleteDoctorNurse(btn) {

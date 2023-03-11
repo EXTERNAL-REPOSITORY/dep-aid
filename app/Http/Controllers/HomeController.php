@@ -28,38 +28,36 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $patients = PatientForm::count();
-        $schedule = Schedule::count();
+        $patients = PatientForm::whereRaw('is_done_consulting = 0')->count();
+        $schedule = Schedule::whereRaw('start_date >= NOW()')->count();
+        $meds = Inventory::whereRaw('expiration_date >= NOW()')->get();
         $inventory = [
-            'cardiac-drugs' => Inventory::where('type', 'Cardiac Drugs')->count(),
-            'antibiotics' => Inventory::where('type', 'Antibiotics')->count(),
-            'ear-meds' => Inventory::where('type', 'Ear Meds')->count(),
-            'topicals' => Inventory::where('type', 'Topicals')->count(),
-            'anti-inflammatory' => Inventory::where('type', 'Anti-Inflammatory')->count(),
+            'cardiac-drugs'=>0,
+            'antibiotics'=>0,
+            'ear-meds'=>0,
+            'topicals'=>0,
+            'anti-inflammatory'=>0
         ];
-
-        $getTopMedicines = Inventory::orderBy('stock_balance', 'DESC')->select('medicine_name', 'stock_balance')->take(5)->get();
-        
-        // $illnesses = PatientForm::select(DB::raw('
-        //     main_reason_for_consultation AS diagnosis, 
-        //     COUNT(main_reason_for_consultation) AS consultation,
-        //     created_at
-        // '))
-        // ->whereRaw('YEAR(patient_form.created_at) BETWEEN YEAR(NOW())-2 AND YEAR(NOW())')
-        // ->groupByRaw('patient_form.main_reason_for_consultation,
-        // YEAR(patient_form.created_at)')
-        // ->orderByRaw('created_at ASC, diagnosis')
-        // ->get();
-
-        // return view('pages.dashboard')->with(['patients' => $patients, 'schedule' => $schedule, 'inventory' => $inventory, 'getTopMedicines' => $getTopMedicines, 'illnesses' => $illnesses]);
-        return view('pages.dashboard')->with(['patients' => $patients, 'schedule' => $schedule, 'inventory' => $inventory, 'getTopMedicines' => $getTopMedicines]);
-    }
-
-    public function getCounts($data)
-    {
-        foreach ($data as $key => $value) {
-            
+        foreach ($meds as $key => $value) {
+            switch($value->type){
+                case('Cardiac Drugs'):
+                    $inventory['cardiac-drugs']+=1;
+                    break;
+                case('Antibiotics'):
+                    $inventory['antibiotics']+=1;
+                    break;
+                case('Ear Meds'):
+                    $inventory['ear-meds']+=1;
+                    break;
+                case('Topicals'):
+                    $inventory['topicals']+=1;
+                    break;
+                case('Anti-inflammatory'):
+                    $inventory['anti-inflammatory']=$inventory['anti-inflammatory']+1;
+                    break;
+            }
         }
-        return ;
+        $getTopMedicines = Inventory::orderBy('stock_balance', 'DESC')->select('medicine_name', 'stock_balance')->take(5)->get();
+        return view('pages.dashboard')->with(['patients' => $patients, 'schedule' => $schedule, 'inventory' => $inventory, 'getTopMedicines' => $getTopMedicines]);
     }
 }

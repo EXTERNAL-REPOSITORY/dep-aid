@@ -37,15 +37,39 @@
             </thead>
             <tbody>
                 @forelse ($users as $index => $row)
+                    @php($tday="")
+                    @switch($row->availability_days)
+                        @case(0):
+                            $tday = "Monday"
+                            @break
+                        @case(1):
+                            $tday = "Tuesday"
+                            @break
+                        @case(2):
+                            $tday = "Wednesday"
+                            @break
+                        @case(3):
+                            $tday = "Thursday"
+                            @break
+                        @case(4):
+                            $tday = "Friday"
+                            @break
+                        @case(5):
+                            $tday = "Saturday"
+                            @break
+                        @case(6):
+                            $tday = "Sunday"
+                            @break
+                    @endswitch
                     <tr>
                         <th scope="row">{{ $row->employee_id }}</th>
                         <td>{{ $row->first_name }}</td>
                         <td>{{ $row->middle_name }}</td>
                         <td>{{ $row->last_name }}</td>
                         <td>{{ $row->position }}</td>
-                        <td>{{ $row->availability_days }}</td>
-                        <td>{{ isset($row->available_from) ? date('H:i:s', strtotime($row->available_from)) : 'Not Available' }}</td>
-                        <td>{{ isset($row->available_to) ? date('H:i:s', strtotime($row->available_to)) : 'Not Available' }}</td>
+                        <td>{{ $tday }}</td>
+                        <td>{{ isset($row->available_from) ? date('H:i A', strtotime($row->available_from)) : 'Not Available' }}</td>
+                        <td>{{ isset($row->available_to) ? date('H:i A', strtotime($row->available_to)) : 'Not Available' }}</td>
                     </tr>
                 @empty
                     <tr>

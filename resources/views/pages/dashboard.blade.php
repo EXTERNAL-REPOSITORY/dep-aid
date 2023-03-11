@@ -304,12 +304,16 @@
 <script type="text/javascript">
     drawChartPie();
     drawChartTopIllnes(1);
-    monthlyForecast(1);
 
     function drawChartTopIllnes(month) {
+        $('#TopIllnessChart').html('<tr class="text-center">\
+            <td scope="col" colspan="3"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</td>\
+        </tr>');
         $.get( "{{route('top-illness.topTen')}}", { month: month } )
         .done(function( rawData ) {
             const illnesses = JSON.parse(rawData);
+            monthlyForecast(illnesses);
+
             illnesses.sort(function(a,b){
                 return new Date(b.created_at) - new Date(a.created_at);
             });
@@ -340,9 +344,7 @@
                 });
                 tempData=[];
             });
-                
-            // console.log(data);
-
+            console.log(data);
             var options = {
             chart: {
                 height: 350,
@@ -368,11 +370,11 @@
                 },
             },
             };
-            // setTimeout(function () {
-                $("#TopIllnessChart").html("");
-                var chart = new ApexCharts(document.querySelector("#TopIllnessChart"), options);
-                chart.render();
-            // },3000);
+            
+            $("#TopIllnessChart").html("");
+            var chart = new ApexCharts(document.querySelector("#TopIllnessChart"), options);
+            chart.render();
+            
         });
     }
 
@@ -410,30 +412,25 @@
         // },3000);
     }
 
-    function monthlyForecast(month){
+    function monthlyForecast(data){
         $('#forecasting_table').html('<tr class="text-center">\
             <td scope="col" colspan="3"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</td>\
         </tr>');
-        $.get( "{{route('top-illness.topTen')}}", { month: month } )
-        .done(function( data ) {
-            data = JSON.parse(data);
-            // console.log("----------------------------------------------");
-            var denom=sequence=0;
-            data.forEach(element => {
-                denom+=element.consultation;
-            });
-            var body="";
-            data.forEach(element => {
-                // console.log(element.diagnosis+ " : "+element.consultation);
-                sequence++;
-                body +='<tr>\
-                            <td scope="row">'+sequence+'</td>\
-                            <td class="text-start"><span class="text-nowrap">'+element.diagnosis+'</span></td>\
-                            <td>'+(element.consultation/denom*100).toFixed(2)+'%</td>\
-                        </tr>';
-            });
-            $('#forecasting_table').html(body!=""?body:"No Data")
+        // console.log("----------------------------------------------");
+        var denom=sequence=0;
+        data.forEach(element => {
+            denom+=element.consultation;
         });
+        var body="";
+        data.forEach(element => {
+            sequence++;
+            body +='<tr>\
+                        <td scope="row">'+sequence+'</td>\
+                        <td class="text-start"><span class="text-nowrap">'+element.diagnosis+'</span></td>\
+                        <td>'+(element.consultation/denom*100).toFixed(2)+'%</td>\
+                    </tr>';
+        });
+        $('#forecasting_table').html(body!=""?body:"No Data")
     }
 
     function historyView(year){
@@ -444,7 +441,6 @@
 <script type="text/javascript">
 $('.month-forecast').on('change',function(e){
     drawChartTopIllnes($(this).val());
-    monthlyForecast($(this).val());
 });
 
 // $('#reportrange').on('change',function(e){
