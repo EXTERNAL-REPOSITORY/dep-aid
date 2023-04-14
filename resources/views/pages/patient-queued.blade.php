@@ -40,8 +40,8 @@
                                 <tr>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">ID</th>
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text ps-2">Patient Name</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Scheduled Date</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Reason/s for Consultation</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Request Date</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Reason/s for Consultation <br>(chief complaint)</th>
                                   {{-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Remarks</th> --}}
                                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Action</th>
                                 </tr>
@@ -57,12 +57,12 @@
                                             <p class="text-xs font-weight-bold table-text mb-0 text-uppercase">{{ ucfirst($row->name) }}</p>
                                         </td>
                                         <td class="align-middle">
-                                            <span class="text-secondary text-xs font-weight-bold table-text text-uppercase">{{ date('M d, Y', strtotime($row->available_from)) }}</span>
+                                            <span class="text-secondary text-xs font-weight-bold table-text text-uppercase">{{ date('M d, Y h:i A', strtotime($row->created_at)) }}</span>
                                         </td>
                                         <td class="align-middle">
-                                            <p class="text-xs font-weight-bold table-text mb-0 text-uppercase">chief complaint: <b>{{ $row->main_reason_for_consultation }}</b> 
+                                            <p class="text-xs font-weight-bold table-text mb-0 text-uppercase"><b>{{ $row->main_reason_for_consultation }}</b> 
                                             @if($row->other_reason_for_consultation !=null && $row->other_reason_for_consultation !=$row->main_reason_for_consultation)
-                                                <br>Other: <b>{{$row->other_reason_for_consultation }}</b>
+                                                <br>, <b>{{$row->other_reason_for_consultation }}</b>
                                            @endif
                                            </p>
                                         </td>
@@ -226,6 +226,7 @@
         function sendDiagnosis(id, btn) {
             const detail = $(`#patient-details-${id}`).data().detail;
             console.log(detail)
+            $('#patient-id').attr('value', detail.id);
             $('#patient-name').attr('value', detail.name);
             $('#patient-email').attr('value', detail.email);
             $('#send-diagnosis-form').attr('action', `/send-prescription-diagnosis/${detail.id}` );

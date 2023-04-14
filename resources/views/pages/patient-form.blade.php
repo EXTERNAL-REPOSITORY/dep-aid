@@ -47,7 +47,7 @@
               <div class="card-header pb-0 text-center">
                 <div class="row mt-5">
                   <div class="col-lg-6 col-md-6 col-6 text-center">
-                    <img src="{{ asset('img/logos/dep-ed.png') }}" height="100">
+                    <img src="{{ asset('img/logos/dep-ed.png') }}"  style="border-radius: 50%;border-width: 1px;" height="100">
                   </div>
                   <div class="col-lg-6 col-md-6 col-6 text-center">
                     <img src="{{ asset('img/logos/DEP-AID.png') }}" height="100">

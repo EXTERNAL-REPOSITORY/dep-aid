@@ -14,7 +14,7 @@ class DoctorNurse extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'available_from'  => 'datetime:h:i:s A',
-        'available_to' => 'datetime:h:i:s A',
+        'available_from'  => 'datetime:h:i A',
+        'available_to' => 'datetime:h:i A',
     ];
 }

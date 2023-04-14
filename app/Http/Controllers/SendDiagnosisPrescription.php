@@ -41,8 +41,8 @@ class SendDiagnosisPrescription extends Controller
      */
     public function store(Request $request)
     {
-        $this->sendDiagnosis->sendEmail($request);
-        return redirect()->route('patients.index')->with('success', 'Diagnosis and Prescription sent successfully');
+        // dd($request);
+        return $this->sendDiagnosis->sendEmail($request);
     }
 
     /**

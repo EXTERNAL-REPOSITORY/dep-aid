@@ -9,6 +9,7 @@
         </div>
         <form action="#" method="POST" id="send-diagnosis-form" enctype="multipart/form-data">
             @csrf
+            <input type="hidden" id="patient-id" name="patient_id">
             <input type="hidden" id="patient-name" name="patient_name">
             <input type="hidden" id="patient-email" name="patient_email">
             <div class="modal-body">

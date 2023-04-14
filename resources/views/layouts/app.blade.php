@@ -50,11 +50,14 @@
           appearance: textfield;
           -moz-appearance: textfield;
         }
+        input,select,table,th{
+            text-transform: uppercase !important;
+        }
       </style>
     @stack('links')
 </head>
 
-<body class="{{ $class ?? '' }}">
+<body class="{{ $class ?? '' }} text-uppercase">
 
     @guest
         @yield('content')

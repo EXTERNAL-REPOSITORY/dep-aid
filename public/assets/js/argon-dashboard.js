@@ -21607,7 +21607,7 @@ PerfectScrollbar.prototype.removePsClasses = function removePsClasses () {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PerfectScrollbar);
-//# sourceMappingURL=perfect-scrollbar.esm.js.map
+/*# sourceMappingURL=perfect-scrollbar.esm.js.map*/
 
 
 /***/ }),
