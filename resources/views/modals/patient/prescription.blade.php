@@ -76,7 +76,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                <button type="submit" class="btn bg-gradient-primary">Save</button>
+                <button disabled type="submit" class="btn bg-gradient-primary">Save</button>
             </div>
         </form>
       </div>
