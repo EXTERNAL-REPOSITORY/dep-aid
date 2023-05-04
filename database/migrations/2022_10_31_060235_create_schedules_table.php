@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('text');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
+            $table->foreignId('attending_id');
+            $table->foreignId('patient_form_id');
             $table->timestamps();
         });
     }

@@ -96,9 +96,9 @@ class PatientQueuedController extends Controller
         return redirect()->route('patient-queued.index')->with('success', 'Patient Deleted Successfully');
     }
 
-    public function generatePdf()
+    public function generatePdf(Request $request)
     {
-        $result = $this->patient->generatePdf();
+        $result = $this->patient->generatePdf($request);
         return $result;
     }
 }

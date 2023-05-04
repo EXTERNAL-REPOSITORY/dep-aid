@@ -96,9 +96,9 @@ class CardiacDrugsController extends Controller
         return redirect()->route('cardiac-drugs.index')->with('success', 'Cardiac Drug deleted successfully');
     }
 
-    public function generatePdf()
+    public function generatePdf(Request $request)
     {
-        $result = $this->cardiacDrugs->generatePdf();
+        $result = $this->cardiacDrugs->generatePdf($request);
         return $result;
     }
 }

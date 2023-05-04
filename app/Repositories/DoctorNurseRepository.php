@@ -82,11 +82,27 @@ class DoctorNurseRepository
 
     public function generatePdf()
     {
-        $query = DoctorNurse::get();
-        
+      
+        $requestData = [
+            'search' => isset($request->search) ? $request->search : null
+        ];
+
+        $query = DoctorNurse::query();
+
+        $result = app(Pipeline::class)
+            ->send($query)
+            ->through([
+                \App\Pipelines\Search\SearchDoctorNurseTable::class,
+                \App\Pipelines\Filter\DateFilter::class
+        ])->thenReturn();
+
+        $data = $result ? $result : $query;
+        $doctorNurse = $data->get();
+
+
         $data = [
             'title' => 'DEP-AID Doctor - Nurse List Report',
-            'users' => $query
+            'users' => $doctorNurse
         ];
 
         $pdf = PDF::loadView('pdf.doctor-nurse', $data);

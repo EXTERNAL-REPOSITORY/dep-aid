@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\SchedulesRepository;
+use App\Models\Schedule;
 
 class ScheduleController extends Controller
 {
@@ -21,7 +22,7 @@ class ScheduleController extends Controller
     public function index()
     {
         $result = $this->schedules->getAllSchedules();
-        return view('pages.schedule', $result);
+        return view('pages.schedule',compact('result'));
     }
 
     /**
@@ -42,7 +43,15 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $schedules = Schedule::insert([
+            'text' => $request->text,
+            'start_date' =>  \Carbon\Carbon::parse($request->start_date)->format('Y-m-d H:i'),
+            'end_date' => \Carbon\Carbon::parse($request->end_date)->format('Y-m-d H:i'),
+            'created_at' => \Carbon\Carbon::now(),
+            'updated_at' => \Carbon\Carbon::now()
+        ]);
+
+        return redirect()->route('patient-queued.index')->with('success', 'Schedule added successfully');
     }
 
     /**

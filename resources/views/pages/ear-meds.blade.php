@@ -8,10 +8,7 @@
                 <div class="card z-index-2 h-100" style="background-color: transparent; border: none; box-shadow: none;">
                     <div class="col-lg-12 col-md-12 d-flex justify-content-end">
                         <button class="btn bg-gradient-info z-index-2 me-2" data-bs-toggle="modal" data-bs-target="#filterEarMeds">Filter</button>
-                        <form action="{{ route('ear-meds.generatePdf') }}" method="POST" id="generate-report">
-                            @csrf
-                            <button type="submit" class="btn bg-gradient-info z-index-2 me-2">Generate Report</button>
-                        </form>
+                        <button type="button" class="btn bg-gradient-info z-index-2 me-2" onclick="generateReport();">Generate Report</button>
                         <button type="button" class="btn bg-gradient-success z-index-2" data-bs-toggle="modal" data-bs-target="#addEarMeds">Add Ear Meds</button>
                     </div>
                 </div>
@@ -75,7 +72,7 @@
                                                 data-bs-toggle="modal" 
                                                 data-bs-target="#editEarMeds" 
                                                 onclick = "editEarMeds('{{$row->id}}')">
-                                                Edit
+                                                <i class="fa-solid fa-pencil text-sm opacity-10"></i>
                                             </button>
                                             <button 
                                                 type="button" 
@@ -84,7 +81,7 @@
                                                 data-bs-target="#deleteModal"
                                                 data-url="{{ route('ear-meds.destroy', $row->id) }}"
                                                 onclick = "deleteEarMeds(this)">
-                                                Delete
+                                                <i class="fa-solid fa-trash text-sm opacity-10"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -116,6 +113,25 @@
 
 @push('js')
     <script>
+        function generateReport(){
+            $.ajax({
+                type: 'GET',
+                url: `{{ route('ear-meds.generatePdf') }}${window.location.search}`,
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function(response){
+                    var blob = new Blob([response]);
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = "DEP-AID Inventory - Ear Meds Report.pdf";
+                    link.click();
+                },
+                error: function(blob){
+                    console.log(blob);
+                }
+            });
+        }
         function formatDate(date) {
             var d = new Date(date),
                 month = '' + (d.getMonth() + 1),

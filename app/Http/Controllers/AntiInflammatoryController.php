@@ -96,9 +96,9 @@ class AntiInflammatoryController extends Controller
         return redirect()->route('anti-inflammatory.index')->with('success', 'Anti-inflammatory deleted successfully');
     }
 
-    public function generatePdf()
+    public function generatePdf(Request $request)
     {
-        $result = $this->antiInflammatory->generatePdf();
+        $result = $this->antiInflammatory->generatePdf($request);
         return $result;
     }
 }

@@ -202,7 +202,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="col">
-                        <h6 class="font-weight-bolder text-uppercase">Top 5 Most Used Medicines</h6>
+                        <h6 class="font-weight-bolder text-uppercase">Top 5 Medicines</h6>
                     </div>
                     <div id="topFiveMedsChart" class="mx-auto d-flex justify-content-center"><center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</center></div>
                 </div>

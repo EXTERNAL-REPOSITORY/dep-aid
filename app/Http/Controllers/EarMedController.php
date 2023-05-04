@@ -96,9 +96,9 @@ class EarMedController extends Controller
         return redirect()->route('ear-meds.index')->with('success', 'Ear Meds deleted successfully');
     }
 
-    public function generatePdf()
+    public function generatePdf(Request $request)
     {
-        $result = $this->earMeds->generatePdf();
+        $result = $this->earMeds->generatePdf($request);
         return $result;
     }
 }

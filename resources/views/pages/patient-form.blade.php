@@ -34,6 +34,10 @@
       appearance: textfield;
       -moz-appearance: textfield;
     }
+    
+    *{
+        text-transform: uppercase !important;
+    }
   </style>
 </head>
 
@@ -291,7 +295,7 @@
                         "Stomache Aches" => "Stomache Aches",
                         "Cough" => "Cough",
                         "Sore Throat" => "Sore Throat",
-                        "Diarrhea" => "Sore Throat",
+                        "Diarrhea" => "Diarrhea",
                         "Athritis" => "Athritis",
                         "Appendicitis" => "Appendicitis",
                         "Asthma" => "Asthma" ,
@@ -484,7 +488,7 @@
 </script>
 
 <!-- Your SDK code -->
-<!-- <script>
+<script>
   window.fbAsyncInit = function () {
     FB.init({
       xfbml: true,
@@ -498,7 +502,7 @@
     js = d.createElement(s); js.id = id;
     js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
     fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk')); -->
+  }(document, 'script', 'facebook-jssdk'));
 </script>
 <!-- END FACEBOOK PAGE BOT -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
@@ -725,7 +729,7 @@ $(document).ready(function () {
               tableRow += "</div>"
               tableRow += "</td>"
               tableRow += "<td>"
-              tableRow += `<p class='text-xs font-weight-bold mb-0'>${element.position}</p>`
+              tableRow += `<p class='text-xs font-weight-bold mb-0'>${element.position?element.position:''}</p>`
               tableRow += "</td>"
               tableRow += "<td class='align-middle text-center text-sm'>"
               tableRow += `<p class='text-xs font-weight-bold mb-0'>${element.available_from}</p>`

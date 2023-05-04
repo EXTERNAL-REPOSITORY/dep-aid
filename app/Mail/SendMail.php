@@ -34,6 +34,6 @@ class SendMail extends Mailable
     public function build()
     {
         return $this->subject('Mail from Dep-Aid Malaybalay')
-                    ->view('email.send');
+                    ->view('email.prescription');
     }
 }

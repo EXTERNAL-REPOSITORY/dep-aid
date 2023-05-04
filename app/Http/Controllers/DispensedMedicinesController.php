@@ -35,7 +35,14 @@ class DispensedMedicinesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $dispensed = DispensedMedicines::insert([
+            'medicine_id' => $request->medicine_id,
+            'patient_form_id' =>  $request->patient_form_id,
+            'quantity' => $request->quantity,
+            'remarks' => $request->remarks
+        ]);
+
+        return $dispensed;
     }
 
     /**

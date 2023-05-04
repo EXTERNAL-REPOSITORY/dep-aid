@@ -9,11 +9,8 @@
                 <div class="card z-index-2 h-100" style="background-color: transparent; border: none; box-shadow: none;">
                     <div class="col-lg-12 col-md-12 d-flex justify-content-end">
                         <button class="btn bg-gradient-info z-index-2 me-2" data-bs-toggle="modal" data-bs-target="#filterPatient">Filter</button>
-                        <form action="{{ route('patient-queued.generatePdf') }}" method="POST" id="generate-report">
-                            @csrf
-                            <button type="submit" class="btn bg-gradient-info z-index-2 me-2">Generate Report</button>
-                        </form>
-                        {{-- <button type="button" class="btn bg-gradient-success z-index-2" data-bs-toggle="modal" data-bs-target="#addPatient">Add Patient</button> --}}
+                        <button type="button" class="btn bg-gradient-info z-index-2 me-2" onclick="generateReport();">Generate Report</button>
+                        {-- <button type="button" class="btn bg-gradient-success z-index-2" data-bs-toggle="modal" data-bs-target="#addPatient">Add Patient</button> --}}
                     </div>
                 </div>
             </div>
@@ -73,17 +70,29 @@
                                                 class="btn bg-gradient-info z-index-2" 
                                                 data-bs-toggle="modal" 
                                                 data-bs-target="#viewPatient" 
+                                                title="View Details"
                                                 onclick = "viewPatient('{{$row->id}}')">
-                                                View
+                                                    <i class="fa-solid fa-eye text-sm opacity-10"></i>
                                             </button>
-                                            <!-- <button 
+                                            <button 
                                                 type="button" 
                                                 class="btn bg-gradient-warning z-index-2" 
                                                 data-bs-toggle="modal" 
                                                 data-bs-target="#schedulePatient" 
+                                                title="Schedule Next Visit"
                                                 onclick = "schedulePatient('{{$row->id}}')">
-                                                Schedule Next Visit
-                                            </button> -->
+                                                    <i class="fa-solid fa-calendar text-sm opacity-10"></i>
+                                            </button>
+                                            <button 
+                                                type="button"
+                                                class="btn bg-gradient-success z-index-2 drop" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#prescriptionModal"
+                                                data-url="{{ route('despensing.store') }}"
+                                                title="Add Prescription"
+                                                onclick = "prescribe('{{ $row->id }}', this)">
+                                                <i class="fa-solid fa-prescription text-sm opacity-10"></i>
+                                            </button>
                                             <!-- <button 
                                                 type="button" 
                                                 class="btn bg-gradient-danger z-index-2 drop" 
@@ -99,18 +108,20 @@
                                                     data-bs-toggle="modal" 
                                                     data-bs-target="#sendModal" 
                                                     class="btn bg-gradient-success z-index-2 drop send-diagnosis"
+                                                    title="Send Prescription and Diagnosis"
                                                     onclick = "sendDiagnosis('{{ $row->id }}', this)">
-                                                    Send
+                                                    <i class="fa-solid fa-paper-plane text-sm opacity-10"></i>
                                                 </button>
                                             @else
                                                 <button 
-                                                    type="button" 
+                                                    type="button"
                                                     class="btn bg-gradient-success z-index-2 drop" 
                                                     data-bs-toggle="modal" 
                                                     data-bs-target="#doneModal"
                                                     data-url="{{ route('patient-queued.done', $row->id) }}"
+                                                    title="Done Consultation"
                                                     onclick = "donePatient(this)">
-                                                    Done Consulting
+                                                    <i class="fa-solid fa-viruses text-sm opacity-10"></i>
                                                 </button>
                                             @endif
                                            
@@ -139,21 +150,73 @@
     @include('modals.patient.view')
     @include('modals.patient.schedulePatient')
     @include('modals.patient.filter')
+    @include('modals.patient.prescription')
     @include('modals.delete')
     @include('modals.done')
     @include('modals.send')
 @endsection
 
 @push('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script>
         $('.close-modal').on('click', function(){
             $('.sidenav').css('opacity', '100%');
         })
 
+        $('#schedule-next-visit-form').on('click', function(){
+            $('.sidenav').css('opacity', '100%');
+        })
+
+        $(`#nv_patient_name, 
+        #reasons_for_consultation,
+        #nv_scheduled_appointment,
+        #scheduled_time, #remarks`).on('keyup, change',function(){
+            // TEXT in Schedule
+            $('#text').val($('#nv_patient_name').val()+", "+ 
+            $('#reasons_for_consultation').val()+", "+
+            $('#remarks').val()).val();
+
+            // Dates in schedule
+            $('#start_date').val(moment($('#nv_scheduled_appointment').val()+" "+$('#scheduled_time').val()).format('Y-MM-DD H:mm A')).val();
+            $('#end_date').val(moment($('#nv_scheduled_appointment').val()+" "+$('#scheduled_time').val()).format('Y-MM-DD H:mm A')).val();
+        });
+
+        $('#print-prescription').on('click',function(){
+            $("#myDiv").printElement();
+        })
+
+        // $('#patient_form_id').val(detail.id);            
+        // $('#nv_patient_name').val(detail.name);            
+        // $('#reasons_for_consultation').val(detail.main_reason_for_consultation);            
+        // $('#scheduled_appointment').val(newscheduledAppointment);
+        // $('#scheduled_time').val(moment(detail.schedule?detail.schedule.start_date:'').format('H:i'));
+        // $('#schedule-next-visit-form').attr('action', `/schedules/store`)
+
         // $('#viewPatient').modal({
         //     backdrop: 'static',
         //     keyboard: false
         // })
+        
+        
+        function generateReport(){
+            $.ajax({
+                type: 'GET',
+                url: `{{ route('patient-queued.generatePdf') }}${window.location.search}`,
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function(response){
+                    var blob = new Blob([response]);
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = "DEP-AID Patients - Queuing Report.pdf";
+                    link.click();
+                },
+                error: function(blob){
+                    console.log(blob);
+                }
+            });
+        }
 
         function formatDate(date) {
             var d = new Date(date),
@@ -172,8 +235,8 @@
         function viewPatient(id) {
             const detail = $(`#patient-details-${id}`).data().detail; 
                 
-            newscheduledAppointment = formatDate(detail.scheduled_appointment);
-            console.log(detail);
+            // newscheduledAppointment = formatDate(detail.scheduled_appointment);
+            // console.log(detail);
             // $('.sidenav').css('opacity', '50%');
             
             $('#patient_name').val(detail.name);
@@ -181,6 +244,7 @@
             $('#patient_address').val(detail.address);
             $('#patient_gender').val(detail.gender);
             $('#patient_contact_number').val(detail.contact_number);
+            $('#patient_email').val(detail.email);
             $('#patient_birthdate').val(detail.birthdate);
             $('#patient_height').val(detail.height);
             $('#patient_weight').val(detail.weight);
@@ -197,23 +261,31 @@
             $('#patient_day').val(detail.day);
             $('#patient_available_from').val(detail.available_from);
             $('#patient_available_to').val(detail.available_to);
+            
         }
 
         function schedulePatient(id) {
             const detail = $(`#patient-details-${id}`).data().detail;     
             newscheduledAppointment = formatDate(detail.scheduled_appointment);
-
-            $('#edit_patient_name').val(detail.patient_name);            
-            $('#edit_reasons_for_consultation').val(detail.reasons_for_consultation);            
-            $('#edit_remarks').val(detail.remarks);            
-            $('#edit_scheduled_appointment').val(newscheduledAppointment);
-            $('#edit-patient-form').attr('action', `/patient-queued/update/${detail.id}`)
+            console.log(detail);
+            $('#patient_form_id').val(detail.id);            
+            $('#nv_patient_name').val(detail.name);            
+            $('#reasons_for_consultation').val(detail.main_reason_for_consultation);            
+            $('#nv_scheduled_appointment').val(newscheduledAppointment);
+            $('#scheduled_time').val(moment(detail.schedule?detail.schedule.start_date:'').format('H:i'));
+            $('#schedule-next-visit-form').attr('action', `/schedules/store`);
         }
 
         function deletePatient(btn) {
             var data = $(btn).data();
             var url = data.url;
             $('#delete-form').attr('action', url);
+        }
+
+        function prescribe(id, btn){
+            var data = $(btn).data();
+            var url = data.url;
+            $('#prescription-form').attr('action', url);
         }
 
         function donePatient(btn) {
@@ -231,6 +303,17 @@
             $('#patient-email').attr('value', detail.email);
             $('#send-diagnosis-form').attr('action', `/send-prescription-diagnosis/${detail.id}` );
         }
+
+        function printDiv(divName){
+			var printContents = $(divName).html();
+			var originalContents = document.body.innerHTML;
+
+			document.body.innerHTML = printContents;
+            window.focus();
+            window.print();
+            window.close();
+			document.body.innerHTML = originalContents;
+		}
 
     </script>
 @endpush

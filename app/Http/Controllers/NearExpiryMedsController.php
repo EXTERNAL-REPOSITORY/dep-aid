@@ -91,9 +91,9 @@ class NearExpiryMedsController extends Controller
         //
     }
 
-    public function generatePdf()
+    public function generatePdf(Request $request)
     {
-        $result = $this->nearExpiryMeds->generatePdf();
+        $result = $this->nearExpiryMeds->generatePdf($request);
         return $result;
     }
 }

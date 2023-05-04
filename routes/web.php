@@ -37,6 +37,7 @@ use App\Http\Controllers\TopicalController;
 use App\Http\Controllers\ExpiredMedsController;
 use App\Http\Controllers\NearExpiryMedsController;
 use App\Http\Controllers\ReorderLevelController;
+use App\Http\Controllers\DispensedMedicinesController;
 use App\Mail\SendMail;
 use App\Models\SendDiagnosis;
 
@@ -74,13 +75,15 @@ Route::group(['middleware' => 'auth'], function () {
 
 	//Schedules
 	Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
+	Route::post('/schedules/store', [ScheduleController::class, 'store'])->name('schedules.store');
+	
 
 	//Patient Queued
 	Route::get('/patient-queued', [PatientQueuedController::class, 'index'])->name('patient-queued.index');
 	Route::post('/patient-queued/store', [PatientQueuedController::class, 'store'])->name('patient-queued.store');
 	Route::put('/patient-queued/update/{id}', [PatientQueuedController::class, 'update'])->name('patient-queued.update');
 	Route::delete('/patient-queued/destroy/{id}', [PatientQueuedController::class, 'destroy'])->name('patient-queued.destroy');
-	Route::post('/patient-queued/generate-pdf', [PatientQueuedController::class, 'generatePdf'])->name('patient-queued.generatePdf');
+	Route::get('/patient-queued/generate-pdf', [PatientQueuedController::class, 'generatePdf'])->name('patient-queued.generatePdf');
 	
 	//Doctor-Nurse
 	Route::get('/doctor-nurse', [DoctorNurseController::class, 'index'])->name('doctor-nurse.index');
@@ -88,7 +91,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/doctor-nurse/store', [DoctorNurseController::class, 'store'])->name('doctor-nurse.store');
 	Route::put('/doctor-nurse/update/{id}', [DoctorNurseController::class, 'update'])->name('doctor-nurse.update');
 	Route::delete('/doctor-nurse/destroy/{id}', [DoctorNurseController::class, 'destroy'])->name('doctor-nurse.destroy');
-	Route::post('/doctor-nurse/generate-pdf', [DoctorNurseController::class, 'generatePdf'])->name('doctor-nurse.generatePdf');
+	Route::get('/doctor-nurse/generate-pdf', [DoctorNurseController::class, 'generatePdf'])->name('doctor-nurse.generatePdf');
 
 	//Inventory
 	//Cardiac Drugs
@@ -96,52 +99,57 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/cardiac-drugs/store', [CardiacDrugsController::class, 'store'])->name('cardiac-drugs.store');
 	Route::put('/cardiac-drugs/update/{id}', [CardiacDrugsController::class, 'update'])->name('cardiac-drugs.update');
 	Route::delete('/cardiac-drugs/destroy/{id}', [CardiacDrugsController::class, 'destroy'])->name('cardiac-drugs.destroy');
-	Route::post('/cardiac-drugs/generate-pdf', [CardiacDrugsController::class, 'generatePdf'])->name('cardiac-drugs.generatePdf');
+	Route::get('/cardiac-drugs/generate-pdf', [CardiacDrugsController::class, 'generatePdf'])->name('cardiac-drugs.generatePdf');
 	
 	//Antibiotics
 	Route::get('/antibiotics', [AntibioticsController::class, 'index'])->name('antibiotics.index');
 	Route::post('/antibiotics/store', [AntibioticsController::class, 'store'])->name('antibiotics.store');
 	Route::put('/antibiotics/update/{id}', [AntibioticsController::class, 'update'])->name('antibiotics.update');
 	Route::delete('/antibiotics/destroy/{id}', [AntibioticsController::class, 'destroy'])->name('antibiotics.destroy');
-	Route::post('/antibiotics/generate-pdf', [AntibioticsController::class, 'generatePdf'])->name('antibiotics.generatePdf');
+	Route::get('/antibiotics/generate-pdf', [AntibioticsController::class, 'generatePdf'])->name('antibiotics.generatePdf');
 	
 	//Anti-Inflammatory
 	Route::get('/anti-inflammatory', [AntiInflammatoryController::class, 'index'])->name('anti-inflammatory.index');
 	Route::post('/anti-inflammatory/store', [AntiInflammatoryController::class, 'store'])->name('anti-inflammatory.store');
 	Route::put('/anti-inflammatory/update/{id}', [AntiInflammatoryController::class, 'update'])->name('anti-inflammatory.update');
 	Route::delete('/anti-inflammatory/destroy/{id}', [AntiInflammatoryController::class, 'destroy'])->name('anti-inflammatory.destroy');
-	Route::post('/anti-inflammatory/generate-pdf', [AntiInflammatoryController::class, 'generatePdf'])->name('anti-inflammatory.generatePdf');
+	Route::get('/anti-inflammatory/generate-pdf', [AntiInflammatoryController::class, 'generatePdf'])->name('anti-inflammatory.generatePdf');
 	
 	//Ear-Meds
 	Route::get('/ear-meds', [EarMedController::class, 'index'])->name('ear-meds.index');
 	Route::post('/ear-meds/store', [EarMedController::class, 'store'])->name('ear-meds.store');
 	Route::put('/ear-meds/update/{id}', [EarMedController::class, 'update'])->name('ear-meds.update');
 	Route::delete('/ear-meds/destroy/{id}', [EarMedController::class, 'destroy'])->name('ear-meds.destroy');
-	Route::post('/ear-meds/generate-pdf', [EarMedController::class, 'generatePdf'])->name('ear-meds.generatePdf');
+	Route::get('/ear-meds/generate-pdf', [EarMedController::class, 'generatePdf'])->name('ear-meds.generatePdf');
 	
 	//Topicals
 	Route::get('/topicals', [TopicalController::class, 'index'])->name('topicals.index');
 	Route::post('/topicals/store', [TopicalController::class, 'store'])->name('topicals.store');
 	Route::put('/topicals/update/{id}', [TopicalController::class, 'update'])->name('topicals.update');
 	Route::delete('/topicals/destroy/{id}', [TopicalController::class, 'destroy'])->name('topicals.destroy');
-	Route::post('/topicals/generate-pdf', [TopicalController::class, 'generatePdf'])->name('topicals.generatePdf');
+	Route::get('/topicals/generate-pdf', [TopicalController::class, 'generatePdf'])->name('topicals.generatePdf');
 	
 	// Near Expiry Medicines
 	Route::get('/expired-meds', [ExpiredMedsController::class, 'index'])->name('expired-meds.index');
-	Route::post('/expired-meds/generate-pdf', [ExpiredMedsController::class, 'generatePdf'])->name('expired-meds.generatePdf');
+	Route::get('/expired-meds/generate-pdf', [ExpiredMedsController::class, 'generatePdf'])->name('expired-meds.generatePdf');
 
 
 	// Near Expiry Medicines
 	Route::get('/near-expiry-meds', [NearExpiryMedsController::class, 'index'])->name('near-expiry-meds.index');
-	Route::post('/near-expiry-meds/generate-pdf', [NearExpiryMedsController::class, 'generatePdf'])->name('near-expiry-meds.generatePdf');
+	Route::get('/near-expiry-meds/generate-pdf', [NearExpiryMedsController::class, 'generatePdf'])->name('near-expiry-meds.generatePdf');
 	
 	// Reorder Level Medicines
 	Route::get('/reorder-lvl-meds', [ReorderLevelController::class, 'index'])->name('reorder-lvl-meds.index');
-	Route::post('/reorder-lvl-meds/generate-pdf', [ReorderLevelController::class, 'generatePdf'])->name('reorder-lvl-meds.generatePdf');
+	Route::get('/reorder-lvl-meds/generate-pdf', [ReorderLevelController::class, 'generatePdf'])->name('reorder-lvl-meds.generatePdf');
 	
 	// Prescription
 	Route::post('/send-prescription-diagnosis/{id}', [SendDiagnosisPrescription::class, 'store'])->name('send-prescription-diagnosis.store');
+	Route::get('/prescription', [SendDiagnosisPrescription::class, 'index'])->name('prescription');
 
 	// Forecast Illness
 	Route::get('/top-illness', [DeseaseForecastController::class, 'getTopTen'])->name('top-illness.topTen');	
+
+
+	// Prescribing/Despensing
+	Route::post('/despensing', [DispensedMedicinesController::class, 'store'])->name('despensing.store');
 });

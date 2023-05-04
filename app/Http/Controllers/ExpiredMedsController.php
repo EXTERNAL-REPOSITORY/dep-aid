@@ -90,9 +90,9 @@ class ExpiredMedsController extends Controller
         //
     }
 
-    public function generatePdf()
+    public function generatePdf(Request $request)
     {
-        $result = $this->expiredMeds->generatePdf();
+        $result = $this->expiredMeds->generatePdf($request);
         return $result;
     }
 }

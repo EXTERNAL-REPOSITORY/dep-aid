@@ -52,7 +52,7 @@ class PatientFormRepository
             ])->thenReturn();
         
         $data = $result ? $result : $query;
-        $patient = $data->paginate(10);
+        $patient = $data->with('schedule')->paginate(10);
 
         return compact('patient', 'requestData');
     }
@@ -60,7 +60,6 @@ class PatientFormRepository
     public function storePatientForm($request)
     {
         $getDay = DayTable::where('id', $request->day)->select('day')->first();
-
         $patientForm = PatientForm::create([
             'name' => $request->name,
             'age' => $request->age,
@@ -88,12 +87,12 @@ class PatientFormRepository
             'updated_at' => \Carbon\Carbon::now()
         ]);
         $patientFormId = $patientForm->id;
-
+        
         Schedule::insert([
             'patient_form_id' => $patientFormId,
-            'text' => $request->name." ".$request->age." ".$request->gender." ".$request->current_medications." ".$request->reason_for_consultation,
-            'start_date' => $request->date." ".$request->available_from,
-            'end_date' => $request->date." ".$request->available_to,
+            'text' => "Name: ".$request->name." Age:".$request->age." Gender:".$request->gender." ".$request->current_medications." ".$request->main_reason_for_consultation,
+            'start_date' =>  \Carbon\Carbon::parse($request->date." ".$request->available_from)->format('Y-m-d H:i'),
+            'end_date' => \Carbon\Carbon::parse($request->date." ".$request->available_to)->format('Y-m-d H:i'),
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now()
         ]);
@@ -116,11 +115,24 @@ class PatientFormRepository
 
     public function generatePdf()
     {
-        $query = PatientForm::get();
+        $requestData = [
+            'search' => isset($request->search) ? $request->search : ""
+        ];
+        $query = PatientForm::query();
 
+        $result = app(Pipeline::class)
+            ->send($query)
+            ->through([
+                \App\Pipelines\Search\SearchPatientTable::class,
+                \App\Pipelines\Filter\DateFilter::class
+            ])->thenReturn();
+        
+        $data = $result ? $result : $query;
+        $patient = $data->with('schedule')->get();
+                
         $data = [
             'title' => 'DEP-AID Patient List Report',
-            'users' => $query
+            'users' => $patient
         ];
 
         $pdf = PDF::loadView('pdf.queued-patient', $data);

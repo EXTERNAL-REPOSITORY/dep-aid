@@ -125,6 +125,21 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-md-12">
+                        @component('components.inputs.input')
+                        @slot('label', 'Email')
+                        @slot('attributes', [
+                        'class' => 'form-control',
+                        'type' => 'text',
+                        'name' => 'patient_email',
+                        'id' => 'patient_email',
+                        'placeholder' => 'Active Email',
+                        'readonly' => true
+                        ])
+                        @endcomponent
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-6">
                         @component('components.inputs.input')
                         @slot('label', 'Heart Rate')
@@ -257,6 +272,7 @@
                             <label for="example-date-input" class="form-control-label">Scheduled Appointment</label>
                             <input class="form-control" type="date" value="" name="scheduled_appointment"
                                 id="scheduled_appointment" min="{{date('Y-m-d')}}">
+                            <small id="scheduled_appointment"></small>
                         </div>
                     </div>
                 </div>

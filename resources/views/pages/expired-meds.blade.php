@@ -8,10 +8,7 @@
                 <div class="card z-index-2 h-100" style="background-color: transparent; border: none; box-shadow: none;">
                     <div class="col-lg-12 col-md-12 d-flex justify-content-end">
                         <button class="btn bg-gradient-info z-index-2 me-2" data-bs-toggle="modal" data-bs-target="#filterExpiredMeds">Filter</button>
-                        <form action="{{ route('expired-meds.generatePdf') }}" method="POST" id="generate-report">
-                            @csrf
-                            <button type="submit" class="btn bg-gradient-info z-index-2 me-2">Generate Report</button>
-                        </form>
+                        <button type="button" class="btn bg-gradient-info z-index-2 me-2" onclick="generateReport();">Generate Report</button>
                     </div>
                 </div>
             </div>
@@ -95,6 +92,25 @@
 
 @push('js')
     <script>
+        function generateReport(){
+            $.ajax({
+                type: 'GET',
+                url: `{{ route('expired-meds.generatePdf') }}${window.location.search}`,
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function(response){
+                    var blob = new Blob([response]);
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = "DEP-AID Inventory - Expired Meds Report.pdf";
+                    link.click();
+                },
+                error: function(blob){
+                    console.log(blob);
+                }
+            });
+        }
         function formatDate(date) {
             var d = new Date(date),
                 month = '' + (d.getMonth() + 1),

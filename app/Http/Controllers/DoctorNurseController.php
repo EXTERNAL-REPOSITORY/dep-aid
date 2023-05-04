@@ -95,9 +95,9 @@ class DoctorNurseController extends Controller
         //
     }
 
-    public function generatePdf()
+    public function generatePdf(Request $request)
     {
-        $result = $this->doctorNurse->generatePdf();
+        $result = $this->doctorNurse->generatePdf($request);
         return $result;
     }
 

@@ -72,11 +72,27 @@ class EarMedsRepository
 
     public function generatePdf()
     {
-        $query = Inventory::where('type', 'Ear Meds')->get();
+        //Add condition if one of the date filter is null
+        $requestData = [
+            'search' => isset($request->search) ? $request->search : null
+        ];
 
+        $query = Inventory::query();
+
+        $result = app(Pipeline::class)
+            ->send($query)
+            ->through([
+                \App\Pipelines\Search\SearchInventoryTable::class,
+                \App\Pipelines\Filter\DateFilter::class
+            ])->thenReturn();
+        
+        $r1 = $result ? $result : $query;
+        $med = $r1->whereRaw('inventory.expiration_date >= NOW()')
+        ->where('type', 'Ear Meds')->get();
+        
         $data = [
             'title' => 'DEP-AID Inventory - Ear Meds Report',
-            'users' => $query
+            'users' => $med
         ];
 
         $pdf = PDF::loadView('pdf.inventory', $data);

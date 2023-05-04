@@ -90,9 +90,9 @@ class ReorderLevelController extends Controller
         //
     }
 
-    public function generatePdf()
+    public function generatePdf(Request $request)
     {
-        $result = $this->reorderLvlMeds->generatePdf();
+        $result = $this->reorderLvlMeds->generatePdf($request);
         return $result;
     }
 }
