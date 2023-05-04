@@ -27,7 +27,9 @@ class DatabaseSeeder extends Seeder
             EventsTableSeeder::class,
             DaySeeder::class,
             InventorySeeder::class,
-            PatientFormSeeder::class
+            PatientFormSeeder::class,
+            Districts::class,
+            Barangays::class
         ]);
     }
 }
