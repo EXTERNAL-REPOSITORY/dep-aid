@@ -13,6 +13,9 @@
             padding: 25px;
             text-align: center;
         }  
+        *{
+            text-transform: uppercase !important;
+        }
     </style>  
 </head>
 <body>
@@ -67,6 +70,14 @@
                     </tr>
                 @endforelse
             </tbody>
+            <tfoot>
+                <tr>
+                  <td>PAUL REGIE C. MABELIN, M.D</td>
+                </tr>
+                <tr>
+                    <td>MEDICAL OFFICER III</td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </body>

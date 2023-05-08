@@ -63,19 +63,19 @@
                                             </td>
                                             <td class="align-middle">
                                                 <input type="hidden" id="doctor-nurse-details-{{$row->id}}" data-detail="{{ $row }}">
-                                                <button 
+                                                {{-- <button 
                                                     type="button" 
                                                     class="btn bg-gradient-info z-index-2" 
                                                     data-bs-toggle="modal" 
                                                     data-bs-target="#showDoctorNurse" 
                                                     onclick = "showSchedules('{{$row->id}}')">
                                                     Show
-                                                </button>
+                                                </button> --}}
                                                 <button 
                                                     type="button" 
                                                     class="btn bg-gradient-warning z-index-2" 
                                                     data-bs-toggle="modal" 
-                                                    data-bs-target="#editLeaveModal" 
+                                                    data-bs-target="#editDoctorNurse" 
                                                     onclick = "editDoctorNurse('{{$row->id}}')">
                                                     Edit
                                                 </button>
@@ -84,7 +84,7 @@
                                                     class="btn bg-gradient-danger z-index-2 drop" 
                                                     data-bs-toggle="modal" 
                                                     data-bs-target="#deleteModal"
-                                                    {{-- data-url="{{ route('leave.destroy', $item->id) }}" --}}
+                                                    data-url="{{ route('doctor-nurse.destroy', $row->employee_id) }}"
                                                     onclick = "deleteDoctorNurse(this)">
                                                     Delete
                                                 </button>
@@ -113,7 +113,7 @@
     </div>
     @include('modals.doctor-nurse.create')
     @include('modals.doctor-nurse.edit')
-    @include('modals.doctor-nurse.show')
+    {{-- @include('modals.doctor-nurse.show') --}}
     @include('modals.delete')
 @endsection
 
@@ -140,7 +140,8 @@
         }
         function showSchedules(id){
             const details = $(`#doctor-nurse-details-${id}`).data().detail;
-
+            console.log("show details");
+            console.log(details);
             $.ajax({
                 url: "{{ route('doctor-nurse.show') }}",
                 method: "GET",
@@ -148,30 +149,52 @@
                     employee_id: details.employee_id
                 }, 
                 success: function(response){
-                    const detail = $(`#patient-details-${id}`).data().detail; 
-                    newscheduledAppointment = formatDate(detail.scheduled_appointment);
-                    console.log(detail);
-                    $('#patient_name').val(detail.name);
-                    $('#patient_age').val(detail.age);
-                    $('#patient_address').val(detail.address);
-                    $('#patient_gender').val(detail.gender);
-                    $('#patient_contact_number').val(detail.contact_number);
-                    $('#patient_birthdate').val(detail.birthdate);
-                    $('#patient_height').val(detail.height);
-                    $('#patient_weight').val(detail.weight);
-                    $('#patient_heart_rate').val(detail.heart_rate);
-                    $('#patient_blood_pressure').val(detail.blood_pressure);
-                    $('#patient_oxygen_saturation').val(detail.oxygen_saturation);
-                    $('#patient_temperature').val(detail.temperature);
-                    $('#patient_allergies').val(detail.allergies);
-                    $('#patient_main_reason_for_consultation').val(detail.main_reason_for_consultation);
-                    $('#patient_other_reason_for_consultation').val(detail.other_reason_for_consultation);
-                    $('#patient_current_medications').val(detail.current_medications);
-                    $('#patient_maintenance_medications').val(detail.maintenance_medications);
-                    $('#patient_doctor_consulting').val(detail.doctor_consulting);
-                    $('#patient_day').val(detail.day);
-                    $('#patient_available_from').val(detail.available_from);
-                    $('#patient_available_to').val(detail.available_to);
+                    // const detail = $(`#patient-details-${id}`).data().detail; 
+                    // newscheduledAppointment = formatDate(detail.scheduled_appointment);
+                    $('#show_first_name').val(details.first_name);
+                    $('#show_middle_name').val(details.middle_name);
+                    $('#show_last_name').val(details.last_name);
+                    $('#show_position').val(details.position);
+                    $day=[
+                        "Monday",
+                        "Tuesday",
+                        "Wednesday",
+                        "Thursday",
+                        "Friday",
+                        "Saturday",
+                        "Sunday"
+                    ];
+                    $i=0; $rows='';
+                    response.data.map(element => {
+                        console.log(element);
+                        $rows+=`<div class="row">
+                            <div class="col-md-3">
+                                <input class="form-control mt-4" type="text" value="${$day[$i]}" readonly>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="example-time-input" class="form-control-label">From</label>
+                                    <input class="form-control" type="time" value="${element.available_from??'-- --'}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="example-time-input" class="form-control-label">To</label>
+                                    <input class="form-control" type="time" value="${element.available_to??'-- --'}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mt-2-custom">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled ${element.is_working==1?'':'checked'}>
+                                    <label for="flexCheckChecked">
+                                    Day-off / No work
+                                    </label>
+                                </div>
+                            </div>
+                        </div>`;
+                        $i++;
+                    });
+                    $('#show_schedules').html($rows);
                 },
                 error: function(response){
                     console.log(response)
@@ -180,15 +203,69 @@
         }
 
         function editDoctorNurse(id) {
-            const detail = $(`#doctor-nurse-details-${id}`).data().detail;     
-            // newManufacturerDate = formatDate(detail.manufacturer_date);
-            // newExpirationDate = formatDate(detail.expiration_date);
-
-            // $('#edit_medicine_name').val(detail.medicine_name);            
-            // $('#edit_brand').val(detail.brand);            
-            // $('#edit_manufacturer_date').val(newManufacturerDate);
-            // $('#edit_expiration_date').val(newExpirationDate);
-            // $('#edit-anti-inflammatory-form').attr('action', `/anti-inflammatory/update/${detail.id}`)
+            const details = $(`#doctor-nurse-details-${id}`).data().detail;            
+            $.ajax({
+                url: "{{ route('doctor-nurse.show') }}",
+                method: "GET",
+                data: {
+                    employee_id: details.employee_id
+                }, 
+                success: async function(response){
+                    // const detail = $(`#patient-details-${id}`).data().detail; 
+                    // newscheduledAppointment = formatDate(detail.scheduled_appointment);
+                    console.log(response);
+                    $('#edit_first_name').val(details.first_name);
+                    $('#edit_middle_name').val(details.middle_name);
+                    $('#edit_last_name').val(details.last_name);
+                    $('#edit_position').val(details.position);
+                    $day=[
+                        "Monday",
+                        "Tuesday",
+                        "Wednesday",
+                        "Thursday",
+                        "Friday",
+                        "Saturday",
+                        "Sunday"
+                    ];
+                    $i=0; $rows='';
+                    await response.data.map(element => {
+                        console.log(element);
+                        $rows+=`<div class="row">
+                            <div class="col-md-3">
+                                <input class="form-control mt-4" type="text" name="day[${$i}]" id="edit_${$day[$i].toLowerCase()}" value="${$day[$i]}" readonly>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="example-time-input" class="form-control-label">From</label>
+                                    <input class="form-control edit_${$day[$i].toLowerCase()}_from" type="time" value="${element.available_from??''}" name="from_time[${$i}]">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="example-time-input" class="form-control-label">To</label>
+                                    <input class="form-control edit_${$day[$i].toLowerCase()}_to" type="time" value="${element.available_to??''}" name="to_time[${$i}]">
+                                </div>
+                            </div>
+                            <div class="col-md-3 mt-2-custom">
+                                <div class="form-check">
+                                    <input type="hidden" name="is_working[${$i}]" value="1">
+                                    <input class="form-check-input is_working_${$day[$i].toLowerCase()}" type="checkbox" name="is_working[${$i}]" value="" ${element.is_working==0?'checked':''}>
+                                    <label for="flexCheckChecked">
+                                    Day-off / No work
+                                    </label>
+                                </div>
+                            </div>
+                        </div>`;
+                        $i++;
+                    });
+                    $('#edit_schedules').html($rows);
+                },
+                error: function(response){
+                    console.log(response)
+                }
+            });
+            
+            $('#edit-anti-inflammatory-form').attr('action', `/anti-inflammatory/update`);
         }
 
         function deleteDoctorNurse(btn) {
@@ -197,53 +274,54 @@
             $('#delete-form').attr('action', url);
         }
 
-        $('#is_working_monday').on('change', function() {
+        $('#is_working_monday').on('click', function() {
+            console.log('asda');
             if (this.checked == true){
-                $(this).val("1");
-            } else {
                 $(this).val("0");
+            } else {
+                $(this).val("1");
             }
         })
-        $('#is_working_tuesday').on('change', function() {
+        $('#is_working_tuesday').on('click', function() {
             if (this.checked == true){
-                $(this).val("1");
-            } else {
                 $(this).val("0");
+            } else {
+                $(this).val("1");
             }
         })
-        $('#is_working_wednesday').on('change', function() {
+        $('#is_working_wednesday').on('click', function() {
             if (this.checked == true){
-                $(this).val("1");
-            } else {
                 $(this).val("0");
+            } else {
+                $(this).val("1");
             }
         })
-        $('#is_working_thursday').on('change', function() {
+        $('#is_working_thursday').on('click', function() {
             if (this.checked == true){
-                $(this).val("1");
-            } else {
                 $(this).val("0");
+            } else {
+                $(this).val("1");
             }
         })
-        $('#is_working_friday').on('change', function() {
+        $('#is_working_friday').on('click', function() {
             if (this.checked == true){
-                $(this).val("1");
-            } else {
                 $(this).val("0");
+            } else {
+                $(this).val("1");
             }
         })
-        $('#is_working_saturday').on('change', function() {
+        $('#is_working_saturday').on('click', function() {
             if (this.checked == true){
-                $(this).val("1");
-            } else {
                 $(this).val("0");
+            } else {
+                $(this).val("1");
             }
         })
-        $('#is_working_sunday').on('change', function() {
+        $('#is_working_sunday').on('click', function() {
             if (this.checked == true){
-                $(this).val("1");
-            } else {
                 $(this).val("0");
+            } else {
+                $(this).val("1");
             }
         })
     </script>

@@ -12,7 +12,12 @@
             border:1px solid black;  
             padding: 5px;
             text-align: center;
-        }  
+        } 
+
+        *{
+            text-transform: uppercase !important;
+            font-family: Arial, Helvetica, sans-serif;
+        }
     </style>  
 </head>
 <body>
@@ -97,7 +102,11 @@
                     </tr>
                 @endforelse
             </tbody>
-        </table>
+        </table><br>
+<pre style="font-weight:200; padding: 0; margin:0;">
+PAUL REGIE C. MABELIN, M.D
+MEDICAL OFFICER III
+</pre>
     </div>
 </body>
 </html>

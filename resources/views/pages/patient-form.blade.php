@@ -740,18 +740,18 @@ $(document).ready(function () {
               <td>
               <div class='d-flex px-2 py-1'>
               <div class='d-flex flex-column justify-content-center'>
-              <h6 class='mb-0 text-xs'>${element.first_name, " ", element.last_name}</h6>
+              <h6 class='mb-0 text-xs'>${element.first_name??'', " ", element.last_name??''}</h6>
               </div>
               </div>
               </td>
               <td>
-              <p class='text-xs font-weight-bold mb-0'>${element.position?element.position:''}</p>
+              <p class='text-xs font-weight-bold mb-0'>${element.position??''}</p>
               </td>
               <td class='align-middle text-center text-sm'>
-              <p class='text-xs font-weight-bold mb-0'>${element.available_from}</p>
+                <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${element.available_from??''}" readonly>
               </td>
               <td class='align-middle text-center text-sm'>
-              <p class='text-xs font-weight-bold mb-0'>${element.available_to}</p>
+                <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${element.available_to??''}" readonly>
               </td>
               </tr>
               <input type='hidden' name='day' value='${selectDate}'>

@@ -165,6 +165,7 @@
         function deleteCardiacDrugs(btn) {
             var data = $(btn).data();
             var url = data.url;
+            console.log(url);
             $('#delete-form').attr('action', url);
         }
 
