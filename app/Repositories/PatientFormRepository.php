@@ -59,8 +59,20 @@ class PatientFormRepository
 
     public function storePatientForm($request)
     {
-        $getDay = DayTable::where('id', $request->day)->select('day')->first();
+        $jsonDays = array(
+            '1' => "Monday",
+            '2' => "Tuesday",
+            '3' => "Wednesday",
+            '4' => "Thursday",
+            '5' => "Friday",
+            '6' => "Saturday",
+            '7' => "Sunday"
+        );
+
         $patientForm = PatientForm::create([
+            'first_name' => $request->first_name,
+            'middle_name' => $request->middle_name,
+            'last_name' => $request->last_name,
             'name' => $request->name,
             'age' => $request->age,
             'gender' => $request->gender,
@@ -82,7 +94,7 @@ class PatientFormRepository
             'doctor_consulting' => $request->doctor_consulting,
             'available_from' => $request->available_from,
             'available_to' => $request->available_to,
-            'day' => $getDay->day,
+            'day' => $jsonDays[$request->day],
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now()
         ]);

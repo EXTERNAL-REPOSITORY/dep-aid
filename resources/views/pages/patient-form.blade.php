@@ -74,6 +74,7 @@
                         'name' => 'name',
                         'id' => 'name',
                         'placeholder' => 'Name',
+                        'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -85,7 +86,8 @@
                         'type' => 'number',
                         'name' => 'age',
                         'id' => 'age',
-                        'placeholder' => 'Age'
+                        'placeholder' => 'Age',
+                        'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -100,7 +102,8 @@
                         'name' => 'gender',
                         'id' => 'gender',
                         'value' => '',
-                        'placeholder' => 'select...'
+                        'placeholder' => 'select...',
+                        'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -112,7 +115,8 @@
                         'type' => 'date',
                         'name' => 'birthdate',
                         'id' => 'birthdate',
-                        'placeholder' => 'Birthdate'
+                        'placeholder' => 'Birthdate',
+                        'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -126,7 +130,8 @@
                         'type' => 'number',
                         'name' => 'height',
                         'id' => 'height',
-                        'placeholder' => 'Height'
+                        'placeholder' => 'Height',
+                        'required' =>'required'
                         ])
                         @slot('append', 'cm')
                         @endcomponent
@@ -139,7 +144,8 @@
                         'type' => 'number',
                         'name' => 'weight',
                         'id' => 'weight',
-                        'placeholder' => 'Weight'
+                        'placeholder' => 'Weight',
+                        'required' =>'required'
                         ])
                         @slot('append', 'kl')
                         @endcomponent
@@ -158,7 +164,8 @@
                           'id' => 'district',
                           'value' => '',
                           'placeholder' => 'select...',
-                          'onchange'=>'address'
+                          'onchange'=>'address',
+                          'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -172,7 +179,8 @@
                           'id' => 'barangay',
                           'value' => '',
                           'placeholder' => 'Select',
-                          'onchange'=>''
+                          'onchange'=>'',
+                          'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -200,7 +208,8 @@
                         'type' => 'email',
                         'name' => 'email',
                         'id' => 'email',
-                        'placeholder' => 'Email'
+                        'placeholder' => 'Email',
+                        'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -214,7 +223,8 @@
                         'name' => 'contact_number',
                         'id' => 'contact-number',
                         'placeholder' => 'Contact Number',
-                        'maxlength'=>'11'
+                        'maxlength'=>'11',
+                        'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -234,7 +244,8 @@
                         'type' => 'text',
                         'name' => 'heart_rate',
                         'id' => 'heart_rate',
-                        'placeholder' => 'Heart Rate'
+                        'placeholder' => 'Heart Rate',
+                        'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -317,7 +328,8 @@
                         'name' => 'main_reason_for_consultation',
                         'id' => 'main_reason_for_consultation',
                         'value' => '',
-                        'placeholder' => 'Select'
+                        'placeholder' => 'Select',
+                        'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -382,7 +394,7 @@
                       <div class="col-md-12">
                         <div class="form-group">
                           <label for="example-date-input" class="form-control-label">Date</label>
-                          <input class="form-control" type="date" name="date" value="" id="date-for-consultation">
+                          <input class="form-control" type="date" name="date" value="" id="date-for-consultation" required="required">
                         </div>
                       </div>
                     </div>
@@ -544,7 +556,7 @@
     // This function will figure out which tab to display
     var x = document.getElementsByClassName("tab");
     // Exit the function if any field in the current tab is invalid:
-    // if (n == 1 && !validateForm()) return false;
+    if (n == 1 && !validateForm()) return false;
     // Hide the current tab:
     x[currentTab].style.display = "none";
     // Increase or decrease the current tab by 1:
@@ -563,15 +575,20 @@
     // This function deals with validation of the form fields
     var x, y, i, valid = true;
     x = document.getElementsByClassName("tab");
-    y = x[currentTab].getElementsByTagName("input");
+    y = x[currentTab].querySelectorAll("input[required='required'],select[required='required']");
+    // console.log(y);
     // A loop that checks every input field in the current tab:
     for (i = 0; i < y.length; i++) {
       // If a field is empty...
       if (y[i].value == "") {
         // add an "invalid" class to the field:
-        y[i].className += " invalid";
+        if(!$(y[i]).attr('class').match('invalid')){
+          y[i].className += " invalid";
+        }
         // and set the current valid status to false:
         valid = false;
+      }else{
+        $(y[i]).removeClass($(y[i]).attr('class').match('invalid'));
       }
     }
     // If the valid status is true, mark the step as finished and valid:
@@ -712,35 +729,34 @@ $(document).ready(function () {
             tableBody.html("");
 
             response.forEach(element => {
-              var tableRow = '';
-              tableRow += "<tr>"
-              tableRow += "<td>"
-              tableRow += "<div>"
-              tableRow += "<div class='form-check'>"
-              tableRow += `<input class='form-check-input doctor-consulting' type='radio' name='doctor_consulting' id="flexRadioDefault'${element.id}'" value="${element.employee_id}">`
-              tableRow += "</div>"
-              tableRow += "</div>"
-              tableRow += "</td>"
-              tableRow += "<td>"
-              tableRow += "<div class='d-flex px-2 py-1'>"
-              tableRow += "<div class='d-flex flex-column justify-content-center'>"
-              tableRow += `<h6 class='mb-0 text-xs'>${element.first_name, " ", element.last_name}</h6>`
-              tableRow += "</div>"
-              tableRow += "</div>"
-              tableRow += "</td>"
-              tableRow += "<td>"
-              tableRow += `<p class='text-xs font-weight-bold mb-0'>${element.position?element.position:''}</p>`
-              tableRow += "</td>"
-              tableRow += "<td class='align-middle text-center text-sm'>"
-              tableRow += `<p class='text-xs font-weight-bold mb-0'>${element.available_from}</p>`
-              tableRow += "</td>"
-              tableRow += "<td class='align-middle text-center text-sm'>"
-              tableRow += `<p class='text-xs font-weight-bold mb-0'>${element.available_to}</p>`
-              tableRow += "</td>"
-              tableRow += "</tr>"
-              tableRow += `<input type='hidden' name='day' value='${selectDate}'>`
-              tableRow += `<input type='hidden' name='available_from' value='${element.available_from}'>`
-              tableRow += `<input type='hidden' name='available_to' value='${element.available_to}'>`
+              var tableRow = `<tr>
+              <td>
+              <div>
+              <div class='form-check'>
+              <input class='form-check-input doctor-consulting' type='radio' name='doctor_consulting' id="flexRadioDefault'${element.id}'" value="${element.employee_id}">
+              </div>
+              </div>
+              </td>
+              <td>
+              <div class='d-flex px-2 py-1'>
+              <div class='d-flex flex-column justify-content-center'>
+              <h6 class='mb-0 text-xs'>${element.first_name, " ", element.last_name}</h6>
+              </div>
+              </div>
+              </td>
+              <td>
+              <p class='text-xs font-weight-bold mb-0'>${element.position?element.position:''}</p>
+              </td>
+              <td class='align-middle text-center text-sm'>
+              <p class='text-xs font-weight-bold mb-0'>${element.available_from}</p>
+              </td>
+              <td class='align-middle text-center text-sm'>
+              <p class='text-xs font-weight-bold mb-0'>${element.available_to}</p>
+              </td>
+              </tr>
+              <input type='hidden' name='day' value='${selectDate}'>
+              <input type='hidden' name='available_from' value='${element.available_from}'>
+              <input type='hidden' name='available_to' value='${element.available_to}'>`;
 
               var tableBody = $("table tbody");
               tableBody.append(tableRow);

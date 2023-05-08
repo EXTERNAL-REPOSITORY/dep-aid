@@ -265,7 +265,7 @@
                                                         <thead class="text-center">
                                                             <tr class="bg-dark text-light">
                                                                 <th scope="col">#</th>
-                                                                <th scope="col" class="text-start">Diagnosis</th>
+                                                                <th scope="col" class="text-start">CASES</th>
                                                                 <th scope="col">Probabilistic Rate(%)</th>
                                                             </tr>
                                                         </thead>
