@@ -33,7 +33,20 @@ class SendMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Mail from Dep-Aid Malaybalay')
+
+        $this->subject('Mail from Dep-Aid Malaybalay')
                     ->view('email.prescription');
+  
+
+        if($this->details['files']){
+            foreach ($this->details['files'] as $file){
+                $this->attach($file->getRealPath(), [
+                    'as' => $file->getClientOriginalName(),
+                    'mime' => $file->getMimeType(),
+                ]);
+            }
+        }
+  
+        return $this;
     }
 }

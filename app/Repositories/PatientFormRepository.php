@@ -103,8 +103,8 @@ class PatientFormRepository
         Schedule::insert([
             'patient_form_id' => $patientFormId,
             'text' => "Name: ".$request->name." Age:".$request->age." Gender:".$request->gender." ".$request->current_medications." ".$request->main_reason_for_consultation,
-            'start_date' =>  \Carbon\Carbon::parse($request->date." ".$request->available_from)->format('Y-m-d H:i'),
-            'end_date' => \Carbon\Carbon::parse($request->date." ".$request->available_to)->format('Y-m-d H:i'),
+            'start_date' =>  \Carbon\Carbon::parse($request->date." ".($request->available_from??'00:00:00'))->format('Y-m-d H:i'),
+            'end_date' => \Carbon\Carbon::parse($request->date." ".($request->available_to??'00:00:00'))->format('Y-m-d H:i'),
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now()
         ]);

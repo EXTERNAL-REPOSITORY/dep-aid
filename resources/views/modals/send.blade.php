@@ -15,22 +15,35 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                         <p class="text-center fw-bold">Diagnosis to the Patient</p>
+                         <p class="text-center fw-bold">EMAIL BODY</p>
                     </div>
                  </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <textarea id="diagnosis" name="diagnosis" rows="8" cols="53"></textarea>
+                        <textarea id="body" name="body" rows="8" cols="53">
+Good Day!
+
+Thank You for your interest in our service, attached here is the document file of your prescription. You may also want to keep a copy of this document in your personal health records. If you happen to have any questions about the medication or dosage, feel free to contact us.
+
+Please remember to follow the instructions on the prescription label carefully, and if you experience any unexpected side effects or complications, let me know right away.
+
+I look forward to seeing you at your next appointment.
+
+Best regards,
+Dep-Aid
+                        
+                        </textarea>
                     </div>
                 </div>
                 <div class="row">
                    <div class="col-md-12">
-                        <p class="text-center fw-bold">Prescripted Medicines Needed To Intake</p>
+                        <p class="text-center fw-bold">Diagnosis and Prescripted Medicines Needed To Intake</p>
                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <textarea id="prescriptions" name="prescriptions" rows="8" cols="53"></textarea>
+                        <label for="attachments">Attachments</label>
+                        <input id="attachments[]" type="file" name="attachments[]" multiple/>
                     </div>
                 </div>
                 <div class="modal-footer">
