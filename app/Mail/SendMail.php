@@ -38,7 +38,7 @@ class SendMail extends Mailable
                     ->view('email.prescription');
   
 
-        if($this->details['files']){
+        if(isset($this->details['files'])){
             foreach ($this->details['files'] as $file){
                 $this->attach($file->getRealPath(), [
                     'as' => $file->getClientOriginalName(),

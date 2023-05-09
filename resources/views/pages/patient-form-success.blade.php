@@ -41,7 +41,8 @@
                             <div class="row mb-5">
                                 <div class="col-md-12">
                                     <h5 class="fw-bold text-center">Thanks for filling out our form!</h5>
-                                    <h6 class="fw-bold text-center">We will look over your submitted form and get back to you as soon as possible. Thank you</h6>
+                                    <h6 class="fw-bold text-center">We will look over your submitted form and get back to you as soon as possible.</h6>
+                                    <h6 class="fw-bold text-center"><b>NOTE:</b> Check your email and for your appointment. Please be on time. Thank you!!!</h6>
                                 </div>
                             </div>
                             <div class="row mt-5">
@@ -76,7 +77,19 @@
                                                     <div class="row mb-5">
                                                         <div class="col-md-12">
                                                             <h5 class="fw-bold text-center">Thanks for filling out our form!</h5>
-                                                            <h6 class="fw-bold text-center">We will look over your submitted form and get back to you as soon as possible. Thank you</h6>
+                                                            <h6 class="fw-bold text-center text-capitalize">
+                                                                Name: {{Str::title($patientForm->name)}}
+                                                            </h6>
+                                                            <h6 class="fw-bold text-center">
+                                                                Schedule: {{$date}}
+                                                            </h6>
+                                                            
+                                                            <h6 class="fw-bold text-center">
+                                                                Time: {{$start}} - {{$end}}
+                                                            </h6>
+                                                            <h6 class="fw-bold text-center">We will look over your submitted form and get back to you as soon as possible.</h6>
+                                                            <h6 class="fw-bold text-center"><b>NOTE:</b> We have sent you also a copy of your schedule.
+                                                                Please check your email for your appointment details. Thank you!!!</h6>
                                                         </div>
                                                     </div>
                                                     <div class="row mt-5">

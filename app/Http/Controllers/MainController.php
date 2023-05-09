@@ -62,8 +62,9 @@ class MainController extends Controller
      */
     public function store(Request $request)
     {
-        $this->patientForm->storePatientForm($request);
-        return view('pages.patient-form-success');
+        $data = $this->patientForm->storePatientForm($request);
+
+        return view('pages.patient-form-success',$data);
     }
 
     /**

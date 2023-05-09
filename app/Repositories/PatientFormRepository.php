@@ -10,6 +10,9 @@ use BotMan\BotMan\BotMan;
 use BotMan\BotMan\BotManFactory;
 use BotMan\BotMan\Drivers\DriverManager;
 use PDF;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMail;
 
 class PatientFormRepository
 {
@@ -100,16 +103,42 @@ class PatientFormRepository
         ]);
         $patientFormId = $patientForm->id;
         
-        Schedule::insert([
+
+        $from = \Carbon\Carbon::parse($request->date." ".($request->available_from??'00:00:00'))->format('Y-m-d H:i');
+        $to = \Carbon\Carbon::parse($request->date." ".($request->available_to??'00:00:00'))->format('Y-m-d H:i');
+
+
+        $schedule = Schedule::create([
             'patient_form_id' => $patientFormId,
             'text' => "Name: ".$request->name." Age:".$request->age." Gender:".$request->gender." ".$request->current_medications." ".$request->main_reason_for_consultation,
-            'start_date' =>  \Carbon\Carbon::parse($request->date." ".($request->available_from??'00:00:00'))->format('Y-m-d H:i'),
-            'end_date' => \Carbon\Carbon::parse($request->date." ".($request->available_to??'00:00:00'))->format('Y-m-d H:i'),
+            'start_date' =>  $from,
+            'end_date' => $to,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now()
         ]);
 
-        return $patientForm;
+
+        $data = [
+            'title' => 'Appointment Details - Dep-Aid Malaybalay Bukidnon',
+            'body' => '
+Good day '.Str::title($request->name).',
+
+Thank you for having an appointment with us, here is your schedule of visit to our clinic.
+
+Schedule: '.\Carbon\Carbon::parse($request->date)->format('F d, Y').' from '.\Carbon\Carbon::parse($from)->format('g:i A').' to '.\Carbon\Carbon::parse($to)->format('g:i A').'
+
+Please be on time, thank you!
+            ',
+        ];
+         
+        try {        
+            Mail::to($request->email)->send(new SendMail($data));
+            return array('patientForm' => $patientForm,'date' => \Carbon\Carbon::parse($request->date)->format('F d, Y'),
+            'start' => \Carbon\Carbon::parse($from)->format('g:i A'), 
+            'end' => \Carbon\Carbon::parse($to)->format('g:i A') );
+        } catch (Exception $th) {
+            return redirect()->route('patient-form')->with('error', 'Error: '.$th);
+        }
     }
 
     public function donePatient($request) 
