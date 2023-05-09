@@ -92,15 +92,11 @@
                     </tr>
                 @endforelse
             </tbody>
-            <tfoot>
-                <tr>
-                  <td>PAUL REGIE C. MABELIN, M.D</td>
-                </tr>
-                <tr>
-                    <td>MEDICAL OFFICER III</td>
-                </tr>
-            </tfoot>
-        </table>
+        </table><br>
+<pre style="font-weight:200; padding: 0; margin:0;">
+PAUL REGIE C. MABELIN, M.D
+MEDICAL OFFICER III
+</pre>
     </div>
 </body>
 </html>

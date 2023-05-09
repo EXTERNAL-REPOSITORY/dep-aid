@@ -176,7 +176,7 @@ Please be on time, thank you!
             'users' => $patient
         ];
 
-        $pdf = PDF::loadView('pdf.queued-patient', $data);
+        $pdf = PDF::loadView('pdf.queued-patient', $data)->setPaper('A4','landscape');
 
         return $pdf->download('DEP-AID Patient List Report.pdf');
     }

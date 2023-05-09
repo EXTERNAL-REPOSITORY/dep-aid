@@ -116,7 +116,7 @@ class DoctorNurseRepository
             'users' => $doctorNurse
         ];
 
-        $pdf = PDF::loadView('pdf.doctor-nurse', $data);
+        $pdf = PDF::loadView('pdf.doctor-nurse', $data)->setPaper('A4','landscape');
 
         return $pdf->download('DEP-AID Doctor - Nurse List Report.pdf');
     }
