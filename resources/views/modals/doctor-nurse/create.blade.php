@@ -101,7 +101,7 @@
                     </div>
                     <div class="col-md-3 mt-2-custom">
                         <div class="form-check">
-                            <input type="hidden" name="is_working[0]" value="0">
+                            <input type="hidden" name="is_working[0]" value="1">
                             <input class="form-check-input" type="checkbox" name="is_working[0]" value="" id="is_working_monday">
                             <label for="flexCheckChecked">
                             Day-off / No work
@@ -138,7 +138,7 @@
                     </div>
                     <div class="col-md-3 mt-2-custom">
                         <div class="form-check">
-                            <input type="hidden" name="is_working[1]" value="0">
+                            <input type="hidden" name="is_working[1]" value="1">
                             <input class="form-check-input" type="checkbox" name="is_working[1]" value="" id="is_working_tuesday">
                             <label for="flexCheckChecked">
                             Day-off / No work
@@ -175,7 +175,7 @@
                     </div>
                     <div class="col-md-3 mt-2-custom">
                         <div class="form-check">
-                            <input type="hidden" name="is_working[2]" value="0">
+                            <input type="hidden" name="is_working[2]" value="1">
                             <input class="form-check-input" type="checkbox" name="is_working[2]" value="" id="is_working_wednesday">
                             <label for="flexCheckChecked">
                             Day-off / No work
@@ -212,7 +212,7 @@
                     </div>
                     <div class="col-md-3 mt-2-custom">
                         <div class="form-check">
-                            <input type="hidden" name="is_working[3]" value="0">
+                            <input type="hidden" name="is_working[3]" value="1">
                             <input class="form-check-input" type="checkbox" name="is_working[3]" value="" id="is_working_thursday">
                             <label for="flexCheckChecked">
                             Day-off / No work
@@ -249,7 +249,7 @@
                     </div>
                     <div class="col-md-3 mt-2-custom">
                         <div class="form-check">
-                            <input type="hidden" name="is_working[4]" value="0">
+                            <input type="hidden" name="is_working[4]" value="1">
                             <input class="form-check-input" type="checkbox" name="is_working[4]" value="" id="is_working_friday">
                             <label for="flexCheckChecked">
                             Day-off / No work
@@ -286,7 +286,7 @@
                     </div>
                     <div class="col-md-3 mt-2-custom">
                         <div class="form-check">
-                            <input type="hidden" name="is_working[5]" value="0">
+                            <input type="hidden" name="is_working[5]" value="1">
                             <input class="form-check-input" type="checkbox" name="is_working[5]" value="" id="is_working_saturday">
                             <label for="flexCheckChecked">
                             Day-off / No work
@@ -323,7 +323,7 @@
                     </div>
                     <div class="col-md-3 mt-2-custom">
                         <div class="form-check">
-                            <input type="hidden" name="is_working[6]" value="0">
+                            <input type="hidden" name="is_working[6]" value="1">
                             <input class="form-check-input" type="checkbox" name="is_working[6]" value="" id="is_working_sunday">
                             <label for="flexCheckChecked">
                             Day-off / No work

@@ -238,7 +238,7 @@
             // newscheduledAppointment = formatDate(detail.scheduled_appointment);
             // console.log(detail);
             // $('.sidenav').css('opacity', '50%');
-            
+            console.log(detail);
             $('#patient_name').val(detail.name);
             $('#patient_age').val(detail.age);
             $('#patient_address').val(detail.address);

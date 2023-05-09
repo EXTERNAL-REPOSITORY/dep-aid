@@ -265,7 +265,7 @@
                 }
             });
             
-            $('#edit-anti-inflammatory-form').attr('action', `/anti-inflammatory/update`);
+            $('#edit-doctor-nurse-form').attr('action', `/doctor-nurse/update/${details.id}`);
         }
 
         function deleteDoctorNurse(btn) {

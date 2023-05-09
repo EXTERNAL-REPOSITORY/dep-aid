@@ -46,7 +46,7 @@ class DoctorNurseController extends Controller
     public function store(Request $request)
     {
         $this->doctorNurse->storeDoctorNurse($request);
-        return redirect()->route('doctor-nurse.index')->with('success', 'User added successfully');
+        return redirect()->route('doctor-nurse.index')->with('success', 'Doctor/Nurse added successfully');
     }
 
     /**
@@ -79,9 +79,10 @@ class DoctorNurseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateDoctorNurseRequest $request, $id)
     {
-        //
+        // $this->doctorNurse->updateDoctorNurse($request, $id);
+        return redirect()->route('doctor-nurse.index')->with('success', 'Doctor/Nurse updated successfully'.$id);
     }
 
     /**
@@ -92,7 +93,8 @@ class DoctorNurseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->doctorNurse->deleteDoctorNurse($id);
+        return redirect()->route('doctor-nurse.index')->with('success', 'Doctor/Nurse deleted successfully');
     }
 
     public function generatePdf(Request $request)

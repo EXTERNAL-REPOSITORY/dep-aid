@@ -72,12 +72,23 @@ class DoctorNurseRepository
 
     public function updateDoctorNurse($request, $doctorNurseId)
     {
-        
+        $query = Inventory::where('id', $antibioticId)->update([
+            'medicine_name' => $request->medicine_name,
+            'brand' => $request->brand,
+            'beginning_balance' => $request->beginning_balance,
+            'reorder_level' => $request->reorder_level,
+            'stock_balance' => $request->stock_balance,
+            'manufacturer_date' => $request->manufacturer_date,
+            'expiration_date' => $request->expiration_date,
+            'type' => $request->type,
+        ]);
+
+        return $query;
     }
 
-    public function deleteDoctorNurse($cardiacDrugsId)
+    public function deleteDoctorNurse($doctorNurseId)
     {
-
+        return DoctorNurse::where('employee_id',$doctorNurseId)->delete();
     }
 
     public function generatePdf()
@@ -112,7 +123,7 @@ class DoctorNurseRepository
 
     public function getSchedules($request)
     {
-        $result = DoctorNurse::where('availability_days', $request->day)->where('is_working', 0)->get();
+        $result = DoctorNurse::where('availability_days', $request->day)->where('is_working', 1)->get();
 
         return $result;
     }
