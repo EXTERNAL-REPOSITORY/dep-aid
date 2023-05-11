@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-icon.png">
   <link rel="icon" type="image/png" href="/img/logos/DEP-AID.png">
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
   <title>
     DEP-AID
   </title>
@@ -21,6 +22,7 @@
   <!-- CSS Files -->
   <link id="pagestyle" href="assets/css/argon-dashboard.css" rel="stylesheet" />
   <link href="./assets/css/custom.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
   <style>
     /* Chrome, Safari, Edge, Opera */
     input::-webkit-outer-spin-button,
@@ -38,6 +40,30 @@
     *{
         text-transform: uppercase !important;
     }
+
+    
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(255, 255, 255, 0.3);
+}
   </style>
 </head>
 
@@ -60,9 +86,7 @@
               </div>
               <div class="card-body">
                 <h6 class="text-center text-black">Please provide the following informations</h6>
-                <form role="form" method="POST" action="{{ route('patient-form.store') }}" id="add-patient-form"
-                  enctype="multipart/form-data">
-                  @csrf
+                <form role="form" id="add-patient-form" enctype="multipart/form-data">
                   <div class="tab">
                     <div class="row">
                       <div class="col-md-12 col-lg-6">
@@ -74,7 +98,7 @@
                         'name' => 'name',
                         'id' => 'name',
                         'placeholder' => 'Name',
-                        'required' =>'required'
+                        // 'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -87,7 +111,7 @@
                         'name' => 'age',
                         'id' => 'age',
                         'placeholder' => 'Age',
-                        'required' =>'required'
+                        // 'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -103,7 +127,7 @@
                         'id' => 'gender',
                         'value' => '',
                         'placeholder' => 'select...',
-                        'required' =>'required'
+                        // 'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -116,7 +140,7 @@
                         'name' => 'birthdate',
                         'id' => 'birthdate',
                         'placeholder' => 'Birthdate',
-                        'required' =>'required'
+                        // 'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -131,7 +155,7 @@
                         'name' => 'height',
                         'id' => 'height',
                         'placeholder' => 'Height',
-                        'required' =>'required'
+                        // 'required' =>'required'
                         ])
                         @slot('append', 'cm')
                         @endcomponent
@@ -145,7 +169,7 @@
                         'name' => 'weight',
                         'id' => 'weight',
                         'placeholder' => 'Weight',
-                        'required' =>'required'
+                        // 'required' =>'required'
                         ])
                         @slot('append', 'kl')
                         @endcomponent
@@ -165,7 +189,7 @@
                           'value' => '',
                           'placeholder' => 'select...',
                           'onchange'=>'address',
-                          'required' =>'required'
+                          // 'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -180,7 +204,7 @@
                           'value' => '',
                           'placeholder' => 'Select',
                           'onchange'=>'',
-                          'required' =>'required'
+                          // 'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -209,7 +233,7 @@
                         'name' => 'email',
                         'id' => 'email',
                         'placeholder' => 'Email',
-                        'required' =>'required'
+                        // 'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -224,7 +248,7 @@
                         'id' => 'contact-number',
                         'placeholder' => 'Contact Number',
                         'maxlength'=>'11',
-                        'required' =>'required'
+                        // 'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -245,7 +269,7 @@
                         'name' => 'heart_rate',
                         'id' => 'heart_rate',
                         'placeholder' => 'Heart Rate',
-                        'required' =>'required'
+                        // 'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -329,7 +353,7 @@
                         'id' => 'main_reason_for_consultation',
                         'value' => '',
                         'placeholder' => 'Select',
-                        'required' =>'required'
+                        // 'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -401,7 +425,7 @@
                     <div class="row mb-3">
                       <div class="col-md-12">
                         <div class="card">
-                          <div class="table-responsive">
+                          <div class="table-responsive" style="max-height:500px!important;overflow-y: auto">
                             <table class="table align-items-center mb-0">
                               <thead>
                                 <tr>
@@ -494,27 +518,27 @@
 </div>
 
 <script>
-  var chatbox = document.getElementById('fb-customer-chat');
-  chatbox.setAttribute("page_id", "101459382826787");
-  chatbox.setAttribute("attribution", "biz_inbox");
+  // var chatbox = document.getElementById('fb-customer-chat');
+  // chatbox.setAttribute("page_id", "101459382826787");
+  // chatbox.setAttribute("attribution", "biz_inbox");
 </script>
 
 <!-- Your SDK code -->
 <script>
-  window.fbAsyncInit = function () {
-    FB.init({
-      xfbml: true,
-      version: 'v15.0'
-    });
-  };
+  // window.fbAsyncInit = function () {
+  //   FB.init({
+  //     xfbml: true,
+  //     version: 'v15.0'
+  //   });
+  // };
 
-  (function (d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
+  // (function (d, s, id) {
+  //   var js, fjs = d.getElementsByTagName(s)[0];
+  //   if (d.getElementById(id)) return;
+  //   js = d.createElement(s); js.id = id;
+  //   js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+  //   fjs.parentNode.insertBefore(js, fjs);
+  // }(document, 'script', 'facebook-jssdk'));
 </script>
 <!-- END FACEBOOK PAGE BOT -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
@@ -524,10 +548,21 @@
   integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
   crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- <script src='https://cdn.jsdelivr.net/npm/botman-web-widget@0/build/js/widget.js'></script> -->
+
+<script type="text/javascript">
+  $.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+  });
+</script>
+
+
 <script>
 
   var districtList='<option value="">select...</option>';
   var barangayList='<option value="">select...</option>';
+  var tableRow='';
 
   var currentTab = 0; // Current tab is set to be the first tab (0)
   showTab(currentTab); // Display the current tab
@@ -545,8 +580,10 @@
     }
     if (n == (x.length - 1)) {
       document.getElementById("nextBtn").innerHTML = "Submit";
+      document.getElementById("nextBtn").setAttribute('type','submit');
     } else {
       document.getElementById("nextBtn").innerHTML = "Next";
+      document.getElementById("nextBtn").setAttribute('type','button');
     }
     // ... and run a function that displays the correct step indicator:
     fixStepIndicator(n)
@@ -564,7 +601,7 @@
     // if you have reached the end of the form... :
     if (currentTab >= x.length) {
       //...the form gets submitted:
-      document.getElementById("add-patient-form").submit();
+      // document.getElementById("add-patient-form").submit();
       return false;
     }
     // Otherwise, display the correct tab:
@@ -657,7 +694,56 @@
   }
 
 
+  async function validateSchedule(attending_id,start_date){
+    return new Promise(function(resolve, reject) {
+      // Only `delay` is able to resolve or reject the promise
+      $.ajax({
+        url: "{{ route('schedules-validate') }}",
+        method: "GET",
+        data: {
+          attending_id:attending_id,
+          start_date:start_date
+        },
+        success: function (response) {
+          // return ;
+          resolve(response); // After 3 seconds, resolve the promise with value 42
+        },
+        error: function (response) {
+          console.log(response);
+        }
+      });
+    });
+  }
+
+
 $(document).ready(function () {
+
+    $('#add-patient-form').submit(function(e){
+      e.preventDefault();
+      const formData = $(this).serializeArray().reduce((o,kv) => ({...o, [kv.name]: kv.value}), {});
+
+      const schedule = $('input[name="schedule"]:checked');
+      formData['employee_id']=schedule.data("employee_id");
+      formData['attending_id']=schedule.data("attending_id");
+      formData['day']=schedule.data("day");
+      formData['available_from']=schedule.data("available_from");
+      formData['available_to']=schedule.data("available_to");
+      $.ajax({
+        url: "{{ route('patient-form.store') }}",
+        method: "POST",
+        data: formData,
+        success: function (response) {
+          $('html').html(response);
+        },
+        error: function (response) {
+          console.log('aw');
+          console.log(response);
+        }
+      });
+    });
+
+
+
   $("#district").on('change', function (e) {
     e.preventDefault();
     $.ajax({
@@ -711,7 +797,7 @@ $(document).ready(function () {
       e.preventDefault();
 
       var selectDate = new Date(this.value).getDay();
-
+      var date_consult =new Date(this.value);
       $.ajax({
         url: "{{ route('getSchedules') }}",
         method: "GET",
@@ -719,56 +805,91 @@ $(document).ready(function () {
           day: selectDate
         },
         success: function (response) {
+          // console.log(response);
           var tableBody = $("table tbody");
 
           if (response == "") {
-            var tableRow = "<tr><td colspan='5' style='text-align: center;'>No Data Available</td></tr>";
-
+            tableRow = "<tr><td colspan='5' style='text-align: center;'>No Data Available</td></tr>";
             tableBody.html(tableRow);
           } else {
             tableBody.html("");
-
+            tableRow='';
+            
             response.forEach(element => {
-              var tableRow = `<tr>
-              <td>
-              <div>
-              <div class='form-check'>
-              <input class='form-check-input doctor-consulting' type='radio' name='doctor_consulting' id="flexRadioDefault'${element.id}'" value="${element.employee_id}">
-              </div>
-              </div>
-              </td>
-              <td>
-              <div class='d-flex px-2 py-1'>
-              <div class='d-flex flex-column justify-content-center'>
-              <h6 class='mb-0 text-xs'>${element.first_name??''} ${element.last_name??''}</h6>
-              </div>
-              </div>
-              </td>
-              <td>
-              <p class='text-xs font-weight-bold mb-0'>${element.position??''}</p>
-              </td>
-              <td class='align-middle text-center text-sm'>
-                <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${element.available_from??''}" readonly>
-              </td>
-              <td class='align-middle text-center text-sm'>
-                <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${element.available_to??''}" readonly>
-              </td>
-              </tr>
-              <input type='hidden' name='day' value='${selectDate}'>
-              <input type='hidden' name='available_from' value='${element.available_from}'>
-              <input type='hidden' name='available_to' value='${element.available_to}'>`;
+              var from = moment(new Date(date_consult.getFullYear()+'-'+date_consult.getMonth()+'-'+date_consult.getDate()+' '+element.available_from));
+              var to = moment(new Date(date_consult.getFullYear()+'-'+date_consult.getMonth()+'-'+date_consult.getDate()+' '+element.available_to));
+              
+              // From time calculations
+              let fromTime = moment(from, 'HH:mm');
+              let toTime = moment(to, 'HH:mm');
+              let noon = moment('12:00', 'HH:mm');
 
-              var tableBody = $("table tbody");
+              let duration = moment.duration(toTime.diff(fromTime));
+              let diff = duration.hours();
+              let time = moment(fromTime).add(0, 'hours').format('HH:mm');
+
+              for (i = 0; diff > i; i++) {
+                if(i==0){
+                  timef = moment(fromTime).add(i, 'hours').format('HH:mm');
+                  timet = moment(fromTime).add((i+1.5), 'hours').format('HH:mm');
+                }else{
+                  timef = moment(fromTime).add(i+1.5, 'hours').format('HH:mm');
+                  timet = moment(fromTime).add((i+2.5), 'hours').format('HH:mm');
+                }
+
+                if((timef.split(":")[0]!=12 && timet.split(":")[0]<=17)){
+                  // console.log(moment(new Date(date_consult)).format('MM'));
+                  var date_from = moment(new Date(date_consult.getFullYear()+'-'+moment(new Date(date_consult)).format('MM')+'-'+date_consult.getDate()+' '+timef+':00')).format('Y-MM-DD hh:mm:ss');
+                  // validateSchedule(element.id,date_from).then(status => {
+                  //   console.log('date from ');
+                  //   // Enter database validation here.....
+                    
+                  //   if(status=='0'){
+                      // console.log(element);
+                      tableRow += `<tr>
+                        <td>
+                          <div>
+                            <div class='form-check'>
+                              <input class='form-check-input schedule' type='radio' name='schedule' id="flexRadioDefault${element.id}" 
+                              value="${element.id}" data-employee_id="${element.employee_id}" data-attending_id="${element.id}"
+                              data-day="${selectDate}" data-available_from="${timef}:00" data-available_to="${timet}:00">
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class='d-flex px-2 py-1'>
+                            <div class='d-flex flex-column justify-content-center'>
+                              <h6 class='mb-0 text-xs'>${element.first_name??''} ${element.last_name??''}</h6>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <p class='text-xs font-weight-bold mb-0'>${element.position??''}</p>
+                        </td>
+                        <td class='align-middle text-center text-sm'>
+                          <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timef??''}" readonly>
+                        </td>
+                        <td class='align-middle text-center text-sm'> 
+                          <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timet??''}" readonly>
+                        </td>
+                      </tr>`;
+                  //   }else{
+                  //     console.log('naa');
+                  //   }
+                  // });  
+                }
+              }
               tableBody.append(tableRow);
-            });
+              // console.log(moment(new Date(date_consult.getFullYear()+'-'+date_consult.getMonth()+'-'+date_consult.getDate()+' '+element.available_from)).subtract('01:14:00').format('h:mm A'));
+            });            
           }
         },
         error: function (response) {
 
         }
       })
-    })
-  })
+    });
+  });
 
       // var botmanWidget = {
 	    //     aboutText: 'DEP-AID',

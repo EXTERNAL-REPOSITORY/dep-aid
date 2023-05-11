@@ -53,6 +53,9 @@ Route::post('/done/{id}', [MainController::class, 'done'])->name('patient-queued
 //Get Schedule of Doctor for Patient Form
 Route::get('/get-schedules', [DoctorNurseController::class, 'getSchedules'])->name('getSchedules');
 
+//Schedules public
+Route::get('/schedules/validate', [ScheduleController::class, 'validateSchedule'])->name('schedules-validate');
+
 //FOR LIVE USE ONLY
 // Route::match(['get', 'post'], 'public/botman', [BotManController::class, 'handle'])->name('handle'); 
 
@@ -76,7 +79,6 @@ Route::group(['middleware' => 'auth'], function () {
 	//Schedules
 	Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
 	Route::post('/schedules/store', [ScheduleController::class, 'store'])->name('schedules.store');
-	
 
 	//Patient Queued
 	Route::get('/patient-queued', [PatientQueuedController::class, 'index'])->name('patient-queued.index');

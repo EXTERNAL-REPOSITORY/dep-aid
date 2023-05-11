@@ -94,7 +94,7 @@ class PatientFormRepository
             'allergies' => $request->allergies,
             'maintenance_medications' => $request->maintenance_medications,
             'current_medications' => $request->current_medications,
-            'doctor_consulting' => $request->doctor_consulting,
+            'doctor_consulting' => $request->attending_id,
             'available_from' => $request->available_from,
             'available_to' => $request->available_to,
             'day' => $jsonDays[$request->day],
@@ -103,21 +103,20 @@ class PatientFormRepository
         ]);
         $patientFormId = $patientForm->id;
         
-
         $from = \Carbon\Carbon::parse($request->date." ".($request->available_from??'00:00:00'))->format('Y-m-d H:i');
         $to = \Carbon\Carbon::parse($request->date." ".($request->available_to??'00:00:00'))->format('Y-m-d H:i');
 
 
         $schedule = Schedule::create([
             'patient_form_id' => $patientFormId,
+            'attending_id' => $request->attending_id,
             'text' => "Name: ".$request->name." Age:".$request->age." Gender:".$request->gender." ".$request->current_medications." ".$request->main_reason_for_consultation,
             'start_date' =>  $from,
             'end_date' => $to,
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now()
         ]);
-
-
+        
         $data = [
             'title' => 'Appointment Details - Dep-Aid Malaybalay Bukidnon',
             'body' => '
@@ -131,8 +130,10 @@ Please be on time, thank you!
             ',
         ];
          
-        try {        
-            Mail::to($request->email)->send(new SendMail($data));
+        try {
+            if($request->email!=null){
+                Mail::to($request->email)->send(new SendMail($data));
+            }
             return array('patientForm' => $patientForm,'date' => \Carbon\Carbon::parse($request->date)->format('F d, Y'),
             'start' => \Carbon\Carbon::parse($from)->format('g:i A'), 
             'end' => \Carbon\Carbon::parse($to)->format('g:i A') );
