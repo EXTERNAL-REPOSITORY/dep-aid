@@ -106,11 +106,12 @@ class PatientFormRepository
         $from = \Carbon\Carbon::parse($request->date." ".($request->available_from??'00:00:00'))->format('Y-m-d H:i');
         $to = \Carbon\Carbon::parse($request->date." ".($request->available_to??'00:00:00'))->format('Y-m-d H:i');
 
+        $sched_text = "Name: ".$request->name." Age:".$request->age." Gender:".$request->gender." ".$request->current_medications." ".$request->main_reason_for_consultation;
 
         $schedule = Schedule::create([
             'patient_form_id' => $patientFormId,
             'attending_id' => $request->attending_id,
-            'text' => "Name: ".$request->name." Age:".$request->age." Gender:".$request->gender." ".$request->current_medications." ".$request->main_reason_for_consultation,
+            'text' => $sched_text,
             'start_date' =>  $from,
             'end_date' => $to,
             'created_at' => \Carbon\Carbon::now(),
