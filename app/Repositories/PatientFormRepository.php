@@ -13,6 +13,7 @@ use PDF;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMail;
+use Illuminate\Http\Request;
 
 class PatientFormRepository
 {
@@ -143,6 +144,11 @@ Please be on time, thank you!
         }
     }
 
+    public function updatePatientForm()
+    {
+        # code...
+    }
+
     public function donePatient($request) 
     {
         $query = PatientForm::where('id', $request->id)->update([
@@ -156,7 +162,7 @@ Please be on time, thank you!
         return PatientForm::find($request->id)->delete();
     }
 
-    public function generatePdf()
+    public function generatePdf(Request $request)
     {
         $requestData = [
             'search' => isset($request->search) ? $request->search : ""

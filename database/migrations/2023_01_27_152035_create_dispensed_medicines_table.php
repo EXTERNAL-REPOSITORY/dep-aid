@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('medicine_id')->references('id')->on('inventory');
             $table->foreignId('patient_form_id')->reference('id')->on('patient_form')->comment('person got the medicine');
+            $table->string('patient_name')->nullable();
             $table->integer('quantity')->default(0);
             $table->string('remarks')->nullable();
             $table->timestamps();
