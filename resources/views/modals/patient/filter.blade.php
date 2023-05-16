@@ -10,6 +10,11 @@
         <form action="{{ route('patient-queued.index') }}" method="GET" id="filter-patient" enctype="multipart/form-data">
             <div class="modal-body">
                 <div class="row">
+                    <div class="col-md-12">
+                        <h6 class="fw-bold">Scheduled Appointment</h6>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                           <label for="example-date-input" class="form-control-label">From</label>

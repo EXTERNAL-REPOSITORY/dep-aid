@@ -202,7 +202,8 @@
             <div class="card">
                 <div class="card-body">
                     <div class="col">
-                        <h6 class="font-weight-bolder text-uppercase">Top 5 Medicines</h6>
+                        <h6 class="font-weight-bolder text-uppercase">Top 5 inventory Medicines</h6>
+                        <small>Most medicines inside inventory</small>
                     </div>
                     <div id="topFiveMedsChart" class="mx-auto d-flex justify-content-center"><center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</center></div>
                 </div>
@@ -210,6 +211,20 @@
         </div>
     </div>
     
+    <div class="row mb-3">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="col">
+                        <h6 class="font-weight-bolder text-uppercase">Top 5 Dispensed Medicines</h6>
+                        <small>Most medicines dispensed to patients</small>
+                    </div>
+                    <div id="topFiveDispensedMedsChart" class="mx-auto d-flex justify-content-center"><center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</center></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row mt-3 mb-3">
         <div class="col-xl-12 col-md-12 col-sm-12 mb-xl-0 mb-4">
             <div class="card">
@@ -303,6 +318,7 @@
 --}}
 <script type="text/javascript">
     drawChartPie();
+    drawChartPie2();
     drawChartTopIllnes(1);
 
     function drawChartTopIllnes(month) {
@@ -408,6 +424,40 @@
         // setTimeout(function () {
             $("#topFiveMedsChart").html("");
             var chart = new ApexCharts(document.querySelector("#topFiveMedsChart"), options);
+            chart.render();
+        // },3000);
+    }
+
+    function drawChartPie2() {
+        var options = {
+            series: [],
+            chart: {
+                width: 380,
+                type: 'donut',
+            },
+            labels: [],
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }],
+        };
+
+        const topDispensedMedicines = JSON.parse('{!! $topDispensedMeds !!}');
+        topDispensedMedicines.filter(function (element) {
+            options.series.push(parseInt(`${element.med_count}`));
+            options.labels.push(`${element.medicine_name}`);
+        });
+
+        // setTimeout(function () {
+            $("#topFiveDispensedMedsChart").html("");
+            var chart = new ApexCharts(document.querySelector("#topFiveDispensedMedsChart"), options);
             chart.render();
         // },3000);
     }

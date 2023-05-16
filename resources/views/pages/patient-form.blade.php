@@ -593,7 +593,7 @@
     // This function will figure out which tab to display
     var x = document.getElementsByClassName("tab");
     // Exit the function if any field in the current tab is invalid:
-    // if (n == 1 && !validateForm()) return false;
+    if (n == 1 && !validateForm()) return false;
     // Hide the current tab:
     x[currentTab].style.display = "none";
     // Increase or decrease the current tab by 1:
@@ -694,22 +694,39 @@
   }
 
 
-  async function validateSchedule(attending_id,start_date){
+  // async function validateSchedule(attending_id,start_date){
+  //   return new Promise(function(resolve, reject) {
+  //     // Only `delay` is able to resolve or reject the promise
+  //     $.ajax({
+  //       url: "{{ route('schedules-validate') }}",
+  //       method: "GET",
+  //       data: {
+  //         attending_id:attending_id,
+  //         start_date:start_date
+  //       },
+  //       success: function (response) {
+  //         // return ;
+  //         resolve(response); // After 3 seconds, resolve the promise with value 42
+  //       },
+  //       error: function (response) {
+  //         console.log(response);
+  //       }
+  //     });
+  //   });
+  // }
+
+  async function validateSchedule(date){
     return new Promise(function(resolve, reject) {
       // Only `delay` is able to resolve or reject the promise
       $.ajax({
         url: "{{ route('schedules-validate') }}",
         method: "GET",
-        data: {
-          attending_id:attending_id,
-          start_date:start_date
-        },
+        data: {start_date:date},
         success: function (response) {
-          // return ;
-          resolve(response); // After 3 seconds, resolve the promise with value 42
+          resolve(response);
         },
         error: function (response) {
-          console.log(response);
+          reject(response);
         }
       });
     });
@@ -793,11 +810,16 @@ $(document).ready(function () {
   });
 
     
-    $('#date-for-consultation').on('change', function (e) {
+    $('#date-for-consultation').on('change', async function (e) {
       e.preventDefault();
 
       var selectDate = new Date(this.value).getDay();
       var date_consult =new Date(this.value);
+      var dateFrom = moment(new Date(date_consult.getFullYear()+'-'+moment(new Date(date_consult)).format('MM')+'-'+date_consult.getDate())).format('Y-MM-DD');
+      
+      var scheds = [];
+      await validateSchedule(dateFrom).then((value) => {scheds=value;});
+
       $.ajax({
         url: "{{ route('getSchedules') }}",
         method: "GET",
@@ -816,6 +838,7 @@ $(document).ready(function () {
             tableRow='';
             
             response.forEach(element => {
+              // console.log(element);
               var from = moment(new Date(date_consult.getFullYear()+'-'+date_consult.getMonth()+'-'+date_consult.getDate()+' '+element.available_from));
               var to = moment(new Date(date_consult.getFullYear()+'-'+date_consult.getMonth()+'-'+date_consult.getDate()+' '+element.available_to));
               
@@ -840,43 +863,82 @@ $(document).ready(function () {
                 if((timef.split(":")[0]!=12 && timet.split(":")[0]<=17)){
                   // console.log(moment(new Date(date_consult)).format('MM'));
                   var date_from = moment(new Date(date_consult.getFullYear()+'-'+moment(new Date(date_consult)).format('MM')+'-'+date_consult.getDate()+' '+timef+':00')).format('Y-MM-DD hh:mm:ss');
-                  // validateSchedule(element.id,date_from).then(status => {
-                  //   console.log('date from ');
-                  //   // Enter database validation here.....
+                  // Enter database validation here.....          
+                  scheds.forEach(el=>{
+                  // console.log("ASDASDASD");
+                  // console.log(el.attending_id +'=='+element.id);
+                  // console.log(date_from +'=='+el.start_date);
+                  // console.log(el.attending_id);
+                  // console.log(element.id);
                     
-                  //   if(status=='0'){
-                      // console.log(element);
+                    // console.log((el.attending_id==element.id && el.start_date==date_from)+' '+(el.attending_id==element.id)+" && "+(el.start_date==date_from));
+
+                    if(el.attending_id==element.id && el.start_date==date_from){
+                      console.log((el.attending_id)+" && "+(date_from));
+                    }else{
+                      
                       tableRow += `<tr>
-                        <td>
-                          <div>
-                            <div class='form-check'>
-                              <input class='form-check-input schedule' type='radio' name='schedule' id="flexRadioDefault${element.id}" 
-                              value="${element.id}" data-employee_id="${element.employee_id}" data-attending_id="${element.id}"
-                              data-day="${selectDate}" data-available_from="${timef}:00" data-available_to="${timet}:00">
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <div class='d-flex px-2 py-1'>
-                            <div class='d-flex flex-column justify-content-center'>
-                              <h6 class='mb-0 text-xs'>${element.first_name??''} ${element.last_name??''}</h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <p class='text-xs font-weight-bold mb-0'>${element.position??''}</p>
-                        </td>
-                        <td class='align-middle text-center text-sm'>
-                          <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timef??''}" readonly>
-                        </td>
-                        <td class='align-middle text-center text-sm'> 
-                          <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timet??''}" readonly>
-                        </td>
-                      </tr>`;
-                  //   }else{
-                  //     console.log('naa');
-                  //   }
-                  // });  
+                            <td>
+                              <div>
+                                <div class='form-check'>
+                                  <input class='form-check-input schedule' type='radio' name='schedule' id="flexRadioDefault${element.id}" 
+                                  value="${element.id}" data-employee_id="${element.employee_id}" data-attending_id="${element.id}"
+                                  data-day="${selectDate}" data-available_from="${timef}:00" data-available_to="${timet}:00">
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class='d-flex px-2 py-1'>
+                                <div class='d-flex flex-column justify-content-center'>
+                                  <h6 class='mb-0 text-xs'>${element.first_name??''} ${element.last_name??''}</h6>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <p class='text-xs font-weight-bold mb-0'>${element.position??''}</p>
+                            </td>
+                            <td class='align-middle text-center text-sm'>
+                              <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timef??''}" readonly>
+                            </td>
+                            <td class='align-middle text-center text-sm'> 
+                              <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timet??''}" readonly>
+                            </td>
+                          </tr>`;
+                      // console.log('NAA');
+                    }
+                    // if(el.attending_id==element.id && el.start_date==date_from){
+                    //   console.log('GG');
+                    //   console.log(element);
+                    // }else{
+                    //   tableRow += `<tr>
+                    //     <td>
+                    //       <div>
+                    //         <div class='form-check'>
+                    //           <input class='form-check-input schedule' type='radio' name='schedule' id="flexRadioDefault${element.id}" 
+                    //           value="${element.id}" data-employee_id="${element.employee_id}" data-attending_id="${element.id}"
+                    //           data-day="${selectDate}" data-available_from="${timef}:00" data-available_to="${timet}:00">
+                    //         </div>
+                    //       </div>
+                    //     </td>
+                    //     <td>
+                    //       <div class='d-flex px-2 py-1'>
+                    //         <div class='d-flex flex-column justify-content-center'>
+                    //           <h6 class='mb-0 text-xs'>${element.first_name??''} ${element.last_name??''}</h6>
+                    //         </div>
+                    //       </div>
+                    //     </td>
+                    //     <td>
+                    //       <p class='text-xs font-weight-bold mb-0'>${element.position??''}</p>
+                    //     </td>
+                    //     <td class='align-middle text-center text-sm'>
+                    //       <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timef??''}" readonly>
+                    //     </td>
+                    //     <td class='align-middle text-center text-sm'> 
+                    //       <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timet??''}" readonly>
+                    //     </td>
+                    //   </tr>`;
+                    // }
+                  });
                 }
               }
               tableBody.append(tableRow);
@@ -887,7 +949,7 @@ $(document).ready(function () {
         error: function (response) {
 
         }
-      })
+      });
     });
   });
 

@@ -39,6 +39,7 @@ use App\Http\Controllers\NearExpiryMedsController;
 use App\Http\Controllers\ReorderLevelController;
 use App\Http\Controllers\DispensedMedicinesController;
 use App\Mail\SendMail;
+use App\Models\Inventory;
 use App\Models\SendDiagnosis;
 
 //Patient Form
@@ -83,6 +84,7 @@ Route::group(['middleware' => 'auth'], function () {
 	//Patient Queued
 	Route::get('/patient-queued', [PatientQueuedController::class, 'index'])->name('patient-queued.index');
 	Route::post('/patient-queued/store', [PatientQueuedController::class, 'store'])->name('patient-queued.store');
+	Route::get('/patient-queued/list', [PatientQueuedController::class, 'getQueuedPatients'])->name('patient-queued.list');
 	Route::put('/patient-queued/update/{id}', [PatientQueuedController::class, 'update'])->name('patient-queued.update');
 	Route::delete('/patient-queued/destroy/{id}', [PatientQueuedController::class, 'destroy'])->name('patient-queued.destroy');
 	Route::get('/patient-queued/generate-pdf', [PatientQueuedController::class, 'generatePdf'])->name('patient-queued.generatePdf');
@@ -151,7 +153,12 @@ Route::group(['middleware' => 'auth'], function () {
 	// Forecast Illness
 	Route::get('/top-illness', [DeseaseForecastController::class, 'getTopTen'])->name('top-illness.topTen');	
 
+	// Prescribing/Dispensing
+	//Patient Dispensing
+	Route::get('/patient-dispensing', [DispensedMedicinesController::class, 'index'])->name('patient-dispensing.index');
+	Route::post('/patient-dispensing/store', [DispensedMedicinesController::class, 'store'])->name('patient-dispensing.store');
 
-	// Prescribing/Despensing
-	Route::post('/despensing', [DispensedMedicinesController::class, 'store'])->name('despensing.store');
+	// Inventory Meds
+	Route::get('/inventory-medicines/all', [InventoryController::class, 'getIventoryMeds'])->name('inventory-medicines.all');
+
 });

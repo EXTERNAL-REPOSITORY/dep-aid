@@ -1,23 +1,25 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
-
+@push('links')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endpush
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Patients'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Dispensing'])
     <div class="container-fluid py-4">
         <div class="row mt-4">
             <div class="col-lg-12 mb-lg-0 mb-4">
                 <div class="card z-index-2 h-100" style="background-color: transparent; border: none; box-shadow: none;">
                     <div class="col-lg-12 col-md-12 d-flex justify-content-end">
-                        <button class="btn bg-gradient-info z-index-2 me-2" data-bs-toggle="modal" data-bs-target="#filterPatient">Filter</button>
-                        <button type="button" class="btn bg-gradient-info z-index-2 me-2" onclick="generateReport();">Generate Report</button>
-                        {{-- <button type="button" class="btn bg-gradient-success z-index-2" data-bs-toggle="modal" data-bs-target="#addPatient">Add Patient</button> --}}
+                        {{-- <button class="btn bg-gradient-info z-index-2 me-2" data-bs-toggle="modal" data-bs-target="#filterMedicines">Filter</button>
+                        <button type="button" class="btn bg-gradient-info z-index-2 me-2" onclick="generateReport();">Generate Report</button> --}}
+                        <button type="button" class="btn bg-gradient-success z-index-2" data-bs-toggle="modal" data-bs-target="#dispensePatient"><i class="fa-solid fa-capsules opacity-10"></i> Dispense</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-6 col-md-6">
-                <form action="{{route('patient-queued.index')}}" method="GET">
+                <form action="{{route('patient-dispensing.index')}}" method="GET">
                     <div class="form-group">
                         <div class="input-group">
                             <input class="form-control" type="text" placeholder="Search.." name="search" value="{{ $requestData['search'] }}">
@@ -35,35 +37,42 @@
                             <table class="table align-items-center mb-0">
                               <thead>
                                 <tr>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">ID</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text ps-2">Patient Name</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Request Date</th>
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Reason/s for Consultation <br>(chief complaint)</th>
-                                  {{-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Remarks</th> --}}
-                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Action</th>
+                                  <th class="text-justify text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text ps-2">Medicine Type</th>
+                                  <th class="text-justify text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text ps-2">Medicine Name</th>
+                                  <th class="text-justify text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text ps-2">Patient Name</th>
+                                  {{-- <th class="text-justify text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text ps-2">Doctor/Nurse</th> --}}
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Quantity</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Remarks</th>
+                                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Date</th>
+                                  <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Action</th> -->
                                 </tr>
                               </thead>
                               <tbody>
 
-                                @forelse ($patient as $index => $row)
+                                @forelse ($dispensedMedicines as $index => $row)
                                     <tr class="text-center">
-                                        <td>
-                                            <p class="text-xs font-weight-bold table-text mb-0">{{ $row->id }}</p>
+                                        <td class="text-justify">
+                                            <p class="text-xs font-weight-bold table-text mb-0 text-left">{{ $row->type }}</p>
                                         </td>
                                         <td class="text-justify">
-                                            <p class="text-xs font-weight-bold table-text mb-0 text-uppercase">{{ ucfirst($row->name) }}</p>
+                                            <p class="text-xs font-weight-bold table-text mb-0">{{ $row->medicine_name }}</p>
+                                        </td>
+                                        <td class="text-justify">
+                                            <p class="text-xs font-weight-bold table-text mb-0">{{ $row->patient_form_id==null?$row->patient_name:$row->name}}</p>
+                                        </td>
+                                        {{-- <td class="text-justify">
+                                            <p class="text-xs font-weight-bold table-text mb-0">{{ $row->first_name." ".$row->middle_name." ".$row->last_name}}</p>
+                                        </td> --}}
+                                        <td>
+                                            <p class="text-xs font-weight-bold table-text mb-0">{{ $row->quantity }}</p>
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold table-text mb-0">{{ $row->remarks }}</p>
                                         </td>
                                         <td class="align-middle">
-                                            <span class="text-secondary text-xs font-weight-bold table-text text-uppercase">{{ date('M d, Y h:i A', strtotime($row->created_at)) }}</span>
+                                            <span class="text-secondary text-xs font-weight-bold table-text text-uppercase">{{ date('F d, Y h:i A', strtotime($row->dispensed_date)) }}</span>
                                         </td>
-                                        <td class="align-middle">
-                                            <p class="text-xs font-weight-bold table-text mb-0 text-uppercase"><b>{{ $row->main_reason_for_consultation }}</b> 
-                                            @if($row->other_reason_for_consultation !=null && $row->other_reason_for_consultation !=$row->main_reason_for_consultation)
-                                                <br>, <b>{{$row->other_reason_for_consultation }}</b>
-                                           @endif
-                                           </p>
-                                        </td>
-                                        <td class="align-middle">
+                                        {{-- <td class="align-middle">
                                             <input type="hidden" id="patient-details-{{$row->id}}" data-detail="{{ $row }}">
                                             <button 
                                                 type="button" 
@@ -88,7 +97,7 @@
                                                 class="btn bg-gradient-success z-index-2 drop" 
                                                 data-bs-toggle="modal" 
                                                 data-bs-target="#prescriptionModal"
-                                                data-url="{{ route('patient-dispensing.store') }}"
+                                                data-url="{{ route('despensing.store') }}"
                                                 title="Add Prescription"
                                                 onclick = "prescribe('{{ $row->id }}', this)">
                                                 <i class="fa-solid fa-prescription text-sm opacity-10"></i>
@@ -125,7 +134,7 @@
                                                 </button>
                                             @endif
                                            
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                 @empty
                                     <tr>
@@ -138,7 +147,7 @@
                         <div class="table-pagination p-5">
                             <div class="row">
                                 <div class="row col-sm-12 col-md-12 col-lg-12 font-weight-600"">
-                                    {{$patient->appends(['search' => isset($requestData->search) ? $requestData->search : null])->links('components.pagination')}}
+                                    {{$dispensedMedicines->appends(['search' => isset($requestData->search) ? $requestData->search : null])->links('components.pagination')}}
                                 </div>
                             </div>
                         </div>
@@ -151,12 +160,14 @@
     @include('modals.patient.schedulePatient')
     @include('modals.patient.filter')
     @include('modals.patient.prescription')
+    @include('modals.patient.dispense')
     @include('modals.delete')
     @include('modals.done')
     @include('modals.send')
 @endsection
 
 @push('js')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script>
         $('.close-modal').on('click', function(){
@@ -325,5 +336,97 @@
 			document.body.innerHTML = originalContents;
 		}
 
+        function allMedicines(){
+            $.ajax({
+                type: 'GET',
+                url: `{{ route('inventory-medicines.all') }}`,
+                // xhrFields: {
+                //     responseType: 'blob'
+                // },
+                success: function(response){
+                    console.log(response);
+                    var options='';
+                    response.medicines.map(element=>{
+                        options+=`<option value="${element.id}">${element.medicine_name} (${element.type} - ${element.stock_balance})</option>`;
+                    });
+                    $('#medicine').html(`
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class>Patient Name</label>
+                                <select name="medicine_id" id="medicine-select" class="selectpicker form-control" style="width:100%!important;">
+                                    ${options}
+                                </select>
+                            </div>
+                        </div>
+                    </div>`);
+                    $('#medicine-select').select2({dropdownParent: $('#dispensePatient')});
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            });
+        }
+        
+        function searchPatient() {
+            $.ajax({
+                type: 'GET',
+                url: `{{ route('patient-queued.list') }}`,
+                // xhrFields: {
+                //     responseType: 'blob'
+                // },
+                success: function(response){
+                    console.log(response);
+                    // {{--const patientForm = JSON.parse(`{!! $patientForm !!}`);--}}
+                    var options='';
+                    response.patients.map(element=>{
+                        options+=`<option value="${element.id}">${element.name} (${element.gender})</option>`;
+                    });
+                    $('#patient').html(`
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class>Patient Name</label>
+                                <select name="patient_form_id" id="patient-select" class="selectpicker form-control" style="width:100%!important;">
+                                    ${options}
+                                </select>
+                            </div>
+                        </div>
+                    </div>`);
+                    $('#patient-select').select2({dropdownParent: $('#dispensePatient')});
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            });
+        }
+
     </script>
+
+    
+  <script>
+    $(document).ready(function() { 
+        allMedicines();
+        $('.radio_patient').on('change',function(e){
+            if(this.value=='out_patient'){
+                $('#patient').html(`
+                <div class="row">
+                    <div class="col-12">
+                        @component('components.inputs.input')
+                            @slot('label', 'Patient Name')
+                            @slot('attributes', [
+                                'class' => 'form-control',
+                                'type' => 'text',
+                                'name' => 'patient_name',
+                            ])          
+                        @endcomponent
+                    </div>
+                </div>`);
+            }else{
+                searchPatient();
+            }
+        });
+        $('input[value="patient_list').trigger( "click" );
+    });
+  </script>
 @endpush

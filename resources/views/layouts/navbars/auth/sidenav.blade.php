@@ -23,12 +23,14 @@
             </li>
             <li class="nav-item">
                 <a 
-                    class="nav-link 
-                    {{ Route::currentRouteName() == 'cardiac-drugs.index' ? 'active' : ''}} 
-                    {{ Route::currentRouteName() == 'anti-inflammatory.index' ? 'active' : ''  }} 
-                    {{ Route::currentRouteName() == 'ear-meds.index' ? 'active' : ''  }} 
-                    {{ Route::currentRouteName() == 'topicals.index' ? 'active' : ''  }} 
-                    {{ Route::currentRouteName() == 'antibiotics.index' ? 'active' : ''  }}" 
+                    class="nav-link {{ in_array(Route::currentRouteName() , ['cardiac-drugs.index',
+                    'anti-inflammatory.index',
+                    'ear-meds.index',
+                    'topicals.index',
+                    'antibiotics.index',
+                    'near-expiry-meds.index',
+                    'reorder-lvl-meds.index',
+                    'expired-meds.index']) ? 'active' : ''}}" 
                     href="#">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -126,13 +128,39 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ Route::currentRouteName() == 'patient-queued.index' ? 'active' : '' }}" href="{{ route('patient-queued.index') }}">
+                <a 
+                    class="nav-link {{ in_array(Route::currentRouteName() , ['patient-queued.index',
+                    'patient-dispensing.index',]) ? 'active' : ''}}" 
+                    href="#">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fa fa-user text-info text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Patients</span>
                 </a>
+
+                <div class="ms-4">
+                    <ul class="nav nav-sm flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link {{ Route::currentRouteName() == 'patient-queued.index' ? 'active' : '' }}" href="{{ route('patient-queued.index') }}">
+                                <div
+                                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="fa fa-users text-info text-sm opacity-10"></i>
+                                </div>
+                                Patient List
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Route::currentRouteName() == 'patient-dispensing.index' ? 'active' : '' }}" href="{{ route('patient-dispensing.index') }}">
+                                <div
+                                    class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="fa-solid fa-capsules text-info text-sm opacity-10"></i>
+                                </div>
+                                Patient Dispensing
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{ Route::currentRouteName() == 'doctor-nurse.index' ? 'active' : '' }}" href="{{ route('doctor-nurse.index') }}">

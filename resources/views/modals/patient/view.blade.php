@@ -270,8 +270,6 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="example-date-input" class="form-control-label">Scheduled Appointment</label>
-                            <input class="form-control" type="date" value="" name="scheduled_appointment"
-                                id="scheduled_appointment" min="{{date('Y-m-d')}}">
                             <small id="scheduled_appointment"></small>
                         </div>
                     </div>

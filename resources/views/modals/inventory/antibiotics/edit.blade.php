@@ -67,12 +67,12 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-2">
+                    <!-- <div class="col-md-2">
                         <a href="javascript:void(0)" class="btn btn-default mt-4 stock-balance-btn" id="minus-btn">
                             <i class="fa-solid fa-minus"></i>
                         </a>
-                    </div>
-                    <div class="col-md-8">
+                    </div> -->
+                    <div class="col-md-12">
                         @component('components.inputs.input')
                             @slot('label', 'Stock Balance')
                             @slot('attributes', [
@@ -81,15 +81,15 @@
                                 'name' => 'stock_balance',
                                 'id' => 'edit_stock_balance',
                                 'placeholder' => 'Stock Balance',
-                                'value' => '',
+                                'readonly' => true
                             ])          
                         @endcomponent
                     </div>
-                    <div class="col-md-2">
+                    <!-- <div class="col-md-2">
                         <a href="javascript:void(0)" class="btn btn-default mt-4 stock-balance-btn" id="add-btn">
                             <i class="fa-solid fa-plus"></i>
                         </a>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="row">
                     <div class="col-md-12">
