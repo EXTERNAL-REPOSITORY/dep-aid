@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventory;
 use Illuminate\Http\Request;
 
 class InventoryController extends Controller
@@ -80,5 +81,11 @@ class InventoryController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getIventoryMeds()
+    {
+        $medicines = Inventory::whereRaw('inventory.expiration_date >= NOW() AND stock_balance>0')->get();
+        return compact('medicines');
     }
 }

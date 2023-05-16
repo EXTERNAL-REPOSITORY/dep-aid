@@ -3,18 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\DispensedMedicines;
+use App\Models\Inventory;
 use Illuminate\Http\Request;
+use App\Repositories\DispensedMedicinesRepository;
+use Carbon\Carbon;
 
 class DispensedMedicinesController extends Controller
 {
+    public $dispensedMedicines;
+
+    public function __construct(DispensedMedicinesRepository $dispensedMedicines)
+    {
+        $this->dispensedMedicines = $dispensedMedicines;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $result = $this->dispensedMedicines->getAllDispensedMedicines($request);
+        return view('pages.patient-dispensing', $result);
     }
 
     /**
@@ -35,14 +45,32 @@ class DispensedMedicinesController extends Controller
      */
     public function store(Request $request)
     {
-        $dispensed = DispensedMedicines::insert([
-            'medicine_id' => $request->medicine_id,
-            'patient_form_id' =>  $request->patient_form_id,
-            'quantity' => $request->quantity,
-            'remarks' => $request->remarks
-        ]);
 
-        return $dispensed;
+        $inventory = Inventory::select('stock_balance')->where(['id'=>$request->medicine_id])->first();
+        $newStockBalance = intval($inventory->stock_balance)-intval($request->quantity);
+        // dd(intval($request->quantity) >0 && intval($inventory->stock_balance)>=intval($request->quantity));
+        // dd([intval($request->quantity),intval($request->quantity) >0]);
+
+        
+        if(intval($request->quantity) ==0){
+            return redirect()->route('patient-dispensing.index')->with('error', 'Requested medicine quantity is 0');
+        }else
+        if(intval($request->quantity) >0 && intval($inventory->stock_balance)>=intval($request->quantity)){
+            $dispensed = DispensedMedicines::insert([
+                'medicine_id' => $request->medicine_id,
+                'patient_form_id' =>  $request->patient_form_id,
+                'patient_name' =>  $request->patient_name,
+                'quantity' => $request->quantity,
+                'remarks' => $request->remarks,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ]);
+            
+            $updatInventory = Inventory::where(['id'=>$request->medicine_id])->update(['stock_balance'=>$newStockBalance]);
+            return redirect()->route('patient-dispensing.index')->with('success', 'Medicine Dispensed Successfully');
+        }else{
+            return redirect()->route('patient-dispensing.index')->with('error', 'Requested medicine quantity is greater than stock balance!!! Error: Quantity:'.$request->quantity.' > Stock Balance:'.$inventory->stock_balance);
+        }
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
+use App\Models\DispensedMedicines;
 use App\Models\Schedule;
 use App\Models\Patient;
 use App\Models\PatientForm;
@@ -58,6 +59,12 @@ class HomeController extends Controller
             }
         }
         $getTopMedicines = Inventory::orderBy('stock_balance', 'DESC')->select('medicine_name', 'stock_balance')->take(5)->get();
-        return view('pages.dashboard')->with(['patients' => $patients, 'schedule' => $schedule, 'inventory' => $inventory, 'getTopMedicines' => $getTopMedicines]);
+        $getTopDispensedMedicines = DispensedMedicines::select("*")
+        ->selectRaw('COUNT(`medicine_id`) AS med_count')
+        ->join('inventory','dispensed_medicines.medicine_id','=','inventory.id','INNER')
+        ->groupBy('medicine_id')
+        ->orderBy('med_count', 'DESC')->take(5)->get();
+        return view('pages.dashboard')->with(['patients' => $patients, 'schedule' => $schedule, 
+                    'inventory' => $inventory, 'getTopMedicines' => $getTopMedicines, 'topDispensedMeds'=>$getTopDispensedMedicines]);
     }
 }

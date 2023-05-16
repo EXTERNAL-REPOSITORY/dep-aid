@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePatientsRequest;
+use App\Http\Requests\StorePatientFormRequest;
 use App\Http\Requests\UpdatePatientsRequest;
 use App\Models\PatientForm;
 use App\Repositories\PatientFormRepository;
@@ -45,7 +45,7 @@ class PatientQueuedController extends Controller
      */
     public function store(StorePatientFormRequest $request)
     {
-        $this->patient->storePatient($request);
+        $this->patient->storePatientForm($request);
         return redirect()->route('patient-queued.index')->with('success', 'Patient Added Successfully');
     }
 
@@ -58,6 +58,12 @@ class PatientQueuedController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function getQueuedPatients()
+    {   
+        $patients=PatientForm::whereRaw('is_done_consulting=0')->get(['id','name','gender']);
+        return compact('patients');
     }
 
     /**
@@ -78,9 +84,9 @@ class PatientQueuedController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePatientFormRequest $request, PatientForm $id)
+    public function update(UpdatePatientsRequest $request, PatientForm $id)
     {
-        $this->patient->updatePatient($request, $id);
+        $this->patient->updatePatientForm($request, $id);
         return redirect()->route('patient-queued.index')->with('success', 'Patient Updated Successfully');
     }
 

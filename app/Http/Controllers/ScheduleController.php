@@ -102,14 +102,14 @@ class ScheduleController extends Controller
     public function validateSchedule(Request $request)
     {
         // dd(\Carbon\Carbon::parse($request->start_date)->format('Y-m-d H:i:s'));
-        $result = Schedule::where(['attending_id'=>$request->attending_id,'start_date'=>$request->start_date])->first();
-        
-        if ($result) {
-            // if exist, do not include
-            return 1;
-        }else{
-            // if not exist, include
-            return 0;
-        }
+        // $result = Schedule::where(['attending_id'=>$request->attending_id,'start_date'=>$request->start_date])->first();
+        return Schedule::where('start_date','LIKE','%'.$request->start_date.'%')->get(['attending_id','start_date']);
+        // if ($result) {
+        //     // if exist, do not include
+        //     return 1;
+        // }else{
+        //     // if not exist, include
+        //     return 0;
+        // }
     }
 }
