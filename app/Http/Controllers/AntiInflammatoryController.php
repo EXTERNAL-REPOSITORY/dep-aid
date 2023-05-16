@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateInventoryRequest;
 use App\Repositories\AntiInflammatoryRepository;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AntiInflammatoryController extends Controller
 {
@@ -92,8 +93,15 @@ class AntiInflammatoryController extends Controller
      */
     public function destroy(Inventory $id)
     {
-        $this->antiInflammatory->deleteAntiInflammatory($id);
-        return redirect()->route('anti-inflammatory.index')->with('success', 'Anti-inflammatory deleted successfully');
+        DB::beginTransaction();
+        try {
+            $this->antiInflammatory->deleteAntiInflammatory($id);
+            DB::commit();
+            return redirect()->route('anti-inflammatory.index')->with('success', 'Anti-inflammatory deleted successfully');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect()->route('anti-inflammatory.index')->with('error', 'CANNOT DELETE A PARENT ROW!');
+        }
     }
 
     public function generatePdf(Request $request)

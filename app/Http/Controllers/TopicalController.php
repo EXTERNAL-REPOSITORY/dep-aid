@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateInventoryRequest;
 use App\Models\Inventory;
 use App\Repositories\TopicalsRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TopicalController extends Controller
 {
@@ -92,8 +93,15 @@ class TopicalController extends Controller
      */
     public function destroy(Inventory $id)
     {
-        $this->topicals->deleteTopicals($id);
-        return redirect()->route('topicals.index')->with('success', 'Topicals deleted successfully');
+        DB::beginTransaction();
+        try {
+            $this->topicals->deleteTopicals($id);
+            DB::commit();
+            return redirect()->route('topicals.index')->with('success', 'Topicals deleted successfully');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect()->route('topicals.index')->with('error', 'CANNOT DELETE A PARENT ROW!');
+        }
     }
 
     public function generatePdf(Request $request)

@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateInventoryRequest;
 use App\Repositories\EarMedsRepository;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EarMedController extends Controller
 {
@@ -92,8 +93,16 @@ class EarMedController extends Controller
      */
     public function destroy(Inventory $id)
     {
-        $this->earMeds->deleteEarMeds($id);
-        return redirect()->route('ear-meds.index')->with('success', 'Ear Meds deleted successfully');
+
+        DB::beginTransaction();
+        try {
+            $this->earMeds->deleteEarMeds($id);
+            DB::commit();
+            return redirect()->route('ear-meds.index')->with('success', 'Ear Meds deleted successfully');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect()->route('ear-meds.index')->with('error', 'CANNOT DELETE A PARENT ROW!');
+        }
     }
 
     public function generatePdf(Request $request)

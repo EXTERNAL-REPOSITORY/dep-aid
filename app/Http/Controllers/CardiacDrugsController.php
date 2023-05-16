@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateInventoryRequest;
 use App\Models\Inventory;
 use App\Repositories\CardiacDrugsRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CardiacDrugsController extends Controller
 {
@@ -92,8 +93,16 @@ class CardiacDrugsController extends Controller
      */
     public function destroy(Inventory $id)
     {
-        $this->cardiacDrugs->deleteCardiacDrugs($id);
-        return redirect()->route('cardiac-drugs.index')->with('success', 'Cardiac Drug deleted successfully');
+        DB::beginTransaction();
+        try {
+            $med = $this->cardiacDrugs->deleteCardiacDrugs($id);
+            DB::commit();
+            return redirect()->route('cardiac-drugs.index')->with('success', 'Cardiac Drug deleted successfully');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect()->route('cardiac-drugs.index')->with('error', 'CANNOT DELETE A PARENT ROW!');
+
+        }
     }
 
     public function generatePdf(Request $request)
