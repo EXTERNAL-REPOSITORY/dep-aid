@@ -83,7 +83,7 @@ class InventoryController extends Controller
         //
     }
 
-    public function getIventoryMeds()
+    public function getInventoryMeds()
     {
         $medicines = Inventory::whereRaw('inventory.expiration_date >= NOW() AND stock_balance>0')->get();
         return compact('medicines');

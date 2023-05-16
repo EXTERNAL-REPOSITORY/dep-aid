@@ -159,6 +159,6 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/patient-dispensing/store', [DispensedMedicinesController::class, 'store'])->name('patient-dispensing.store');
 
 	// Inventory Meds
-	Route::get('/inventory-medicines/all', [InventoryController::class, 'getIventoryMeds'])->name('inventory-medicines.all');
+	Route::get('/inventory-medicines/all', [InventoryController::class, 'getInventoryMeds'])->name('inventory-medicines.all');
 
 });
