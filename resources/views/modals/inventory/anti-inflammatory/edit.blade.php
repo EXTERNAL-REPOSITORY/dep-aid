@@ -72,7 +72,7 @@
                             <i class="fa-solid fa-minus"></i>
                         </a>
                     </div> -->
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         @component('components.inputs.input')
                             @slot('label', 'Stock Balance')
                             @slot('attributes', [
