@@ -353,7 +353,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <label class>Patient Name</label>
+                                <label class>Medicine Name</label>
                                 <select name="medicine_id" id="medicine-select" class="selectpicker form-control" style="width:100%!important;">
                                     ${options}
                                 </select>

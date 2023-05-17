@@ -24,7 +24,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         @component('components.inputs.input')
-                            @slot('label', 'Type')
+                            @slot('label', 'Quantity')
                             @slot('attributes', [
                                 'class' => 'form-control',
                                 'type' => 'number',
