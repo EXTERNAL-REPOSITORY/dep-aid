@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('patient_form', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
+            $table->string('firstname')->nullable();
+            $table->string('middlename')->nullable();
+            $table->string('lastname')->nullable();
             $table->integer('age')->nullable();
             $table->string('gender')->nullable();
             $table->date('birthdate')->nullable();
@@ -28,7 +30,10 @@ return new class extends Migration
             $table->string('day')->nullable();
             $table->string('available_from')->nullable();
             $table->string('available_to')->nullable();
+            $table->integer('respiratory_rate')->nullable();
             $table->integer('heart_rate')->nullable();
+            $table->string('blood_pressure_systolic')->nullable();
+            $table->string('blood_pressure_diastolic')->nullable();
             $table->string('blood_pressure')->nullable();
             $table->integer('temperature')->nullable();
             $table->integer('oxygen_saturation')->nullable();
@@ -38,6 +43,7 @@ return new class extends Migration
             $table->string('maintenance_medications')->nullable();
             $table->string('current_medications')->nullable();
             $table->integer('is_done_consulting')->default('0');
+            $table->string('diagnosis')->nullable();
             $table->timestamps();
         });
     }

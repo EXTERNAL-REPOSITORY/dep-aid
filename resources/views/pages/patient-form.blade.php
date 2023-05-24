@@ -98,7 +98,7 @@
                         'name' => 'firstname',
                         'id' => 'firstname',
                         'placeholder' => 'First Name',
-                         //'required' =>'required'
+                         'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -111,7 +111,7 @@
                         'name' => 'middlename',
                         'id' => 'middlename',
                         'placeholder' => 'Middle Name',
-                         //'required' =>'required'
+                         'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -124,7 +124,7 @@
                         'name' => 'lastname',
                         'id' => 'lastname',
                         'placeholder' => 'Last Name',
-                         //'required' =>'required'
+                         'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -140,7 +140,7 @@
                         'id' => 'gender',
                         'value' => '',
                         'placeholder' => 'select...',
-                         //'required' =>'required'
+                         'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -153,7 +153,7 @@
                         'name' => 'birthdate',
                         'id' => 'birthdate',
                         'placeholder' => 'Birthdate',
-                         //'required' =>'required'
+                         'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -181,7 +181,7 @@
                         'name' => 'height',
                         'id' => 'height',
                         'placeholder' => 'Height',
-                         //'required' =>'required'
+                         'required' =>'required'
                         ])
                         @slot('append', 'cm')
                         @endcomponent
@@ -195,7 +195,7 @@
                         'name' => 'weight',
                         'id' => 'weight',
                         'placeholder' => 'Weight',
-                         //'required' =>'required'
+                         'required' =>'required'
                         ])
                         @slot('append', 'kl')
                         @endcomponent
@@ -226,7 +226,7 @@
                           'value' => '',
                           'placeholder' => 'select...',
                           'onchange'=>'address',
-                           //'required' =>'required'
+                           'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -241,7 +241,7 @@
                           'value' => '',
                           'placeholder' => 'Select',
                           'onchange'=>'',
-                           //'required' =>'required'
+                           'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -270,7 +270,7 @@
                         'name' => 'email',
                         'id' => 'email',
                         'placeholder' => 'Active Email Address',
-                        //'required' =>'required'
+                        'required' =>'required'
                         ])
                         @endcomponent
                         <small>(note: this email will receive the confirmation of schedule)</small>
@@ -332,7 +332,7 @@
                         'name' => 'heart_rate',
                         'id' => 'heart_rate',
                         'placeholder' => 'Heart Rate',
-                         ////'required' =>'required'
+                         //'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -345,7 +345,7 @@
                         'name' => 'respiratory_rate',
                         'id' => 'respiratory_rate',
                         'placeholder' => '-- cpm --',//cycles per minute
-                         ////'required' =>'required'
+                         //'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -417,7 +417,7 @@
                         'id' => 'main_reason_for_consultation',
                         'value' => '',
                         'placeholder' => 'Select',
-                         //'required' =>'required'
+                         'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -660,7 +660,7 @@
     // This function will figure out which tab to display
     var x = document.getElementsByClassName("tab");
     // Exit the function if any field in the current tab is invalid:
-    // if (n == 1 && !validateForm()) return false;
+    if (n == 1 && !validateForm()) return false;
     // Hide the current tab:
     x[currentTab].style.display = "none";
     // Increase or decrease the current tab by 1:
