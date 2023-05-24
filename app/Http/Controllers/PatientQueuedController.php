@@ -61,8 +61,8 @@ class PatientQueuedController extends Controller
     }
 
     public function getQueuedPatients()
-    {   
-        $patients=PatientForm::whereRaw('is_done_consulting=0')->get(['id','name','gender']);
+    {
+        $patients = PatientForm::get(['id', 'firstname', 'middlename', 'lastname', 'gender']);
         return compact('patients');
     }
 

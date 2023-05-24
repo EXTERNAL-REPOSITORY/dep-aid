@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePatientsRequest;
 use App\Http\Requests\UpdatePatientsRequest;
 use App\Models\Patient;
+use App\Models\PatientForm;
 use App\Repositories\PatientsRepository;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,7 @@ class PatientsController extends Controller
     public function index(Request $request)
     {
         $result = $this->patient->getAllPatient($request);
-        return view('pages.patients', $result);
+        return view('pages.patient-list', $result);
     }
 
     /**
@@ -58,6 +59,12 @@ class PatientsController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function getPatients()
+    {
+        $patients = PatientForm::whereRaw('is_done_consulting=0')->get(['id', 'name', 'gender']);
+        return compact('patients');
     }
 
     /**
@@ -96,9 +103,9 @@ class PatientsController extends Controller
         return redirect()->route('patients.index')->with('error', 'Patient Deleted Successfully');
     }
 
-    public function generatePdf()
+    public function generatePdf(Request $request)
     {
-        $result = $this->patient->generatePdf();
+        $result = $this->patient->generatePdf($request);
         return $result;
     }
 }

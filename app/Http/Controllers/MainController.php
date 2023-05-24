@@ -28,19 +28,23 @@ class MainController extends Controller
         return view('pages.patient-form');
     }
 
-    public function getDistrictsWithBarangays(){
+    public function getDistrictsWithBarangays()
+    {
         $districts = Districts::with([
-        'barangays'=>function ($query) {
-            $query->select('id','district_id','barangay_name')->get();
-        }])->get();
+            'barangays' => function ($query) {
+                $query->select('id', 'district_id', 'barangay_name')->get();
+            }
+        ])->get();
         return json_encode(['districts' => $districts]);
     }
 
-    public function getBarangays(Request $request){
+    public function getBarangays(Request $request)
+    {
         $barangays = Districts::with([
-        'barangays'=>function ($query) {
-            $query->select('id','district_id','barangay_name')->get();
-        }])->where(['district_name' =>$request->district_name])->get();
+            'barangays' => function ($query) {
+                $query->select('id', 'district_id', 'barangay_name')->get();
+            }
+        ])->where(['district_name' => $request->district_name])->get();
         return json_encode(['barangays' => $barangays]);
     }
 
@@ -63,7 +67,7 @@ class MainController extends Controller
     public function store(Request $request)
     {
         $data = $this->patientForm->storePatientForm($request);
-        return view('pages.patient-form-success',$data);
+        return view('pages.patient-form-success', $data);
     }
 
     /**
@@ -112,9 +116,10 @@ class MainController extends Controller
         return redirect()->route('patient-queued.index')->with('success', 'Patient Successfully Deleted');
     }
 
-    public function done(PatientForm $id)
+    public function done(Request $request)
     {
-        $this->patientForm->donePatient($id);
+        // dd($request);
+        $this->patientForm->donePatient($request);
         return redirect()->route('patient-queued.index')->with('success', 'Patient Successfully Done');
     }
 }

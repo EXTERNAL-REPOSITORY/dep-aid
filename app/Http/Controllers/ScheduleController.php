@@ -22,7 +22,7 @@ class ScheduleController extends Controller
     public function index()
     {
         $result = $this->schedules->getAllSchedules();
-        return view('pages.schedule',compact('result'));
+        return view('pages.schedule', compact('result'));
     }
 
     /**
@@ -45,13 +45,28 @@ class ScheduleController extends Controller
     {
         $schedules = Schedule::insert([
             'text' => $request->text,
-            'start_date' =>  \Carbon\Carbon::parse($request->start_date)->format('Y-m-d H:i'),
-            'end_date' => \Carbon\Carbon::parse($request->end_date)->format('Y-m-d H:i'),
+            'patient_form_id' => $request->patient_form_id,
+            'start_date' =>  \Carbon\Carbon::parse($request->start_date)->format('Y-m-d H:i:s'),
+            'end_date' => \Carbon\Carbon::parse($request->end_date)->format('Y-m-d H:i:s'),
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now()
         ]);
 
         return redirect()->route('patient-queued.index')->with('success', 'Schedule added successfully');
+    }
+
+    public function store2(Request $request)
+    {
+        $schedules = Schedule::insert([
+            'text' => $request->text,
+            'patient_form_id' => $request->patient_form_id,
+            'start_date' =>  \Carbon\Carbon::parse($request->start_date)->format('Y-m-d H:i:s'),
+            'end_date' => \Carbon\Carbon::parse($request->end_date)->format('Y-m-d H:i:s'),
+            'created_at' => \Carbon\Carbon::now(),
+            'updated_at' => \Carbon\Carbon::now()
+        ]);
+
+        return redirect()->route('patient.index')->with('success', 'Schedule added successfully');
     }
 
     /**
@@ -103,7 +118,7 @@ class ScheduleController extends Controller
     {
         // dd(\Carbon\Carbon::parse($request->start_date)->format('Y-m-d H:i:s'));
         // $result = Schedule::where(['attending_id'=>$request->attending_id,'start_date'=>$request->start_date])->first();
-        return Schedule::where('start_date','LIKE','%'.$request->start_date.'%')->get(['attending_id','start_date']);
+        return Schedule::where('start_date', 'LIKE', '%' . $request->start_date . '%')->get(['attending_id', 'start_date']);
         // if ($result) {
         //     // if exist, do not include
         //     return 1;

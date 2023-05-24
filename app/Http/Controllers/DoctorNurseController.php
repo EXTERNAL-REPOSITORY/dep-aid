@@ -81,8 +81,8 @@ class DoctorNurseController extends Controller
      */
     public function update(UpdateDoctorNurseRequest $request, $id)
     {
-        // $this->doctorNurse->updateDoctorNurse($request, $id);
-        return redirect()->route('doctor-nurse.index')->with('success', 'Doctor/Nurse updated successfully'.$id);
+        $this->doctorNurse->updateDoctorNurse($request, $id);
+        return redirect()->route('doctor-nurse.index')->with('success', 'Doctor/Nurse updated successfully' . $id);
     }
 
     /**

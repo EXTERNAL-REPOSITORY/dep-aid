@@ -21,7 +21,7 @@ class MessengerController extends Controller
         $local_token = env('FACBOOK_MESSENGER_WEBHOOK_TOKEN');
         $hub_verify_token = request('hub_verify_token');
 
-        if($hub_verify_token === $local_token){
+        if ($hub_verify_token === $local_token) {
             echo request('hub_challenge');
             exit;
         }

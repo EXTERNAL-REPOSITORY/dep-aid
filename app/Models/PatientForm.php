@@ -12,21 +12,26 @@ class PatientForm extends Model
 
     protected $table = 'patient_form';
     protected $fillable = [
-        'name', 
+        'firstname',
+        'middlename',
+        'lastname',
+        'name',
         'birthdate',
-        'age', 
+        'age',
         'height',
         'weight',
-        'gender', 
+        'gender',
         'email',
         'contact_number',
-        'address', 
-        'appointment', 
-        'doctor_consulting', 
-        'vital_signs', 
-        'heart_rate', 
-        'blood_pressure', 
-        'temperature', 
+        'address',
+        'appointment',
+        'doctor_consulting',
+        'vital_signs',
+        'heart_rate',
+        'respiratory_rate',
+        'blood_pressure_systolic',
+        'blood_pressure_diastolic',
+        'temperature',
         'oxygen_saturation',
         'main_reason_for_consultation',
         'other_reason_for_consultation',
@@ -35,14 +40,15 @@ class PatientForm extends Model
         'current_medications',
         'date',
         'day',
+        'diagnosis',
         'available_from',
         'available_to'
 
     ];
     protected $guarded = [];
-    
+
     public function schedule()
     {
-        return $this->hasOne(Schedule::class,'patient_form_id','id');
+        return $this->hasOne(Schedule::class, 'patient_form_id', 'id');
     }
 }
