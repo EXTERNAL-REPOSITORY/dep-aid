@@ -25,26 +25,26 @@ class DeseaseForecastRepository
         //         \App\Pipelines\Search\SearchInventoryTable::class,
         //         \App\Pipelines\Filter\DateFilter::class
         //     ])->thenReturn();
-        
+
         // $data = $result ? $result : $query;
         // $antibiotic = $data->whereRaw('inventory.expiration_date >= NOW()')
         // ->where('type', 'Antibiotics')
         // ->paginate(10);
 
         // return compact('antibiotic', 'requestData');
-        
+
         $data = PatientForm::select(DB::raw('
-            main_reason_for_consultation AS diagnosis, 
-            COUNT(main_reason_for_consultation) AS consultation,
+            diagnosis, 
+            COUNT(diagnosis) AS consultation,
             created_at
         '))
-        ->where('main_reason_for_consultation','<>','')
-        ->whereRaw('MONTH(created_at) = '.$request->month)
-        ->groupByRaw('main_reason_for_consultation, MONTH(created_at)')
-        ->orderByRaw('consultation DESC , MONTH(created_at) ASC')
-        ->take(10)
-        ->get();
+            ->where('diagnosis', '<>', '')
+            ->whereRaw('MONTH(created_at) = ' . $request->month)
+            ->groupByRaw('diagnosis, MONTH(created_at)')
+            ->orderByRaw('consultation DESC , MONTH(created_at) ASC')
+            ->take(10)
+            ->get();
         // dd($data);
-        return $data;    
+        return $data;
     }
 }

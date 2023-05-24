@@ -24,12 +24,12 @@ class DoctorNurseRepository
             ->through([
                 \App\Pipelines\Search\SearchDoctorNurseTable::class,
                 \App\Pipelines\Filter\DateFilter::class
-        ])->thenReturn();
+            ])->thenReturn();
 
         $data = $result ? $result : $query;
         $doctorNurse = $data->groupBy('employee_id')->get();
 
-       return compact('doctorNurse', 'requestData');
+        return compact('doctorNurse', 'requestData');
     }
 
     public function showDoctorNurse($doctorNurse)
@@ -43,15 +43,15 @@ class DoctorNurseRepository
         $day = DayTable::pluck('day')->toArray();
         $employeeIdGenerator = 'DEP-AID-' . $request->first_name . '-' . mt_rand(100000000, 999999999);
 
-        if(!isset($request->from_time) || !isset($request->to_time) || !isset($request->is_working)) {
+        if (!isset($request->from_time) || !isset($request->to_time) || !isset($request->is_working)) {
             $request->from_time = [];
             $request->to_time = [];
             $request->is_working = [];
         }
 
 
-        foreach($request->day as $key =>$item) {
-            if(in_array($key, array_keys($day))){
+        foreach ($request->day as $key => $item) {
+            if (in_array($key, array_keys($day))) {
                 $doctorNurse = DoctorNurse::insert([
                     'employee_id' => $employeeIdGenerator,
                     'first_name' => $request->first_name,
@@ -64,7 +64,7 @@ class DoctorNurseRepository
                     'is_working' => $request->is_working[$key],
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
-                ]); 
+                ]);
             }
         }
         return $doctorNurse;
@@ -72,28 +72,50 @@ class DoctorNurseRepository
 
     public function updateDoctorNurse($request, $doctorNurseId)
     {
-        $query = Inventory::where('id', $antibioticId)->update([
-            'medicine_name' => $request->medicine_name,
-            'brand' => $request->brand,
-            'beginning_balance' => $request->beginning_balance,
-            'reorder_level' => $request->reorder_level,
-            'stock_balance' => $request->stock_balance,
-            'manufacturer_date' => $request->manufacturer_date,
-            'expiration_date' => $request->expiration_date,
-            'type' => $request->type,
-        ]);
+        // dd($request);
 
-        return $query;
+        $day = array(
+            '1' => "Monday",
+            '2' => "Tuesday",
+            '3' => "Wednesday",
+            '4' => "Thursday",
+            '5' => "Friday",
+            '6' => "Saturday",
+            '7' => "Sunday"
+        );
+        DB::beginTransaction();
+        try {
+            foreach ($request->day as $key => $item) {
+                if (in_array($key, array_keys($day))) {
+                    $query = DoctorNurse::where('id', $doctorNurseId)->update([
+                        'first_name' => $request->first_name,
+                        'middle_name' => $request->middle_name,
+                        'last_name' => $request->last_name,
+                        'position' => $request->position,
+                        'available_from' => $request->from_time[$key],
+                        'available_to' => $request->to_time[$key],
+                        'is_working' => $request->is_working[$key],
+                        'updated_at' => Carbon::now(),
+                    ]);
+                }
+            }
+
+            DB::commit();
+            return $query;
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return $th;
+        }
     }
 
     public function deleteDoctorNurse($doctorNurseId)
     {
-        return DoctorNurse::where('employee_id',$doctorNurseId)->delete();
+        return DoctorNurse::where('employee_id', $doctorNurseId)->delete();
     }
 
     public function generatePdf()
     {
-      
+
         $requestData = [
             'search' => isset($request->search) ? $request->search : null
         ];
@@ -105,7 +127,7 @@ class DoctorNurseRepository
             ->through([
                 \App\Pipelines\Search\SearchDoctorNurseTable::class,
                 \App\Pipelines\Filter\DateFilter::class
-        ])->thenReturn();
+            ])->thenReturn();
 
         $data = $result ? $result : $query;
         $doctorNurse = $data->get();
@@ -116,14 +138,14 @@ class DoctorNurseRepository
             'users' => $doctorNurse
         ];
 
-        $pdf = PDF::loadView('pdf.doctor-nurse', $data)->setPaper('A4','landscape');
+        $pdf = PDF::loadView('pdf.doctor-nurse', $data)->setPaper('A4', 'landscape');
 
         return $pdf->download('DEP-AID Doctor - Nurse List Report.pdf');
     }
 
     public function getSchedules($request)
     {
-        $result = DoctorNurse::where('availability_days', $request->day)->where('is_working', 1)->get();
+        $result = DoctorNurse::where(['availability_days' => $request->day, 'is_working' => 1])->get();
 
         return $result;
     }

@@ -25,18 +25,18 @@ class PatientFormRepository
             //    "token" => "TOKEN"
             // ]
         ];
-        
+
         // Load the driver(s) you want to use
         DriverManager::loadDriver(\BotMan\Drivers\Telegram\TelegramDriver::class);
-        
+
         // Create an instance
         $botman = BotManFactory::create($config);
-        
+
         // Give the bot something to listen for.
         $botman->hears('hello', function (BotMan $bot) {
             $bot->reply('Hello yourself.');
         });
-        
+
         // Start listening
         $botman->listen();
     }
@@ -54,9 +54,9 @@ class PatientFormRepository
                 \App\Pipelines\Search\SearchPatientTable::class,
                 \App\Pipelines\Filter\DateFilter::class
             ])->thenReturn();
-        
+
         $data = $result ? $result : $query;
-        $patient = $data->with('schedule')->paginate(10);
+        $patient = $data->whereRaw('is_done_consulting=0')->paginate(10);
 
         return compact('patient', 'requestData');
     }
@@ -74,10 +74,9 @@ class PatientFormRepository
         );
 
         $patientForm = PatientForm::create([
-            'first_name' => $request->first_name,
-            'middle_name' => $request->middle_name,
-            'last_name' => $request->last_name,
-            'name' => $request->name,
+            'firstname' => $request->firstname,
+            'middlename' => $request->middlename,
+            'lastname' => $request->lastname,
             'age' => $request->age,
             'gender' => $request->gender,
             'height' => $request->height,
@@ -88,7 +87,8 @@ class PatientFormRepository
             'email' => $request->email,
             'main_reason_for_consultation' => $request->main_reason_for_consultation,
             'heart_rate' => $request->heart_rate,
-            'blood_pressure' => $request->blood_pressure,
+            'blood_pressure_systolic' => $request->blood_pressure_systolic,
+            'blood_pressure_diastolic' => $request->blood_pressure_diastolic,
             'temperature' => $request->temperature,
             'oxygen_saturation' => $request->oxygen_saturation,
             'other_reason_for_consultation' => $request->other_reason_for_consultation,
@@ -103,11 +103,11 @@ class PatientFormRepository
             'updated_at' => \Carbon\Carbon::now()
         ]);
         $patientFormId = $patientForm->id;
-        
-        $from = \Carbon\Carbon::parse($request->date." ".($request->available_from??'00:00:00'))->format('Y-m-d H:i');
-        $to = \Carbon\Carbon::parse($request->date." ".($request->available_to??'00:00:00'))->format('Y-m-d H:i');
 
-        $sched_text = "Name: ".$request->name." Age:".$request->age." Gender:".$request->gender." ".$request->current_medications." ".$request->main_reason_for_consultation;
+        $from = \Carbon\Carbon::parse($request->date . " " . ($request->available_from ?? '00:00:00'))->format('Y-m-d H:i');
+        $to = \Carbon\Carbon::parse($request->date . " " . ($request->available_to ?? '00:00:00'))->format('Y-m-d H:i');
+
+        $sched_text = "Name: " . $request->name . " Age:" . $request->age . " Gender:" . $request->gender . " " . $request->current_medications . " " . $request->main_reason_for_consultation;
 
         $schedule = Schedule::create([
             'patient_form_id' => $patientFormId,
@@ -118,29 +118,31 @@ class PatientFormRepository
             'created_at' => \Carbon\Carbon::now(),
             'updated_at' => \Carbon\Carbon::now()
         ]);
-        
+
         $data = [
             'title' => 'Appointment Details - Dep-Aid Malaybalay Bukidnon',
             'body' => '
-Good day '.Str::title($request->name).',
+Good day ' . Str::title($request->name) . ',
 
 Thank you for having an appointment with us, here is your schedule of visit to our clinic.
 
-Schedule: '.\Carbon\Carbon::parse($request->date)->format('F d, Y').' from '.\Carbon\Carbon::parse($from)->format('g:i A').' to '.\Carbon\Carbon::parse($to)->format('g:i A').'
+Schedule: ' . \Carbon\Carbon::parse($request->date)->format('F d, Y') . ' from ' . \Carbon\Carbon::parse($from)->format('g:i A') . ' to ' . \Carbon\Carbon::parse($to)->format('g:i A') . '
 
 Please be on time, thank you!
             ',
         ];
-         
+
         try {
-            if($request->email!=null){
+            if ($request->email != null) {
                 Mail::to($request->email)->send(new SendMail($data));
             }
-            return array('patientForm' => $patientForm,'date' => \Carbon\Carbon::parse($request->date)->format('F d, Y'),
-            'start' => \Carbon\Carbon::parse($from)->format('g:i A'), 
-            'end' => \Carbon\Carbon::parse($to)->format('g:i A') );
+            return array(
+                'patientForm' => $patientForm, 'date' => \Carbon\Carbon::parse($request->date)->format('F d, Y'),
+                'start' => \Carbon\Carbon::parse($from)->format('g:i A'),
+                'end' => \Carbon\Carbon::parse($to)->format('g:i A')
+            );
         } catch (Exception $th) {
-            return redirect()->route('patient-form')->with('error', 'Error: '.$th);
+            return redirect()->route('patient-form')->with('error', 'Error: ' . $th);
         }
     }
 
@@ -149,16 +151,19 @@ Please be on time, thank you!
         # code...
     }
 
-    public function donePatient($request) 
+    public function donePatient($request)
     {
-        $query = PatientForm::where('id', $request->id)->update([
+        // dd($request);
+        $query = PatientForm::where('id', $request->patient_form_id)->update([
             'is_done_consulting' => 1,
+            'diagnosis' => $request->diagnosis,
         ]);
 
         return $query;
     }
 
-    public function deleteFromQueue($request){
+    public function deleteFromQueue($request)
+    {
         return PatientForm::find($request->id)->delete();
     }
 
@@ -175,17 +180,17 @@ Please be on time, thank you!
                 \App\Pipelines\Search\SearchPatientTable::class,
                 \App\Pipelines\Filter\DateFilter::class
             ])->thenReturn();
-        
+
         $data = $result ? $result : $query;
         $patient = $data->with('schedule')->get();
-                
+
         $data = [
-            'title' => 'DEP-AID Patient List Report',
+            'title' => 'DEP-AID Patient Requests Report',
             'users' => $patient
         ];
 
-        $pdf = PDF::loadView('pdf.queued-patient', $data)->setPaper('A4','landscape');
+        $pdf = PDF::loadView('pdf.queued-patient', $data)->setPaper('A4', 'landscape');
 
-        return $pdf->download('DEP-AID Patient List Report.pdf');
+        return $pdf->download('DEP-AID Patient Requests Report.pdf');
     }
 }

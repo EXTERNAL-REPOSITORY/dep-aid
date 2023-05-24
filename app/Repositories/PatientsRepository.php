@@ -8,6 +8,7 @@ use App\Models\SendDiagnosis;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Carbon;
 use PDF;
+use Illuminate\Http\Request;
 
 class PatientsRepository
 {
@@ -24,9 +25,9 @@ class PatientsRepository
                 \App\Pipelines\Search\SearchPatientTable::class,
                 \App\Pipelines\Filter\DateFilter::class
             ])->thenReturn();
-        
+
         $data = $result ? $result : $query;
-        $patient = $data->paginate(10);
+        $patient = $data->whereRaw('is_done_consulting=1')->paginate(10);
 
         return compact('patient', 'requestData');
     }
@@ -62,21 +63,34 @@ class PatientsRepository
         return Patient::find($employeeProfileId->id)->delete();
     }
 
-    public function generatePdf()
+    public function generatePdf(Request $request)
     {
-        $query = Patient::get();
+        $requestData = [
+            'search' => isset($request->search) ? $request->search : ""
+        ];
+        $query = PatientForm::query();
+
+        $result = app(Pipeline::class)
+            ->send($query)
+            ->through([
+                \App\Pipelines\Search\SearchPatientTable::class,
+                \App\Pipelines\Filter\DateFilter::class
+            ])->thenReturn();
+
+        $data = $result ? $result : $query;
+        $patient = $data->whereRaw('is_done_consulting=1')->get();
 
         $data = [
             'title' => 'DEP-AID Patient List Report',
-            'users' => $query
+            'users' => $patient
         ];
 
-        $pdf = PDF::loadView('pdf.queued-patient', $data);
+        $pdf = PDF::loadView('pdf.patient', $data)->setPaper('A4', 'landscape');
 
         return $pdf->download('DEP-AID Patient List Report.pdf');
     }
 
-    public function sendEmail ($request)
+    public function sendEmail($request)
     {
         $query = SendDiagnosis::create([
             'patient_name' => $request->patient_id,
@@ -87,5 +101,5 @@ class PatientsRepository
         ]);
 
         return $query;
-    }   
+    }
 }

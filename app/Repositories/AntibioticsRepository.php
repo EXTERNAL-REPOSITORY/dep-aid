@@ -23,11 +23,11 @@ class AntibioticsRepository
                 \App\Pipelines\Search\SearchInventoryTable::class,
                 \App\Pipelines\Filter\DateFilter::class
             ])->thenReturn();
-        
+
         $data = $result ? $result : $query;
         $antibiotic = $data->whereRaw('inventory.expiration_date >= NOW()')
-        ->where('type', 'Antibiotics')
-        ->paginate(10);
+            ->where('type', 'Antibiotics')
+            ->paginate(10);
 
         return compact('antibiotic', 'requestData');
     }
@@ -86,10 +86,10 @@ class AntibioticsRepository
                 \App\Pipelines\Search\SearchInventoryTable::class,
                 \App\Pipelines\Filter\DateFilter::class
             ])->thenReturn();
-        
+
         $r1 = $result ? $result : $query;
         $med = $r1->whereRaw('inventory.expiration_date >= NOW()')
-        ->where('type', 'Antibiotics')->get();
+            ->where('type', 'Antibiotics')->get();
 
         $data = [
             'title' => 'DEP-AID Inventory - Antibiotics Report',
