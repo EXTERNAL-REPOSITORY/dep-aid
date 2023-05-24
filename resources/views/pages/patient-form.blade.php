@@ -89,35 +89,48 @@
                 <form role="form" id="add-patient-form" enctype="multipart/form-data">
                   <div class="tab">
                     <div class="row">
-                      <div class="col-md-12 col-lg-6">
+                      <div class="col-md-12 col-lg-4">
                         @component('components.inputs.input')
-                        @slot('label', 'Name')
+                        @slot('label', 'First Name')
                         @slot('attributes', [
                         'class' => 'form-control text-black',
                         'type' => 'text',
-                        'name' => 'name',
-                        'id' => 'name',
-                        'placeholder' => 'Name',
-                        // 'required' =>'required'
+                        'name' => 'firstname',
+                        'id' => 'firstname',
+                        'placeholder' => 'First Name',
+                         //'required' =>'required'
                         ])
                         @endcomponent
                       </div>
-                      <div class="col-md-12 col-lg-6">
+                      <div class="col-md-12 col-lg-4">
                         @component('components.inputs.input')
-                        @slot('label', 'Age')
+                        @slot('label', 'Middle Name')
                         @slot('attributes', [
                         'class' => 'form-control text-black',
-                        'type' => 'number',
-                        'name' => 'age',
-                        'id' => 'age',
-                        'placeholder' => 'Age',
-                        // 'required' =>'required'
+                        'type' => 'text',
+                        'name' => 'middlename',
+                        'id' => 'middlename',
+                        'placeholder' => 'Middle Name',
+                         //'required' =>'required'
+                        ])
+                        @endcomponent
+                      </div>
+                      <div class="col-md-12 col-lg-4">
+                        @component('components.inputs.input')
+                        @slot('label', 'Last Name')
+                        @slot('attributes', [
+                        'class' => 'form-control text-black',
+                        'type' => 'text',
+                        'name' => 'lastname',
+                        'id' => 'lastname',
+                        'placeholder' => 'Last Name',
+                         //'required' =>'required'
                         ])
                         @endcomponent
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-md-12 col-lg-6">
+                      <div class="col-md-12 col-lg-4">
                         @component('components.inputs.select')
                         @slot('label', 'Gender')
                         @slot('options', ["Male" => 'Male', "Female" => 'Female'])
@@ -127,7 +140,7 @@
                         'id' => 'gender',
                         'value' => '',
                         'placeholder' => 'select...',
-                        // 'required' =>'required'
+                         //'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -140,7 +153,20 @@
                         'name' => 'birthdate',
                         'id' => 'birthdate',
                         'placeholder' => 'Birthdate',
-                        // 'required' =>'required'
+                         //'required' =>'required'
+                        ])
+                        @endcomponent
+                      </div>
+                      <div class="col-md-12 col-lg-2">
+                        @component('components.inputs.input')
+                        @slot('label', 'Age')
+                        @slot('attributes', [
+                        'class' => 'form-control text-black',
+                        'type' => 'number',
+                        'name' => 'age',
+                        'id' => 'age',
+                        'placeholder' => 'Age',
+                         'readonly' =>'readonly'
                         ])
                         @endcomponent
                       </div>
@@ -155,7 +181,7 @@
                         'name' => 'height',
                         'id' => 'height',
                         'placeholder' => 'Height',
-                        // 'required' =>'required'
+                         //'required' =>'required'
                         ])
                         @slot('append', 'cm')
                         @endcomponent
@@ -169,19 +195,30 @@
                         'name' => 'weight',
                         'id' => 'weight',
                         'placeholder' => 'Weight',
-                        // 'required' =>'required'
+                         //'required' =>'required'
                         ])
                         @slot('append', 'kl')
                         @endcomponent
                       </div>
                     </div>
                     <div class="row">
+                      <div class="col-md-12 col-lg-12">
+                        @component('components.inputs.input')
+                          @slot('label', 'Street Address')
+                          @slot('attributes', [
+                          'class' => 'form-control',
+                          'name' => 'street',
+                          'id' => 'street',
+                          'value' => '',
+                          'placeholder' => 'Street Name...',
+                          'onchange'=>'street',
+                        ])
+                        @endcomponent
+                      </div>
                       <div class="col-md-12 col-lg-6">
                         @component('components.inputs.select')
                           @slot('label', 'District Address')
-                          @slot('options', [
-                            "Hypertension" => "Hypertension",
-                          ])
+                          @slot('options', [])
                           @slot('attributes', [
                           'class' => 'form-control',
                           'name' => 'district',
@@ -189,7 +226,7 @@
                           'value' => '',
                           'placeholder' => 'select...',
                           'onchange'=>'address',
-                          // 'required' =>'required'
+                           //'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -204,7 +241,7 @@
                           'value' => '',
                           'placeholder' => 'Select',
                           'onchange'=>'',
-                          // 'required' =>'required'
+                           //'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -232,10 +269,11 @@
                         'type' => 'email',
                         'name' => 'email',
                         'id' => 'email',
-                        'placeholder' => 'Email',
-                        // 'required' =>'required'
+                        'placeholder' => 'Active Email Address',
+                        //'required' =>'required'
                         ])
                         @endcomponent
+                        <small>(note: this email will receive the confirmation of schedule)</small>
                       </div>
                       <div class="col-md-12 col-lg-6">
                         @component('components.inputs.input-group')
@@ -248,7 +286,6 @@
                         'id' => 'contact-number',
                         'placeholder' => 'Contact Number',
                         'maxlength'=>'11',
-                        // 'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -262,26 +299,25 @@
                     <div class="row">
                       <div class="col-lg-6 col-md-12">
                         @component('components.inputs.input')
-                        @slot('label', 'Heart Rate')
+                        @slot('label', 'Blood Pressure Systolic:')
                         @slot('attributes', [
                         'class' => 'form-control text-black',
-                        'type' => 'text',
-                        'name' => 'heart_rate',
-                        'id' => 'heart_rate',
-                        'placeholder' => 'Heart Rate',
-                        // 'required' =>'required'
+                        'type' => 'number',
+                        'name' => 'blood_pressure_systolic',
+                        'id' => 'blood_pressure_systolic',
+                        'placeholder' => '-- mmHg --'
                         ])
                         @endcomponent
                       </div>
                       <div class="col-lg-6 col-md-12">
                         @component('components.inputs.input')
-                        @slot('label', 'Blood Pressure')
+                        @slot('label', 'Blood Pressure Diastolic:')
                         @slot('attributes', [
                         'class' => 'form-control text-black',
-                        'type' => 'text',
-                        'name' => 'blood_pressure',
-                        'id' => 'blood_pressure',
-                        'placeholder' => 'Blood Pressure'
+                        'type' => 'number',
+                        'name' => 'blood_pressure_diastolic',
+                        'id' => 'blood_pressure_diastolic',
+                        'placeholder' => '-- mmHg --' //millimeters of mercury
                         ])
                         @endcomponent
                       </div>
@@ -289,13 +325,41 @@
                     <div class="row">
                       <div class="col-lg-6 col-md-12">
                         @component('components.inputs.input')
-                        @slot('label', 'Temperature')
+                        @slot('label', 'Heart Rate')
+                        @slot('attributes', [
+                        'class' => 'form-control text-black',
+                        'type' => 'text',
+                        'name' => 'heart_rate',
+                        'id' => 'heart_rate',
+                        'placeholder' => 'Heart Rate',
+                         ////'required' =>'required'
+                        ])
+                        @endcomponent
+                      </div>
+                      <div class="col-lg-6 col-md-12">
+                        @component('components.inputs.input')
+                        @slot('label', 'Repiratory Rate')
+                        @slot('attributes', [
+                        'class' => 'form-control text-black',
+                        'type' => 'text',
+                        'name' => 'respiratory_rate',
+                        'id' => 'respiratory_rate',
+                        'placeholder' => '-- cpm --',//cycles per minute
+                         ////'required' =>'required'
+                        ])
+                        @endcomponent
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-6 col-md-12">
+                        @component('components.inputs.input')
+                        @slot('label', 'Body Temperature')
                         @slot('attributes', [
                         'class' => 'form-control text-black',
                         'type' => 'text',
                         'name' => 'temperature',
                         'id' => 'temperature',
-                        'placeholder' => 'Temperature'
+                        'placeholder' => '-- °C --'
                         ])
                         @endcomponent
                       </div>
@@ -353,7 +417,7 @@
                         'id' => 'main_reason_for_consultation',
                         'value' => '',
                         'placeholder' => 'Select',
-                        // 'required' =>'required'
+                         //'required' =>'required'
                         ])
                         @endcomponent
                       </div>
@@ -370,7 +434,7 @@
                         @endcomponent
                       </div>
 
-                      <div class="col-lg-6 col-md-12">
+                      <div class="col-lg-12 col-md-12">
                         @component('components.inputs.input')
                         @slot('label', 'Allergies')
                         @slot('attributes', [
@@ -481,7 +545,10 @@
                     <div style="float:right;">
                       <button type="button" class="btn btn-success me-3" id="prevBtn"
                         onclick="nextPrev(-1)">Previous</button>
-                      <button type="button" class="btn btn-success" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                      <button type="button" class="btn btn-success" id="nextBtn" onclick="nextPrev(1)">
+                      <div class="spinner-border" role="status">
+                          <span class="sr-only">Loading...</span>
+                      </div> Next</button>
                     </div>
                   </div>
 
@@ -518,27 +585,27 @@
 </div>
 
 <script>
-  // var chatbox = document.getElementById('fb-customer-chat');
-  // chatbox.setAttribute("page_id", "101459382826787");
-  // chatbox.setAttribute("attribution", "biz_inbox");
+   var chatbox = document.getElementById('fb-customer-chat');
+   chatbox.setAttribute("page_id", "101459382826787");
+   chatbox.setAttribute("attribution", "biz_inbox");
 </script>
 
 <!-- Your SDK code -->
 <script>
-  // window.fbAsyncInit = function () {
-  //   FB.init({
-  //     xfbml: true,
-  //     version: 'v15.0'
-  //   });
-  // };
+   window.fbAsyncInit = function () {
+     FB.init({
+       xfbml: true,
+       version: 'v15.0'
+     });
+   };
 
-  // (function (d, s, id) {
-  //   var js, fjs = d.getElementsByTagName(s)[0];
-  //   if (d.getElementById(id)) return;
-  //   js = d.createElement(s); js.id = id;
-  //   js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-  //   fjs.parentNode.insertBefore(js, fjs);
-  // }(document, 'script', 'facebook-jssdk'));
+   (function (d, s, id) {
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) return;
+     js = d.createElement(s); js.id = id;
+     js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
 </script>
 <!-- END FACEBOOK PAGE BOT -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
@@ -593,7 +660,7 @@
     // This function will figure out which tab to display
     var x = document.getElementsByClassName("tab");
     // Exit the function if any field in the current tab is invalid:
-    if (n == 1 && !validateForm()) return false;
+    // if (n == 1 && !validateForm()) return false;
     // Hide the current tab:
     x[currentTab].style.display = "none";
     // Increase or decrease the current tab by 1:
@@ -735,10 +802,14 @@
 
 $(document).ready(function () {
 
+  $('#birthdate').on('change',function(){
+    $('#age').val(moment().diff(new Date($(this).val()), 'years'));
+  })
+
     $('#add-patient-form').submit(function(e){
       e.preventDefault();
       const formData = $(this).serializeArray().reduce((o,kv) => ({...o, [kv.name]: kv.value}), {});
-
+      console.log(formData);
       const schedule = $('input[name="schedule"]:checked');
       formData['employee_id']=schedule.data("employee_id");
       formData['attending_id']=schedule.data("attending_id");
@@ -790,22 +861,36 @@ $(document).ready(function () {
       }
     });
     $('#address').val(
+      ($("#street").val()!=""?($(this).val()!="" && $("#barangay").val()!=""?$("#street").val()+", ":" "):"")+
       $(this).val()+(
         $(this).val()!=""?
           ($('#barangay').val()!=""?", "+$('#barangay').val():""):
           $('#barangay').val()
-      )
+      )+", Malaybalay City, Bukidnon, Philippines"
     );
   });
 
   $("#barangay").on('change', function (e) {
     e.preventDefault();
     $('#address').val(
+      ($("#street").val()!=""?($("#district").val()!="" && $(this).val()!=""?$("#street").val()+", ":" "):"")+
       $('#district').val()+(
         $('#district').val()!=""?
           ($(this).val()!=""?", "+$(this).val():""):
           $(this).val()
-      )
+      )+", Malaybalay City, Bukidnon, Philippines"
+    );
+  });
+
+  $("#street").on('change', function (e) {
+    e.preventDefault();
+    $('#address').val(
+      ($(this).val()!=""?($("#district").val()!="" && $("#barangay").val()!=""?$(this).val()+", ":" "):"")+
+      $('#district').val()+(
+        $('#district').val()!=""?
+          ($('#address').val()!=""?", "+$('#address').val():""):
+          $('#address').val()
+      )+", Malaybalay City, Bukidnon, Philippines"
     );
   });
 
@@ -838,7 +923,7 @@ $(document).ready(function () {
             tableRow='';
             
             response.forEach(element => {
-              // console.log(element);
+              console.log(element);
               var from = moment(new Date(date_consult.getFullYear()+'-'+date_consult.getMonth()+'-'+date_consult.getDate()+' '+element.available_from));
               var to = moment(new Date(date_consult.getFullYear()+'-'+date_consult.getMonth()+'-'+date_consult.getDate()+' '+element.available_to));
               
@@ -850,6 +935,7 @@ $(document).ready(function () {
               let duration = moment.duration(toTime.diff(fromTime));
               let diff = duration.hours();
               let time = moment(fromTime).add(0, 'hours').format('HH:mm');
+              // console.log(diff);
 
               for (i = 0; diff > i; i++) {
                 if(i==0){
@@ -864,81 +950,94 @@ $(document).ready(function () {
                   // console.log(moment(new Date(date_consult)).format('MM'));
                   var date_from = moment(new Date(date_consult.getFullYear()+'-'+moment(new Date(date_consult)).format('MM')+'-'+date_consult.getDate()+' '+timef+':00')).format('Y-MM-DD hh:mm:ss');
                   // Enter database validation here.....          
+                 
+                  tableRow += `<tr>
+                    <td>
+                      <div>
+                        <div class='form-check'>
+                          <input class='form-check-input schedule' type='radio' name='schedule' id="flexRadioDefault${element.id}" 
+                          value="${element.id}" data-employee_id="${element.employee_id}" data-attending_id="${element.id}"
+                          data-day="${selectDate}" data-available_from="${timef}:00" data-available_to="${timet}:00">
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class='d-flex px-2 py-1'>
+                        <div class='d-flex flex-column justify-content-center'>
+                          <h6 class='mb-0 text-xs'>${element.first_name??''} ${element.last_name??''}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <p class='text-xs font-weight-bold mb-0'>${element.position??''}</p>
+                    </td>
+                    <td class='align-middle text-center text-sm'>
+                      <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timef??''}" readonly>
+                    </td>
+                    <td class='align-middle text-center text-sm'> 
+                      <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timet??''}" readonly>
+                    </td>
+                  </tr>`;
+                 
+                  console.log("This");
                   scheds.forEach(el=>{
-                  // console.log("ASDASDASD");
-                  // console.log(el.attending_id +'=='+element.id);
-                  // console.log(date_from +'=='+el.start_date);
-                  // console.log(el.attending_id);
-                  // console.log(element.id);
-                    
-                    // console.log((el.attending_id==element.id && el.start_date==date_from)+' '+(el.attending_id==element.id)+" && "+(el.start_date==date_from));
-
                     if(el.attending_id==element.id && el.start_date==date_from){
-                      console.log((el.attending_id)+" && "+(date_from));
-                    }else{
-                      
-                      tableRow += `<tr>
-                            <td>
-                              <div>
-                                <div class='form-check'>
-                                  <input class='form-check-input schedule' type='radio' name='schedule' id="flexRadioDefault${element.id}" 
-                                  value="${element.id}" data-employee_id="${element.employee_id}" data-attending_id="${element.id}"
-                                  data-day="${selectDate}" data-available_from="${timef}:00" data-available_to="${timet}:00">
-                                </div>
-                              </div>
-                            </td>
-                            <td>
-                              <div class='d-flex px-2 py-1'>
-                                <div class='d-flex flex-column justify-content-center'>
-                                  <h6 class='mb-0 text-xs'>${element.first_name??''} ${element.last_name??''}</h6>
-                                </div>
-                              </div>
-                            </td>
-                            <td>
-                              <p class='text-xs font-weight-bold mb-0'>${element.position??''}</p>
-                            </td>
-                            <td class='align-middle text-center text-sm'>
-                              <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timef??''}" readonly>
-                            </td>
-                            <td class='align-middle text-center text-sm'> 
-                              <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timet??''}" readonly>
-                            </td>
-                          </tr>`;
-                      // console.log('NAA');
+                      console.log(el.attending_id==element.id && el.start_date==date_from);
                     }
-                    // if(el.attending_id==element.id && el.start_date==date_from){
-                    //   console.log('GG');
-                    //   console.log(element);
-                    // }else{
-                    //   tableRow += `<tr>
-                    //     <td>
-                    //       <div>
-                    //         <div class='form-check'>
-                    //           <input class='form-check-input schedule' type='radio' name='schedule' id="flexRadioDefault${element.id}" 
-                    //           value="${element.id}" data-employee_id="${element.employee_id}" data-attending_id="${element.id}"
-                    //           data-day="${selectDate}" data-available_from="${timef}:00" data-available_to="${timet}:00">
-                    //         </div>
-                    //       </div>
-                    //     </td>
-                    //     <td>
-                    //       <div class='d-flex px-2 py-1'>
-                    //         <div class='d-flex flex-column justify-content-center'>
-                    //           <h6 class='mb-0 text-xs'>${element.first_name??''} ${element.last_name??''}</h6>
-                    //         </div>
-                    //       </div>
-                    //     </td>
-                    //     <td>
-                    //       <p class='text-xs font-weight-bold mb-0'>${element.position??''}</p>
-                    //     </td>
-                    //     <td class='align-middle text-center text-sm'>
-                    //       <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timef??''}" readonly>
-                    //     </td>
-                    //     <td class='align-middle text-center text-sm'> 
-                    //       <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timet??''}" readonly>
-                    //     </td>
-                    //   </tr>`;
-                    // }
                   });
+                 
+                 
+                 
+                 
+                 
+                 
+                 
+                  // scheds.forEach(el=>{
+                  //   // console.log("ASDASDASD");
+                  //   // console.log(el.attending_id +'=='+element.id);
+                  //   // console.log(date_from +'=='+el.start_date);
+                  //   // console.log(el.attending_id);
+                  //   // console.log(element.id);
+                  //   console.log(el);
+                  //   console.log("&");
+                  //   console.log(element);
+                    
+                  //   // console.log((el.attending_id==element.id && el.start_date==date_from)+' '+(el.attending_id==element.id)+" && "+(el.start_date==date_from));
+
+                  //   if(el.attending_id==element.id && el.start_date==date_from){
+                  //     console.log((el.attending_id)+" && "+(date_from));
+                  //   }else{
+                      
+                  //     tableRow += `<tr>
+                  //           <td>
+                  //             <div>
+                  //               <div class='form-check'>
+                  //                 <input class='form-check-input schedule' type='radio' name='schedule' id="flexRadioDefault${element.id}" 
+                  //                 value="${element.id}" data-employee_id="${element.employee_id}" data-attending_id="${element.id}"
+                  //                 data-day="${selectDate}" data-available_from="${timef}:00" data-available_to="${timet}:00">
+                  //               </div>
+                  //             </div>
+                  //           </td>
+                  //           <td>
+                  //             <div class='d-flex px-2 py-1'>
+                  //               <div class='d-flex flex-column justify-content-center'>
+                  //                 <h6 class='mb-0 text-xs'>${element.first_name??''} ${element.last_name??''}</h6>
+                  //               </div>
+                  //             </div>
+                  //           </td>
+                  //           <td>
+                  //             <p class='text-xs font-weight-bold mb-0'>${element.position??''}</p>
+                  //           </td>
+                  //           <td class='align-middle text-center text-sm'>
+                  //             <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timef??''}" readonly>
+                  //           </td>
+                  //           <td class='align-middle text-center text-sm'> 
+                  //             <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timet??''}" readonly>
+                  //           </td>
+                  //         </tr>`;
+                  //     // console.log('NAA');
+                  //   }
+                  // });
                 }
               }
               tableBody.append(tableRow);

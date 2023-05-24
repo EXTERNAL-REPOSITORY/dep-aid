@@ -1,10 +1,8 @@
 @extends('layouts.app', ['class' => 'g-sidenav-show bg-gray-100'])
 
-@push('links')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-@endpush
+
 @section('content')
-    @include('layouts.navbars.auth.topnav', ['title' => 'Patient Requests'])
+    @include('layouts.navbars.auth.topnav', ['title' => 'Patients'])
     <div class="container-fluid py-4">
         <div class="row mt-4">
             <div class="col-lg-12 mb-lg-0 mb-4">
@@ -21,7 +19,7 @@
         </div>
         <div class="row">
             <div class="col-lg-6 col-md-6">
-                <form action="{{ route('patient-queued.index') }}" method="GET">
+                <form action="{{ route('patient.index') }}" method="GET">
                     <div class="form-group">
                         <div class="input-group">
                             <input class="form-control" type="text" placeholder="Search.." name="search"
@@ -53,8 +51,8 @@
                                             Request Date</th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">
-                                            Reason/s for Consultation <br>(chief complaint)</th>
-                                        {{-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Remarks</th> --}}
+                                            Final Diagnosis
+                                            {{-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">Remarks</th> --}}
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text">
                                             Action</th>
@@ -77,12 +75,7 @@
                                             </td>
                                             <td class="align-middle">
                                                 <p class="text-xs font-weight-bold table-text mb-0 text-uppercase">
-                                                    <b>{{ $row->main_reason_for_consultation }}</b>
-                                                    @if (
-                                                        $row->other_reason_for_consultation != null &&
-                                                            $row->other_reason_for_consultation != $row->main_reason_for_consultation)
-                                                        <br>, <b>{{ $row->other_reason_for_consultation }}</b>
-                                                    @endif
+                                                    <b>{{ $row->diagnosis }}</b>
                                                 </p>
                                             </td>
                                             <td class="align-middle">
@@ -99,53 +92,38 @@
                                                     onclick="schedulePatient('{{ $row->id }}')">
                                                     <i class="fa-solid fa-calendar text-sm opacity-10"></i>
                                                 </button>
-                                                {{-- <button type="button" class="btn bg-gradient-success z-index-2 drop"
-                                                    data-bs-toggle="modal" data-bs-target="#prescriptionModal"
-                                                    data-url="{{ route('patient-dispensing.store') }}"
-                                                    title="Add Prescription"
-                                                    onclick="prescribe('{{ $row->id }}', this)">
-                                                    <i class="fa-solid fa-prescription text-sm opacity-10"></i>
-                                                </button> --}}
-                                                <button type="button" data-bs-toggle="modal" data-bs-target="#sendModal"
-                                                    class="btn bg-gradient-success z-index-2 drop send-diagnosis"
-                                                    title="Send Prescription and Diagnosis"
-                                                    onclick="sendDiagnosis('{{ $row->id }}', this)">
-                                                    <i class="fa-solid fa-paper-plane text-sm opacity-10"></i>
-                                                </button>
-                                                <button type="button" class="btn bg-gradient-success z-index-2 drop"
-                                                    data-bs-toggle="modal" data-bs-target="#doneModal"
-                                                    data-url="{{ route('patient-queued.done', $row->id) }}"
-                                                    title="Done Consultation" onclick="donePatient({{ $row->id }})">
-                                                    <i class="fa-solid fa-viruses text-sm opacity-10"></i>
-                                                </button>
-                                                {{-- <button
-                                                    type="button"
-                                                    class="btn bg-gradient-danger z-index-2 drop"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal"
-                                                    data-url="{{ route('patient-queued.destroy', $row->id) }}"
-                                                    onclick = "deletePatient(this)">
-                                                    Delete
-                                                </button> 
-                                                @if ($row->is_done_consulting)
-                                                    <button
-                                                        type="button"
-                                                        data-bs-toggle="modal" 
-                                                        data-bs-target="#sendModal" 
+                                                {{-- <button 
+                                                type="button"
+                                                class="btn bg-gradient-success z-index-2 drop" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#prescriptionModal"
+                                                data-url="{{ route('patient-dispensing.store') }}"
+                                                title="Add Prescription"
+                                                onclick = "prescribe('{{ $row->id }}', this)">
+                                                <i class="fa-solid fa-prescription text-sm opacity-10"></i>
+                                            </button>
+                                            <button 
+                                                type="button" 
+                                                class="btn bg-gradient-danger z-index-2 drop" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#deleteModal"
+                                                data-url="{{ route('patient-queued.destroy', $row->id) }}"
+                                                onclick = "deletePatient(this)">
+                                                Delete
+                                            </button> --}}
+                                                {{-- @if ($row->is_done_consulting)
+                                                    <button type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#sendModal"
                                                         class="btn bg-gradient-success z-index-2 drop send-diagnosis"
                                                         title="Send Prescription and Diagnosis"
-                                                        onclick = "sendDiagnosis('{{ $row->id }}', this)">
+                                                        onclick="sendDiagnosis('{{ $row->id }}', this)">
                                                         <i class="fa-solid fa-paper-plane text-sm opacity-10"></i>
                                                     </button>
                                                 @else
-                                                    <button 
-                                                        type="button"
-                                                        class="btn bg-gradient-success z-index-2 drop" 
-                                                        data-bs-toggle="modal" 
-                                                        data-bs-target="#doneModal"
+                                                    <button type="button" class="btn bg-gradient-success z-index-2 drop"
+                                                        data-bs-toggle="modal" data-bs-target="#doneModal"
                                                         data-url="{{ route('patient-queued.done', $row->id) }}"
-                                                        title="Done Consultation"
-                                                        onclick = "donePatient(this)">
+                                                        title="Done Consultation" onclick="donePatient(this)">
                                                         <i class="fa-solid fa-viruses text-sm opacity-10"></i>
                                                     </button>
                                                 @endif --}}
@@ -175,7 +153,7 @@
     </div>
     @include('modals.patient.view')
     @include('modals.patient.schedulePatient')
-    @include('modals.patient.filter')
+    @include('modals.patient.list-filter')
     @include('modals.patient.prescription')
     @include('modals.delete')
     @include('modals.done')
@@ -183,7 +161,6 @@
 @endsection
 
 @push('js')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     <script>
         $('.close-modal').on('click', function() {
@@ -225,15 +202,12 @@
         //     backdrop: 'static',
         //     keyboard: false
         // })
-        $('#diagnosis').select2({
-            dropdownParent: $('#done-form')
-        });
 
 
         function generateReport() {
             $.ajax({
                 type: 'GET',
-                url: `{{ route('patient-queued.generatePdf') }}${window.location.search}`,
+                url: `{{ route('patient.generatePdf') }}${window.location.search}`,
                 xhrFields: {
                     responseType: 'blob'
                 },
@@ -241,7 +215,7 @@
                     var blob = new Blob([response]);
                     var link = document.createElement('a');
                     link.href = window.URL.createObjectURL(blob);
-                    link.download = "DEP-AID Patients - Queuing Report.pdf";
+                    link.download = "DEP-AID Patients list - Report.pdf";
                     link.click();
                 },
                 error: function(blob) {
@@ -287,6 +261,7 @@
             $('#patient_allergies').val(detail.allergies);
             $('#patient_main_reason_for_consultation').val(detail.main_reason_for_consultation);
             $('#patient_other_reason_for_consultation').val(detail.other_reason_for_consultation);
+            $('#diagnosis').val(detail.diagnosis);
             $('#patient_current_medications').val(detail.current_medications);
             $('#patient_maintenance_medications').val(detail.maintenance_medications);
             $('#patient_doctor_consulting').val(detail.doctor_consulting);
@@ -317,7 +292,7 @@
             $('#reasons_for_consultation').val(detail.main_reason_for_consultation);
             $('#nv_scheduled_appointment').val(newscheduledAppointment);
             $('#scheduled_time').val(moment(detail.schedule ? detail.schedule.start_date : '').format('HH:mm:ss'));
-            $('#schedule-next-visit-form').attr('action', `/schedules/store`);
+            $('#schedule-next-visit-form').attr('action', `/schedules/store2`);
         }
 
         function deletePatient(btn) {
@@ -332,34 +307,12 @@
             $('#prescription-form').attr('action', url);
         }
 
-        function donePatient(id) {
-            console.log(id);
-            $('#done_patient_form_id').val(id);
-            // var data = $(btn).data();
-            // console.log(data)
-            // var url = data.url;
-            // $('#done-form').attr('action', url + "/");
+        function donePatient(btn) {
+            var data = $(btn).data();
+            console.log(data)
+            var url = data.url;
+            $('#done-form').attr('action', url + '/' + $('#diagnonis').val());
         }
-        $('#done-form').submit(function(e) {
-            e.preventDefault();
-            const formData = $(this).serializeArray().reduce((o, kv) => ({
-                ...o,
-                [kv.name]: kv.value
-            }), {});
-            console.log(formData);
-            $.ajax({
-                url: "{{ route('patient-queued.done') }}",
-                method: "POST",
-                data: formData,
-                success: function(response) {
-                    location.reload();
-                },
-                error: function(response) {
-                    console.log('aw');
-                    console.log(response);
-                }
-            });
-        });
 
         function sendDiagnosis(id, btn) {
             const detail = $(`#patient-details-${id}`).data().detail;

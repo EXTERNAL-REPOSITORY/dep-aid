@@ -274,6 +274,23 @@
                         </div>
                     </div>
                 </div>
+                <hr>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        @component('components.inputs.input')
+                        @slot('label', 'Final Diagnosis')
+                        @slot('attributes', [
+                        'class' => 'form-control',
+                        'type' => 'text',
+                        'name' => 'diagnosis',
+                        'id' => 'fdiagnosis',
+                        'placeholder' => 'Final Diagnosis',
+                        'readonly' => true
+                        ])
+                        @endcomponent
+                    </div>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn bg-gradient-secondary close-modal"
                         data-bs-dismiss="modal">Close</button>

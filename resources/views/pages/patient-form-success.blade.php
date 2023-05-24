@@ -78,7 +78,7 @@
                                                         <div class="col-md-12">
                                                             <h5 class="fw-bold text-center">Thanks for filling out our form!</h5>
                                                             <h6 class="fw-bold text-center text-capitalize">
-                                                                Name: {{Str::title($patientForm->name)}}
+                                                                Name: {{Str::title($patientForm->firstname??"")}} {{Str::title($patientForm->last_name??"")}} {{Str::title($patientForm->middlename??"")}}
                                                             </h6>
                                                             <h6 class="fw-bold text-center">
                                                                 Schedule: {{$date}}

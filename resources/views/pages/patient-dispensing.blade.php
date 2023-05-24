@@ -380,7 +380,7 @@
                     // {{--const patientForm = JSON.parse(`{!! $patientForm !!}`);--}}
                     var options='';
                     response.patients.map(element=>{
-                        options+=`<option value="${element.id}">${element.name} (${element.gender})</option>`;
+                        options+=`<option value="${element.id}">${element.firstname+" "+element.middlename+" "+element.lastname} (${element.gender})</option>`;
                     });
                     $('#patient').html(`
                     <div class="row">

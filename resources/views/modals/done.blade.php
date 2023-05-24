@@ -14,6 +14,53 @@
                     <i class="ni ni-bell-55 ni-3x"></i>
                     <h4 class="text-gradient text-danger mt-4">You should read this!</h4>
                     <p>Do you want to Done this item?</p>
+                    <input type="hidden" name="patient_form_id" id="done_patient_form_id">
+                    <div class="row">
+                      <div class="col-md-12 col-lg-12">
+                        @component('components.inputs.select')
+                        @slot('label', 'Final Diagnosis')
+                        @slot('options', [
+                        "Hypertension" => "Hypertension",
+                        "Diabetes" => "Diabetes",
+                        "Urinary Tract Infection" => "Urinary Tract Infection",
+                        "Tubercolosis" => "Tubercolosis",
+                        "Headache" => "Headache",
+                        "Pneumonia" => "Pneumonia",
+                        "Heart Disease" => "Heart Disease",
+                        "Gastritis" => "Gastritis",
+                        "Ulcer" => "Ulcer",
+                        "Colds / Flu" =>"Colds / Flu",
+                        "Stomache Aches" => "Stomache Aches",
+                        "Cough" => "Cough",
+                        "Sore Throat" => "Sore Throat",
+                        "Diarrhea" => "Diarrhea",
+                        "Athritis" => "Athritis",
+                        "Appendicitis" => "Appendicitis",
+                        "Asthma" => "Asthma" ,
+                        "Cancer" => "Cancer",
+                        "Bronchitis" => "Bronchitis",
+                        "Chickenpox" => " Chickenpox",
+                        "Constipation" => "Constipation",
+                        "COVID" => "COVID",
+                        "Hepatitis" => "Hepatitis",
+                        "Malaria" => "Malaria",
+                        "Dengue" => "Dengue",
+                        "Osteoporosis" => "Osteoporosis",
+                        "Sinusitis" => "Sinusitis",
+                        "Stroke" => "Stroke",
+                        "Tonsilitis" => "Tonsilitis",
+                        ])
+                        @slot('attributes', [
+                        'class' => 'selectpicker form-control',
+                        'name' => 'diagnosis',
+                        'id' => 'diagnosis',
+                        'value' => '',
+                        'placeholder' => 'Select Diagnosis (Optional)',
+                        'style' => 'width:100%!important',
+                        ])
+                        @endcomponent
+                      </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">

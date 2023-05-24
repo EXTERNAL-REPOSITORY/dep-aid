@@ -52,21 +52,23 @@
                     <th scope="col">Patient Name</th>
                     <th scope="col">Scheduled Appointment</th>
                     <th scope="col">Reason/s for Consultation</th>
-                    <th scope="col">Remarks</th>
+                    <th scope="col">Current Medications</th>
+                    <th scope="col">Date</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($users as $index => $row)
                     <tr>
                         <th scope="row">{{ $row->id }}</th>
-                        <td>{{ $row->patient_name }}</td>
+                        <td>{{ $row->name }}</td>
                         <td>{{ date('m/d/Y', strtotime($row->scheduled_appointment)) }}</td>
-                        <td>{{ $row->reasons_for_consultation }}</td>
-                        <td>{{ $row->remarks }}</td>
+                        <td>{{ $row->main_reason_for_consultation." ".$row->other_reason_for_consultation}}</td>
+                        <td>{{ $row->current_medications}}</td>
+                        <td>{{ date('m/d/Y', strtotime($row->created_at)) }}</td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5">No Data Available</td>
+                        <td colspan="6">No Data Available</td>
                     </tr>
                 @endforelse
             </tbody>

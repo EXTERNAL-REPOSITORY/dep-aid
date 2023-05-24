@@ -48,7 +48,7 @@ Route::get('/districts', [MainController::class, 'getDistrictsWithBarangays'])->
 Route::get('/barangays', [MainController::class, 'getBarangays'])->name('barangays');
 
 Route::post('/success', [MainController::class, 'store'])->name('patient-form.store');
-Route::post('/done/{id}', [MainController::class, 'done'])->name('patient-queued.done');
+Route::post('/done', [MainController::class, 'done'])->name('patient-queued.done');
 
 
 //Get Schedule of Doctor for Patient Form
@@ -62,24 +62,27 @@ Route::get('/schedules/validate', [ScheduleController::class, 'validateSchedule'
 
 //FOR LOCAL USE ONLY
 // Route::match(['get', 'post'], '/botman', [BotManController::class, 'handle'])->name('handle'); 
- 
 
-Route::get('/', function () {return redirect('/dashboard');})->middleware('auth');
-	Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
-	Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
-	Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
-	Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login.perform');
-	Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest')->name('reset-password');
-	Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('guest')->name('reset.perform');
-	Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
-	Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
-	Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
+
+Route::get('/', function () {
+	return redirect('/dashboard');
+})->middleware('auth');
+Route::get('/register', [RegisterController::class, 'create'])->middleware('guest')->name('register');
+Route::post('/register', [RegisterController::class, 'store'])->middleware('guest')->name('register.perform');
+Route::get('/login', [LoginController::class, 'show'])->middleware('guest')->name('login');
+Route::post('/login', [LoginController::class, 'login'])->middleware('guest')->name('login.perform');
+Route::get('/reset-password', [ResetPassword::class, 'show'])->middleware('guest')->name('reset-password');
+Route::post('/reset-password', [ResetPassword::class, 'send'])->middleware('guest')->name('reset.perform');
+Route::get('/change-password', [ChangePassword::class, 'show'])->middleware('guest')->name('change-password');
+Route::post('/change-password', [ChangePassword::class, 'update'])->middleware('guest')->name('change.perform');
+Route::get('/dashboard', [HomeController::class, 'index'])->name('home')->middleware('auth');
 Route::group(['middleware' => 'auth'], function () {
 	Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 	//Schedules
 	Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules.index');
 	Route::post('/schedules/store', [ScheduleController::class, 'store'])->name('schedules.store');
+	Route::post('/schedules/store2', [ScheduleController::class, 'store2'])->name('schedules.store2');
 
 	//Patient Queued
 	Route::get('/patient-queued', [PatientQueuedController::class, 'index'])->name('patient-queued.index');
@@ -88,7 +91,15 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('/patient-queued/update/{id}', [PatientQueuedController::class, 'update'])->name('patient-queued.update');
 	Route::delete('/patient-queued/destroy/{id}', [PatientQueuedController::class, 'destroy'])->name('patient-queued.destroy');
 	Route::get('/patient-queued/generate-pdf', [PatientQueuedController::class, 'generatePdf'])->name('patient-queued.generatePdf');
-	
+
+	//Patients
+	Route::get('/patient', [PatientsController::class, 'index'])->name('patient.index');
+	// Route::post('/patient/store', [PatientsController::class, 'store'])->name('patient.store');
+	// Route::get('/patient/list', [PatientsController::class, 'getPatients'])->name('patient.list');
+	// Route::put('/patient/update/{id}', [PatientsController::class, 'update'])->name('patient.update');
+	// Route::delete('/patient/destroy/{id}', [PatientsController::class, 'destroy'])->name('patient.destroy');
+	Route::get('/patient/generate-pdf', [PatientsController::class, 'generatePdf'])->name('patient.generatePdf');
+
 	//Doctor-Nurse
 	Route::get('/doctor-nurse', [DoctorNurseController::class, 'index'])->name('doctor-nurse.index');
 	Route::get('/doctor-nurse/show', [DoctorNurseController::class, 'show'])->name('doctor-nurse.show');
@@ -104,35 +115,35 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('/cardiac-drugs/update/{id}', [CardiacDrugsController::class, 'update'])->name('cardiac-drugs.update');
 	Route::delete('/cardiac-drugs/destroy/{id}', [CardiacDrugsController::class, 'destroy'])->name('cardiac-drugs.destroy');
 	Route::get('/cardiac-drugs/generate-pdf', [CardiacDrugsController::class, 'generatePdf'])->name('cardiac-drugs.generatePdf');
-	
+
 	//Antibiotics
 	Route::get('/antibiotics', [AntibioticsController::class, 'index'])->name('antibiotics.index');
 	Route::post('/antibiotics/store', [AntibioticsController::class, 'store'])->name('antibiotics.store');
 	Route::put('/antibiotics/update/{id}', [AntibioticsController::class, 'update'])->name('antibiotics.update');
 	Route::delete('/antibiotics/destroy/{id}', [AntibioticsController::class, 'destroy'])->name('antibiotics.destroy');
 	Route::get('/antibiotics/generate-pdf', [AntibioticsController::class, 'generatePdf'])->name('antibiotics.generatePdf');
-	
+
 	//Anti-Inflammatory
 	Route::get('/anti-inflammatory', [AntiInflammatoryController::class, 'index'])->name('anti-inflammatory.index');
 	Route::post('/anti-inflammatory/store', [AntiInflammatoryController::class, 'store'])->name('anti-inflammatory.store');
 	Route::put('/anti-inflammatory/update/{id}', [AntiInflammatoryController::class, 'update'])->name('anti-inflammatory.update');
 	Route::delete('/anti-inflammatory/destroy/{id}', [AntiInflammatoryController::class, 'destroy'])->name('anti-inflammatory.destroy');
 	Route::get('/anti-inflammatory/generate-pdf', [AntiInflammatoryController::class, 'generatePdf'])->name('anti-inflammatory.generatePdf');
-	
+
 	//Ear-Meds
 	Route::get('/ear-meds', [EarMedController::class, 'index'])->name('ear-meds.index');
 	Route::post('/ear-meds/store', [EarMedController::class, 'store'])->name('ear-meds.store');
 	Route::put('/ear-meds/update/{id}', [EarMedController::class, 'update'])->name('ear-meds.update');
 	Route::delete('/ear-meds/destroy/{id}', [EarMedController::class, 'destroy'])->name('ear-meds.destroy');
 	Route::get('/ear-meds/generate-pdf', [EarMedController::class, 'generatePdf'])->name('ear-meds.generatePdf');
-	
+
 	//Topicals
 	Route::get('/topicals', [TopicalController::class, 'index'])->name('topicals.index');
 	Route::post('/topicals/store', [TopicalController::class, 'store'])->name('topicals.store');
 	Route::put('/topicals/update/{id}', [TopicalController::class, 'update'])->name('topicals.update');
 	Route::delete('/topicals/destroy/{id}', [TopicalController::class, 'destroy'])->name('topicals.destroy');
 	Route::get('/topicals/generate-pdf', [TopicalController::class, 'generatePdf'])->name('topicals.generatePdf');
-	
+
 	// Near Expiry Medicines
 	Route::get('/expired-meds', [ExpiredMedsController::class, 'index'])->name('expired-meds.index');
 	Route::get('/expired-meds/generate-pdf', [ExpiredMedsController::class, 'generatePdf'])->name('expired-meds.generatePdf');
@@ -141,17 +152,17 @@ Route::group(['middleware' => 'auth'], function () {
 	// Near Expiry Medicines
 	Route::get('/near-expiry-meds', [NearExpiryMedsController::class, 'index'])->name('near-expiry-meds.index');
 	Route::get('/near-expiry-meds/generate-pdf', [NearExpiryMedsController::class, 'generatePdf'])->name('near-expiry-meds.generatePdf');
-	
+
 	// Reorder Level Medicines
 	Route::get('/reorder-lvl-meds', [ReorderLevelController::class, 'index'])->name('reorder-lvl-meds.index');
 	Route::get('/reorder-lvl-meds/generate-pdf', [ReorderLevelController::class, 'generatePdf'])->name('reorder-lvl-meds.generatePdf');
-	
+
 	// Prescription
 	Route::post('/send-prescription-diagnosis/{id}', [SendDiagnosisPrescription::class, 'store'])->name('send-prescription-diagnosis.store');
 	Route::get('/prescription', [SendDiagnosisPrescription::class, 'index'])->name('prescription');
 
 	// Forecast Illness
-	Route::get('/top-illness', [DeseaseForecastController::class, 'getTopTen'])->name('top-illness.topTen');	
+	Route::get('/top-illness', [DeseaseForecastController::class, 'getTopTen'])->name('top-illness.topTen');
 
 	// Prescribing/Dispensing
 	//Patient Dispensing
@@ -160,5 +171,4 @@ Route::group(['middleware' => 'auth'], function () {
 
 	// Inventory Meds
 	Route::get('/inventory-medicines/all', [InventoryController::class, 'getInventoryMeds'])->name('inventory-medicines.all');
-
 });
