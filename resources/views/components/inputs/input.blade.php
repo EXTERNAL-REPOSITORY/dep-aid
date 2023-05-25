@@ -1,6 +1,6 @@
 <div class="form-group">
     @isset($label)
-        <label>@lang($label)</label>
+        <label>@lang($label) <span class="text-danger">{{ isset($attributes['required'])?'*':''}}</span></label>
     @endisset
     <input 
         @foreach ($attributes as $key => $attr)

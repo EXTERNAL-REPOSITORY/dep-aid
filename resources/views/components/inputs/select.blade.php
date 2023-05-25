@@ -1,14 +1,14 @@
 
 @if (isset($attributes))
 <div class="form-group">
+    @isset($spinner_id)
+        <div class="spinner-border text-warning" id="{{ $spinner_id }}" role="status" style="display: none; width: 15px; height: 15px; ">
+            <span class="sr-only">Loading...</span>
+        </div>
+    @endisset
     @isset($label)
         <label>
-            @lang($label)
-            @isset($spinner_id)
-                <div class="spinner-border text-warning" id="{{ $spinner_id }}" role="status" style="display: none; width: 15px; height: 15px; ">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            @endisset
+            @lang($label)  <span class="text-danger">{{ isset($attributes['required'])?'*':''}}</span>
         </label>
     @endisset
     <select 
@@ -28,14 +28,13 @@
 </div>
 @else
 <div class="form-group">
+    @isset($spinner_id)
+        <div class="spinner-border text-warning" id="{{ $spinner_id }}" role="status" style="display: none; width: 15px; height: 15px; ">
+            <span class="sr-only">Loading...</span>
+        </div>
+    @endisset
     <label>
         @lang($label)
-        @isset($spinner_id)
-            <div class="spinner-border text-warning" id="{{ $spinner_id }}" role="status" style="display: none; width: 15px; height: 15px; ">
-                <span class="sr-only">Loading...</span>
-            </div>
-        @endisset
-
     </label>
     <select 
         @isset($onchange)
