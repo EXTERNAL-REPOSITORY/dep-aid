@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
 use App\Models\DispensedMedicines;
+use App\Models\Inventory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
@@ -21,9 +22,9 @@ class DipensedMedicinesFactory extends Factory
     {
         $gender = fake()->randomElement(['Male', 'Female']);
         return [
-            'medicine_id' => random_int(1, 30),
+            'medicine_id' => random_int(1, 100),
             'patient_name' => fake()->firstName($gender) . " " . fake()->lastName() . " " . fake()->lastName(),
-            'quantity' => random_int(1, 100),
+            'quantity' => Inventory::all()->random()->id,
             'remarks' => "Sample Remarks",
             'created_at' => fake()->dateTimeBetween('1990-01-01', '2023-05-30'),
             'updated_at' => Carbon::now(),
