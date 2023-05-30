@@ -206,7 +206,11 @@
                             <h6 class="font-weight-bolder text-uppercase">Top 5 inventory Medicines</h6>
                             <small>Most medicines inside inventory</small>
                         </div>
-                        <div id="topFiveMedsChart" class="mx-auto d-flex justify-content-center"><center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</center></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div id="topFiveMedsChart" class="mx-auto d-flex justify-content-center"><center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</center></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -554,15 +558,15 @@
         var options = {
             series: [],
             chart: {
-                width: 380,
-                type: 'donut',
+                width: '60%',
+                type: 'pie',
             },
             labels: [],
             responsive: [{
                 breakpoint: 480,
                 options: {
                     chart: {
-                        width: 200
+                        width: '60%'
                     },
                     legend: {
                         position: 'bottom'
@@ -571,7 +575,7 @@
             }],
         };
 
-        const topMedicines = JSON.parse('{!! $getTopMedicines !!}');
+        const topMedicines = JSON.parse(`{!! $getTopMedicines !!}`);
         topMedicines.filter(function (element) {
             options.series.push(parseInt(`${element.stock_balance}`));
             options.labels.push(`${element.medicine_name}`);
@@ -582,6 +586,38 @@
             var chart = new ApexCharts(document.querySelector("#topFiveMedsChart"), options);
             chart.render();
         // },3000);
+
+
+
+
+
+        
+        // var options = {
+        //   series: [{
+        //   data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+        // }],
+        //   chart: {
+        //   type: 'bar',
+        //   height: 350
+        // },
+        // plotOptions: {
+        //   bar: {
+        //     borderRadius: 4,
+        //     horizontal: true,
+        //   }
+        // },
+        // dataLabels: {
+        //   enabled: false
+        // },
+        // xaxis: {
+        //   categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
+        //     'United States', 'China', 'Germany'
+        //   ],
+        // }
+        // };
+
+        // var chart = new ApexCharts(document.querySelector("#chart"), options);
+        // chart.render();
     }
 
     function drawChartPie2() {
@@ -605,7 +641,7 @@
             }],
         };
 
-        const topDispensedMedicines = JSON.parse('{!! $topDispensedMeds !!}');
+        const topDispensedMedicines = JSON.parse(`{!! $topDispensedMeds !!}`);
         topDispensedMedicines.filter(function (element) {
             options.series.push(parseInt(`${element.med_count}`));
             options.labels.push(`${element.medicine_name}`);
