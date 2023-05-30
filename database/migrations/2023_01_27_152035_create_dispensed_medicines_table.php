@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('dispensed_medicines', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('medicine_id')->references('id')->on('inventory');
+            $table->foreignId('medicine_id')->nullable()->references('id')->on('inventory');
             $table->foreignId('patient_form_id')->nullable()->reference('id')->on('patient_form')->comment('person got the medicine');
             $table->string('patient_name')->nullable();
             $table->integer('quantity')->default(0);
