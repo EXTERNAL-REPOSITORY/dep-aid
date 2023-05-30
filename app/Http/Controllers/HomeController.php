@@ -53,8 +53,8 @@ class HomeController extends Controller
                 case ('Topicals'):
                     $inventory['topicals'] += 1;
                     break;
-                case ('Anti-inflammatory'):
-                    $inventory['anti-inflammatory'] = $inventory['anti-inflammatory'] + 1;
+                case ('Anti-Inflammatory'):
+                    $inventory['anti-inflammatory'] += 1;
                     break;
             }
         }
