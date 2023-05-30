@@ -25,11 +25,12 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             EventsTableSeeder::class,
-            DaySeeder::class,
+            // DaySeeder::class,
             InventorySeeder::class,
             PatientFormSeeder::class,
             Districts::class,
-            Barangays::class
+            Barangays::class,
+            DispensedMedicineSeeder::class
         ]);
     }
 }
