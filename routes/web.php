@@ -5,6 +5,7 @@ use App\Http\Controllers\AntiInflammatoryController;
 use App\Http\Controllers\BotManController;
 use App\Http\Controllers\CardiacDrugsController;
 use App\Http\Controllers\DeseaseForecastController;
+use App\Http\Controllers\MedicineForecastController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -163,6 +164,9 @@ Route::group(['middleware' => 'auth'], function () {
 
 	// Forecast Illness
 	Route::get('/top-illness', [DeseaseForecastController::class, 'getTopTen'])->name('top-illness.topTen');
+
+	// Forecast Illness
+	Route::get('/top-medicines', [MedicineForecastController::class, 'getTopTen'])->name('top-medicines.topTen');
 
 	// Prescribing/Dispensing
 	//Patient Dispensing
