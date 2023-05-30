@@ -60,9 +60,9 @@ class HomeController extends Controller
         }
         $getTopMedicines = Inventory::orderBy('stock_balance', 'DESC')->select('medicine_name', 'stock_balance')->take(5)->get();
         $getTopDispensedMedicines = DispensedMedicines::select("*")
-            ->selectRaw('COUNT(`medicine_id`) AS med_count')
+            ->selectRaw('COUNT(`inventory`.`medicine_name`) AS med_count')
             ->join('inventory', 'dispensed_medicines.medicine_id', '=', 'inventory.id', 'INNER')
-            ->groupBy('medicine_id')
+            ->groupBy('inventory.medicine_name')
             ->orderBy('med_count', 'DESC')->take(5)->get();
         return view('pages.dashboard')->with([
             'patients' => $patients, 'schedule' => $schedule,
