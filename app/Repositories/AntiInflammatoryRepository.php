@@ -23,11 +23,11 @@ class AntiInflammatoryRepository
                 \App\Pipelines\Search\SearchInventoryTable::class,
                 \App\Pipelines\Filter\DateFilter::class
             ])->thenReturn();
-        
+
         $data = $result ? $result : $query;
         $antiInflammatory = $data->whereRaw('inventory.expiration_date >= NOW()')
-        ->where('type', 'Anti-inflammatory')
-        ->paginate(10);
+            ->where('type', 'Anti-inflammatory')
+            ->paginate(10);
 
         return compact('antiInflammatory', 'requestData');
     }
@@ -86,10 +86,10 @@ class AntiInflammatoryRepository
                 \App\Pipelines\Search\SearchInventoryTable::class,
                 \App\Pipelines\Filter\DateFilter::class
             ])->thenReturn();
-        
+
         $r1 = $result ? $result : $query;
         $med = $r1->whereRaw('inventory.expiration_date >= NOW()')
-        ->where('type', 'Anti-inflammatory')->get();
+            ->where('type', 'Anti-inflammatory')->get();
 
         $data = [
             'title' => 'DEP-AID Inventory - Anti-Inflammatory Report',
