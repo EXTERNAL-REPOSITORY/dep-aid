@@ -201,11 +201,13 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="col">
-                        <h6 class="font-weight-bolder text-uppercase">Top 5 inventory Medicines</h6>
-                        <small>Most medicines inside inventory</small>
+                    <div class="row">
+                        <div class="col">
+                            <h6 class="font-weight-bolder text-uppercase">Top 5 inventory Medicines</h6>
+                            <small>Most medicines inside inventory</small>
+                        </div>
+                        <div id="topFiveMedsChart" class="mx-auto d-flex justify-content-center"><center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</center></div>
                     </div>
-                    <div id="topFiveMedsChart" class="mx-auto d-flex justify-content-center"><center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</center></div>
                 </div>
             </div>
         </div>
@@ -215,11 +217,90 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="col">
-                        <h6 class="font-weight-bolder text-uppercase">Top 5 Dispensed Medicines</h6>
-                        <small>Most medicines dispensed to patients</small>
+                    <div class="row">
+                        <div class="col">
+                            <h6 class="font-weight-bolder text-uppercase">Top 10 Dispensed Medicines</h6>
+                            <small>Most medicines dispensed to patients</small>
+                        </div>
                     </div>
-                    <div id="topFiveDispensedMedsChart" class="mx-auto d-flex justify-content-center"><center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</center></div>
+                    <!-- <div class="row">
+                        <div class="col">
+                            <div id="TopMedicineChart" class="mx-auto d-flex justify-content-center"><center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</center></div>
+                        </div>
+                    </div> -->
+                    <div class="row mt-3 mb-3">
+                        <div class="col-xl-12 col-xs-12 col-sm-12 col-mb-12 mb-xl-0 mb-1">
+                            <div class="card" title="view list of most medicines dispensed to patients">
+                                <div class="card-body p-3">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">Month <i class="fa fa-eye"></i></p>
+                                            <label for="medicine-month-forecast">Select:</label>
+                                            <select class="medicine-month-forecast" style="
+                                            display: block;
+                                            padding: 0.5rem 0.75rem;
+                                            font-size: 0.875rem;
+                                            font-weight: 400;
+                                            line-height: 1.4rem;
+                                            color: #495057;
+                                            background-color: #fff;
+                                            background-clip: padding-box;
+                                            border: 1px solid #d2d6da;
+                                            -webkit-appearance: none;
+                                            -moz-appearance: none;
+                                            appearance: none;
+                                            border-radius: 0.5rem;
+                                            transition: box-shadow 0.15s ease, border-color 0.15s ease;">
+                                                <option value="1">JANUARY</option>
+                                                <option value="2">FEBRUARY</option>
+                                                <option value="3">MARCH</option>
+                                                <option value="4">APRIL</option>
+                                                <option value="5">MAY</option>
+                                                <option value="6">JUNE</option>
+                                                <option value="7">JULY</option>
+                                                <option value="8">AUGUST</option>
+                                                <option value="9">SEPTEMBER</option>
+                                                <option value="10">OCTOBER</option>
+                                                <option value="11">NOVEMBER</option>
+                                                <option value="12">DECEMBER</option>
+                                            </select>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="numbers">
+                                                <div class="font-weight-bold text-small table-responsive">
+                                                    <table class="table">
+                                                        <thead class="text-center">
+                                                            <tr class="bg-dark text-light">
+                                                                <th scope="col">#</th>
+                                                                <th scope="col" class="text-start">Medicines</th>
+                                                                <th scope="col">Probabilistic Rate(%)</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="medicine_forecasting_table" class="text-center">
+                                                            <tr class="text-center">
+                                                                <td scope="col" colspan="3"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col">
+                                            <div id="topFiveDispensedMedsChart" class="mx-auto d-flex justify-content-center"><center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</center></div>
+                                        </div> -->
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div id="TopMedicineChart" class="mx-auto d-flex justify-content-center"><center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</center></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -318,8 +399,83 @@
 --}}
 <script type="text/javascript">
     drawChartPie();
-    drawChartPie2();
+    // drawChartPie2();
     drawChartTopIllnes(1);
+    drawChartTopMedicines(1);
+
+    function drawChartTopMedicines(month) {
+        $('#TopMedicineChart').html('<tr class="text-center">\
+            <td scope="col" colspan="3"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</td>\
+        </tr>');
+        $.get( "{{route('top-medicines.topTen')}}", { month: month } )
+        .done(function( rawData ) {
+            const medicines = JSON.parse(rawData);
+            monthlyForecastMedicines(medicines);
+
+            medicines.sort(function(a,b){
+                return new Date(b.created_at) - new Date(a.created_at);
+            });
+            var year =[];
+            var tempMedicines=[];
+            var data = [];
+            var tempData = [];
+
+            medicines.forEach(element => {
+                year.push(element.created_at);
+                tempMedicines.push(element.medicine_name);
+            });
+            const medicine = new Set(tempMedicines);
+            medicine.forEach(medicine_name => {
+                medicines.forEach(element => {
+                    if(medicine_name==element.medicine_name){
+                        tempData.push(element.medicine_occurrence);
+                        // console.log(element.consultation);
+                    }else{
+                        tempData.push(0);
+                    }
+                });
+                
+                data.push({
+                    name: medicine_name,
+                    data: [...tempData]
+                });
+                tempData=[];
+            });
+            // console.log(data);
+
+            // console.log(data);
+            var options = {
+            chart: {
+                height: 350,
+                type: 'area'
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            markers: {
+                size: 5,
+            },
+            series: data,
+            xaxis: {
+                type: 'datetime',
+                categories: year
+            },
+            tooltip: {
+                x: {
+                    format: 'MMMM dd, yyyy HH:mm'
+                },
+            },
+            };
+            
+            $("#TopMedicineChart").html("");
+            var chart = new ApexCharts(document.querySelector("#TopMedicineChart"), options);
+            chart.render();
+            
+        });
+    }
 
     function drawChartTopIllnes(month) {
         $('#TopIllnessChart').html('<tr class="text-center">\
@@ -480,7 +636,32 @@
                         <td>'+(element.consultation/denom*100).toFixed(2)+'%</td>\
                     </tr>';
         });
-        $('#forecasting_table').html(body!=""?body:"No Data")
+        $('#forecasting_table').html(body!=""?body:`<tr>
+                                                        <td colspan="3">No Data</td>
+                                                    </tr>`)
+    }
+
+    function monthlyForecastMedicines(data){
+        $('#medicine_forecasting_table').html('<tr class="text-center">\
+            <td scope="col" colspan="3"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</td>\
+        </tr>');
+        // console.log("----------------------------------------------");
+        var denom=sequence=0;
+        data.forEach(element => {
+            denom+=element.medicine_occurrence;
+        });
+        var body="";
+        data.forEach(element => {
+            sequence++;
+            body +='<tr>\
+                        <td scope="row">'+sequence+'</td>\
+                        <td class="text-start"><span class="text-nowrap">'+element.medicine_name+'</span></td>\
+                        <td>'+(element.medicine_occurrence/denom*100).toFixed(2)+'%</td>\
+                    </tr>';
+        });
+        $('#medicine_forecasting_table').html(body!=""?body:`<tr>
+                                                                <td colspan="3">No Data</td>
+                                                            </tr>`)
     }
 
     function historyView(year){
@@ -491,6 +672,10 @@
 <script type="text/javascript">
 $('.month-forecast').on('change',function(e){
     drawChartTopIllnes($(this).val());
+});
+
+$('.medicine-month-forecast').on('change',function(e){
+    drawChartTopMedicines($(this).val());
 });
 
 // $('#reportrange').on('change',function(e){

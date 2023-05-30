@@ -110,7 +110,7 @@
                         'type' => 'text',
                         'name' => 'middlename',
                         'id' => 'middlename',
-                        'placeholder' => 'Middle Name',
+                        'placeholder' => 'Put N/A if none',
                          'required' =>'required'
                         ])
                         @endcomponent
@@ -132,7 +132,7 @@
                     <div class="row">
                       <div class="col-md-12 col-lg-4">
                         @component('components.inputs.select')
-                        @slot('label', 'Gender')
+                        @slot('label', 'Sex')
                         @slot('options', ["Male" => 'Male', "Female" => 'Female'])
                         @slot('attributes', [
                         'class' => 'form-control',
@@ -181,7 +181,6 @@
                         'name' => 'height',
                         'id' => 'height',
                         'placeholder' => 'Height',
-                         'required' =>'required'
                         ])
                         @slot('append', 'cm')
                         @endcomponent
@@ -195,9 +194,8 @@
                         'name' => 'weight',
                         'id' => 'weight',
                         'placeholder' => 'Weight',
-                         'required' =>'required'
                         ])
-                        @slot('append', 'kl')
+                        @slot('append', 'kg')
                         @endcomponent
                       </div>
                     </div>
@@ -410,13 +408,14 @@
                         "Sinusitis" => "Sinusitis",
                         "Stroke" => "Stroke",
                         "Tonsilitis" => "Tonsilitis",
+                        "Other" => "Other",
                         ])
                         @slot('attributes', [
                         'class' => 'form-control',
                         'name' => 'main_reason_for_consultation',
                         'id' => 'main_reason_for_consultation',
                         'value' => '',
-                        'placeholder' => 'Select',
+                        'placeholder' => 'Select...',
                          'required' =>'required'
                         ])
                         @endcomponent
@@ -481,8 +480,19 @@
                     <div class="row">
                       <div class="col-md-12">
                         <div class="form-group">
-                          <label for="example-date-input" class="form-control-label">Date</label>
-                          <input class="form-control" type="date" name="date" value="" id="date-for-consultation" required="required">
+                          <!-- <label for="example-date-input" class="form-control-label">Date</label>
+                          <input class="form-control" type="date" name="date" value="" id="date-for-consultation" required="required"> -->
+                          
+                          @component('components.inputs.input')
+                          @slot('label', 'Date')
+                          @slot('attributes', [
+                          'class' => 'form-control text-black',
+                          'type' => 'date',
+                          'name' => 'date',
+                          'id' => 'date-for-consultation',
+                          'required' =>'required'
+                          ])
+                          @endcomponent
                         </div>
                       </div>
                     </div>

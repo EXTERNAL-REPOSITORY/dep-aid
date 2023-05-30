@@ -37,6 +37,7 @@
                             <table class="table align-items-center mb-0">
                               <thead>
                                 <tr>
+                                  <th class="text-justify text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text ps-2">#</th>
                                   <th class="text-justify text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text ps-2">Medicine Type</th>
                                   <th class="text-justify text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text ps-2">Medicine Name</th>
                                   <th class="text-justify text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 table-text ps-2">Patient Name</th>
@@ -52,17 +53,24 @@
                                 @forelse ($dispensedMedicines as $index => $row)
                                     <tr class="text-center">
                                         <td class="text-justify">
+                                            <p class="text-xs font-weight-bold table-text mb-0 text-left">{{ $row->dispensed_med_id }}</p>
+                                        </td>
+                                        <td class="text-justify">
                                             <p class="text-xs font-weight-bold table-text mb-0 text-left">{{ $row->type }}</p>
                                         </td>
                                         <td class="text-justify">
                                             <p class="text-xs font-weight-bold table-text mb-0">{{ $row->medicine_name }}</p>
                                         </td>
+                                        {{--
                                         <td class="text-justify">
                                             <p class="text-xs font-weight-bold table-text mb-0">{{ $row->patient_form_id==null?$row->patient_name:$row->name}}</p>
                                         </td>
-                                        {{-- <td class="text-justify">
-                                            <p class="text-xs font-weight-bold table-text mb-0">{{ $row->first_name." ".$row->middle_name." ".$row->last_name}}</p>
-                                        </td> --}}
+                                        --}}
+
+                                        <td class="text-justify">
+                                            <p class="text-xs font-weight-bold table-text mb-0">{{$row->patient_form_id!=null? $row->firstname." ".$row->middlename." ".$row->lastname:$row->patient_name}}</p>
+                                        </td>
+
                                         <td>
                                             <p class="text-xs font-weight-bold table-text mb-0">{{ $row->quantity }}</p>
                                         </td>
@@ -72,73 +80,10 @@
                                         <td class="align-middle">
                                             <span class="text-secondary text-xs font-weight-bold table-text text-uppercase">{{ date('F d, Y h:i A', strtotime($row->dispensed_date)) }}</span>
                                         </td>
-                                        {{-- <td class="align-middle">
-                                            <input type="hidden" id="patient-details-{{$row->id}}" data-detail="{{ $row }}">
-                                            <button 
-                                                type="button" 
-                                                class="btn bg-gradient-info z-index-2" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#viewPatient" 
-                                                title="View Details"
-                                                onclick = "viewPatient('{{$row->id}}')">
-                                                    <i class="fa-solid fa-eye text-sm opacity-10"></i>
-                                            </button>
-                                            <button 
-                                                type="button" 
-                                                class="btn bg-gradient-warning z-index-2" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#schedulePatient" 
-                                                title="Schedule Next Visit"
-                                                onclick = "schedulePatient('{{$row->id}}')">
-                                                    <i class="fa-solid fa-calendar text-sm opacity-10"></i>
-                                            </button>
-                                            <button 
-                                                type="button"
-                                                class="btn bg-gradient-success z-index-2 drop" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#prescriptionModal"
-                                                data-url="{{ route('despensing.store') }}"
-                                                title="Add Prescription"
-                                                onclick = "prescribe('{{ $row->id }}', this)">
-                                                <i class="fa-solid fa-prescription text-sm opacity-10"></i>
-                                            </button>
-                                            <!-- <button 
-                                                type="button" 
-                                                class="btn bg-gradient-danger z-index-2 drop" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#deleteModal"
-                                                data-url="{{ route('patient-queued.destroy', $row->id) }}"
-                                                onclick = "deletePatient(this)">
-                                                Delete
-                                            </button> -->
-                                            @if($row->is_done_consulting)
-                                                <button
-                                                    type="button"
-                                                    data-bs-toggle="modal" 
-                                                    data-bs-target="#sendModal" 
-                                                    class="btn bg-gradient-success z-index-2 drop send-diagnosis"
-                                                    title="Send Prescription and Diagnosis"
-                                                    onclick = "sendDiagnosis('{{ $row->id }}', this)">
-                                                    <i class="fa-solid fa-paper-plane text-sm opacity-10"></i>
-                                                </button>
-                                            @else
-                                                <button 
-                                                    type="button"
-                                                    class="btn bg-gradient-success z-index-2 drop" 
-                                                    data-bs-toggle="modal" 
-                                                    data-bs-target="#doneModal"
-                                                    data-url="{{ route('patient-queued.done', $row->id) }}"
-                                                    title="Done Consultation"
-                                                    onclick = "donePatient(this)">
-                                                    <i class="fa-solid fa-viruses text-sm opacity-10"></i>
-                                                </button>
-                                            @endif
-                                           
-                                        </td> --}}
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="font-weight-bold text-center table-text">No Data Available</td>
+                                        <td colspan="7" class="font-weight-bold text-center table-text">No Data Available</td>
                                     </tr>
                                 @endforelse
                               </tbody>

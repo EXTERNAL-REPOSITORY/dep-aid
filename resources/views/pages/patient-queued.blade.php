@@ -69,7 +69,9 @@
                                             </td>
                                             <td class="text-justify">
                                                 <p class="text-xs font-weight-bold table-text mb-0 text-uppercase">
-                                                    {{ ucfirst($row->name) }}</p>
+                                                    {{ ucfirst($row->firstname) ?? '' }}
+                                                    {{ $row->middlename !== null ? ucfirst($row->middlename[0]) . '.' : '' }}
+                                                    {{ ucfirst($row->lastname) ?? '' }}</p>
                                             </td>
                                             <td class="align-middle">
                                                 <span
@@ -271,7 +273,7 @@
             // console.log(detail);
             // $('.sidenav').css('opacity', '50%');
             console.log(detail);
-            $('#patient_name').val(detail.name);
+            $('#patient_name').val(detail.firstname + " " + detail.middlename + " " + detail.lastname);
             $('#patient_age').val(detail.age);
             $('#patient_address').val(detail.address);
             $('#patient_gender').val(detail.gender);
@@ -287,6 +289,7 @@
             $('#patient_allergies').val(detail.allergies);
             $('#patient_main_reason_for_consultation').val(detail.main_reason_for_consultation);
             $('#patient_other_reason_for_consultation').val(detail.other_reason_for_consultation);
+            $('#fdiagnosis').val(detail.diagnosis);
             $('#patient_current_medications').val(detail.current_medications);
             $('#patient_maintenance_medications').val(detail.maintenance_medications);
             $('#patient_doctor_consulting').val(detail.doctor_consulting);
