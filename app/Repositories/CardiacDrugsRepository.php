@@ -23,10 +23,10 @@ class CardiacDrugsRepository
                 \App\Pipelines\Search\SearchInventoryTable::class,
                 \App\Pipelines\Filter\DateFilter::class
             ])->thenReturn();
-        
+
         $data = $result ? $result : $query;
         $cardiacDrugs = $data->whereRaw('inventory.expiration_date >= NOW()')
-        ->where('type', 'Cardiac Drugs')->paginate(10);
+            ->where('type', 'Cardiac Drugs')->paginate(10);
 
         return compact('cardiacDrugs', 'requestData');
     }
@@ -85,10 +85,10 @@ class CardiacDrugsRepository
                 \App\Pipelines\Search\SearchInventoryTable::class,
                 \App\Pipelines\Filter\DateFilter::class
             ])->thenReturn();
-        
+
         $r1 = $result ? $result : $query;
         $med = $r1->whereRaw('inventory.expiration_date >= NOW()')
-        ->where('type', 'Cardiac Drugs')->get();
+            ->where('type', 'Cardiac Drugs')->get();
 
         $data = [
             'title' => 'DEP-AID Inventory - Cardiac Drug Report',

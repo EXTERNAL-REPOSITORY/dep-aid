@@ -45,8 +45,7 @@ class DoctorNurseController extends Controller
      */
     public function store(Request $request)
     {
-        $this->doctorNurse->storeDoctorNurse($request);
-        return redirect()->route('doctor-nurse.index')->with('success', 'Doctor/Nurse added successfully');
+        return $this->doctorNurse->storeDoctorNurse($request);
     }
 
     /**

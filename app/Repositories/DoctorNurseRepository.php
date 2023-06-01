@@ -40,7 +40,15 @@ class DoctorNurseRepository
 
     public function storeDoctorNurse($request)
     {
-        $day = DayTable::pluck('day')->toArray();
+        $day = array(
+            '1' => "Monday",
+            '2' => "Tuesday",
+            '3' => "Wednesday",
+            '4' => "Thursday",
+            '5' => "Friday",
+            '6' => "Saturday",
+            '7' => "Sunday"
+        );
         $employeeIdGenerator = 'DEP-AID-' . $request->first_name . '-' . mt_rand(100000000, 999999999);
 
         if (!isset($request->from_time) || !isset($request->to_time) || !isset($request->is_working)) {
@@ -49,25 +57,32 @@ class DoctorNurseRepository
             $request->is_working = [];
         }
 
-
-        foreach ($request->day as $key => $item) {
-            if (in_array($key, array_keys($day))) {
-                $doctorNurse = DoctorNurse::insert([
-                    'employee_id' => $employeeIdGenerator,
-                    'first_name' => $request->first_name,
-                    'middle_name' => $request->middle_name,
-                    'last_name' => $request->last_name,
-                    'position' => $request->position,
-                    'availability_days' => $key,
-                    'available_from' => $request->from_time[$key],
-                    'available_to' => $request->to_time[$key],
-                    'is_working' => $request->is_working[$key],
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-                ]);
+        DB::beginTransaction();
+        try {
+            $doctorNurse = [];
+            foreach ($request->day as $key => $item) {
+                if (in_array($key, array_keys($day))) {
+                    $doctorNurse = DoctorNurse::insert([
+                        'employee_id' => $employeeIdGenerator,
+                        'first_name' => $request->first_name,
+                        'middle_name' => $request->middle_name,
+                        'last_name' => $request->last_name,
+                        'position' => $request->position,
+                        'availability_days' => $key,
+                        'available_from' => $request->from_time[$key],
+                        'available_to' => $request->to_time[$key],
+                        'is_working' => $request->is_working[$key],
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ]);
+                }
             }
+            DB::commit();
+            return redirect()->route('doctor-nurse.index')->with('success', 'Doctor/Nurse added successfully');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect()->route('doctor-nurse.index')->with('error', 'Error: ' . $th);
         }
-        return $doctorNurse;
     }
 
     public function updateDoctorNurse($request, $doctorNurseId)

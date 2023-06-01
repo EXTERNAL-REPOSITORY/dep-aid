@@ -118,8 +118,12 @@ class MainController extends Controller
 
     public function done(Request $request)
     {
-        // dd($request);
-        $this->patientForm->donePatient($request);
-        return redirect()->route('patient-queued.index')->with('success', 'Patient Successfully Done');
+        // dd($request->patient_form_id);
+        try {
+            $this->patientForm->donePatient($request);
+            return redirect()->route('patient-queued.index')->with('success', 'Patient Successfully Done');
+        } catch (\Throwable $th) {
+            throw "err" . $th;
+        }
     }
 }
