@@ -679,6 +679,7 @@
     if (currentTab >= x.length) {
       //...the form gets submitted:
       // document.getElementById("add-patient-form").submit();
+      document.getElementById("nextBtn").innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...`;
       return false;
     }
     // Otherwise, display the correct tab:
@@ -821,11 +822,16 @@ $(document).ready(function () {
       const formData = $(this).serializeArray().reduce((o,kv) => ({...o, [kv.name]: kv.value}), {});
       console.log(formData);
       const schedule = $('input[name="schedule"]:checked');
+
+      let timeFrom = moment(schedule.data("available_from")).format('HH:mm');
+      let timeTo = moment(schedule.data("available_to")).format('HH:mm');
+
       formData['employee_id']=schedule.data("employee_id");
       formData['attending_id']=schedule.data("attending_id");
       formData['day']=schedule.data("day");
-      formData['available_from']=schedule.data("available_from");
-      formData['available_to']=schedule.data("available_to");
+      formData['available_from']=timeFrom;
+      formData['available_to']=timeTo;
+      formData['available_to']=timeTo;
       $.ajax({
         url: "{{ route('patient-form.store') }}",
         method: "POST",
@@ -926,7 +932,7 @@ $(document).ready(function () {
           var tableBody = $("table tbody");
 
           if (response == "") {
-            tableRow = "<tr><td colspan='5' style='text-align: center;'>No Data Available</td></tr>";
+            tableRow = "<tr><td colspan='5' style='text-align: center;'>No Available Doctor</td></tr>";
             tableBody.html(tableRow);
           } else {
             tableBody.html("");
@@ -941,33 +947,14 @@ $(document).ready(function () {
               let fromTime = moment(from, 'HH:mm');
               let toTime = moment(to, 'HH:mm');
               let noon = moment('12:00', 'HH:mm');
-
-              let duration = moment.duration(toTime.diff(fromTime));
-              let diff = duration.hours();
-              let time = moment(fromTime).add(0, 'hours').format('HH:mm');
-              // console.log(diff);
-
-              for (i = 0; diff > i; i++) {
-                if(i==0){
-                  timef = moment(fromTime).add(i, 'hours').format('HH:mm');
-                  timet = moment(fromTime).add((i+1.5), 'hours').format('HH:mm');
-                }else{
-                  timef = moment(fromTime).add(i+1.5, 'hours').format('HH:mm');
-                  timet = moment(fromTime).add((i+2.5), 'hours').format('HH:mm');
-                }
-
-                if((timef.split(":")[0]!=12 && timet.split(":")[0]<=17)){
-                  // console.log(moment(new Date(date_consult)).format('MM'));
-                  var date_from = moment(new Date(date_consult.getFullYear()+'-'+moment(new Date(date_consult)).format('MM')+'-'+date_consult.getDate()+' '+timef+':00')).format('Y-MM-DD hh:mm:ss');
-                  // Enter database validation here.....          
-                 
                   tableRow += `<tr>
                     <td>
                       <div>
                         <div class='form-check'>
                           <input class='form-check-input schedule' type='radio' name='schedule' id="flexRadioDefault${element.id}" 
-                          value="${element.id}" data-employee_id="${element.employee_id}" data-attending_id="${element.id}"
-                          data-day="${selectDate}" data-available_from="${timef}:00" data-available_to="${timet}:00">
+                          value="${element.id}" data-employee_id="${element.employee_id}" data-personnel="${element.first_name??''} ${element.last_name??''}"
+                          data-position="${element.position??''}"  data-attending_id="${element.id}"
+                          data-day="${selectDate}" data-available_from="${from}:00" data-available_to="${to}:00">
                         </div>
                       </div>
                     </td>
@@ -982,77 +969,14 @@ $(document).ready(function () {
                       <p class='text-xs font-weight-bold mb-0'>${element.position??''}</p>
                     </td>
                     <td class='align-middle text-center text-sm'>
-                      <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timef??''}" readonly>
+                      <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${element.available_from??''}" readonly>
                     </td>
                     <td class='align-middle text-center text-sm'> 
-                      <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timet??''}" readonly>
+                      <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${element.available_to??''}" readonly>
                     </td>
                   </tr>`;
-                 
-                  console.log("This");
-                  scheds.forEach(el=>{
-                    if(el.attending_id==element.id && el.start_date==date_from){
-                      console.log(el.attending_id==element.id && el.start_date==date_from);
-                    }
-                  });
-                 
-                 
-                 
-                 
-                 
-                 
-                 
-                  // scheds.forEach(el=>{
-                  //   // console.log("ASDASDASD");
-                  //   // console.log(el.attending_id +'=='+element.id);
-                  //   // console.log(date_from +'=='+el.start_date);
-                  //   // console.log(el.attending_id);
-                  //   // console.log(element.id);
-                  //   console.log(el);
-                  //   console.log("&");
-                  //   console.log(element);
-                    
-                  //   // console.log((el.attending_id==element.id && el.start_date==date_from)+' '+(el.attending_id==element.id)+" && "+(el.start_date==date_from));
-
-                  //   if(el.attending_id==element.id && el.start_date==date_from){
-                  //     console.log((el.attending_id)+" && "+(date_from));
-                  //   }else{
-                      
-                  //     tableRow += `<tr>
-                  //           <td>
-                  //             <div>
-                  //               <div class='form-check'>
-                  //                 <input class='form-check-input schedule' type='radio' name='schedule' id="flexRadioDefault${element.id}" 
-                  //                 value="${element.id}" data-employee_id="${element.employee_id}" data-attending_id="${element.id}"
-                  //                 data-day="${selectDate}" data-available_from="${timef}:00" data-available_to="${timet}:00">
-                  //               </div>
-                  //             </div>
-                  //           </td>
-                  //           <td>
-                  //             <div class='d-flex px-2 py-1'>
-                  //               <div class='d-flex flex-column justify-content-center'>
-                  //                 <h6 class='mb-0 text-xs'>${element.first_name??''} ${element.last_name??''}</h6>
-                  //               </div>
-                  //             </div>
-                  //           </td>
-                  //           <td>
-                  //             <p class='text-xs font-weight-bold mb-0'>${element.position??''}</p>
-                  //           </td>
-                  //           <td class='align-middle text-center text-sm'>
-                  //             <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timef??''}" readonly>
-                  //           </td>
-                  //           <td class='align-middle text-center text-sm'> 
-                  //             <input style="all: unset;boder:none!important; text-decoration:none!important;" type='time' class="text-xs font-weight-bold m-0 p-0" value="${timet??''}" readonly>
-                  //           </td>
-                  //         </tr>`;
-                  //     // console.log('NAA');
-                  //   }
-                  // });
-                }
-              }
-              tableBody.append(tableRow);
-              // console.log(moment(new Date(date_consult.getFullYear()+'-'+date_consult.getMonth()+'-'+date_consult.getDate()+' '+element.available_from)).subtract('01:14:00').format('h:mm A'));
             });            
+            tableBody.append(tableRow);
           }
         },
         error: function (response) {

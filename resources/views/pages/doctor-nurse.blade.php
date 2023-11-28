@@ -218,6 +218,7 @@
                     $('#edit_middle_name').val(details.middle_name);
                     $('#edit_last_name').val(details.last_name);
                     $('#edit_position').val(details.position);
+                    $('#edit_employee_id').val(details.employee_id);
                     $day=[
                         "Monday",
                         "Tuesday",
@@ -237,13 +238,13 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="example-time-input" class="form-control-label">From</label>
-                                    <input class="form-control edit_${$day[$i].toLowerCase()}_from" type="time" value="${element.available_from??''}" name="from_time[${$i}]">
+                                    <input class="form-control edit_${$day[$i].toLowerCase()}_from" type="time" value="${element.available_from??'-- --'}" name="from_time[${$i}]">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="example-time-input" class="form-control-label">To</label>
-                                    <input class="form-control edit_${$day[$i].toLowerCase()}_to" type="time" value="${element.available_to??''}" name="to_time[${$i}]">
+                                    <input class="form-control edit_${$day[$i].toLowerCase()}_to" type="time" value="${element.available_to??'-- --'}" name="to_time[${$i}]">
                                 </div>
                             </div>
                             <div class="col-md-3 mt-2-custom">
@@ -264,8 +265,8 @@
                     console.log(response)
                 }
             });
-            
-            $('#edit-doctor-nurse-form').attr('action', `/doctor-nurse/update/${details.id}`);
+            console.log(details);
+            $('#edit-doctor-nurse-form').attr('action', `/doctor-nurse/update`);
         }
 
         function deleteDoctorNurse(btn) {

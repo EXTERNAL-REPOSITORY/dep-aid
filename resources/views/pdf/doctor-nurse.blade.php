@@ -48,7 +48,7 @@
             </div>
         </div>
         <table class="mb-5">
-            <thead>
+            <thead style="page-break-inside: avoid">
                 <tr class="text-center">
                     <th scope="col">Employee ID</th>
                     <th scope="col">First Name</th>
@@ -64,25 +64,25 @@
                 @forelse ($users as $index => $row)
                     @php($tday="")
                     @switch($row->availability_days)
-                        @case(0):
+                        @case(1):
                             $tday = "Monday"
                             @break
-                        @case(1):
+                        @case(2):
                             $tday = "Tuesday"
                             @break
-                        @case(2):
+                        @case(3):
                             $tday = "Wednesday"
                             @break
-                        @case(3):
+                        @case(4):
                             $tday = "Thursday"
                             @break
-                        @case(4):
+                        @case(5):
                             $tday = "Friday"
                             @break
-                        @case(5):
+                        @case(6):
                             $tday = "Saturday"
                             @break
-                        @case(6):
+                        @case(7):
                             $tday = "Sunday"
                             @break
                     @endswitch
@@ -92,7 +92,7 @@
                         <td>{{ $row->middle_name }}</td>
                         <td>{{ $row->last_name }}</td>
                         <td>{{ $row->position }}</td>
-                        <td>{{ $tday }}</td>
+                        <td>{{ $tday}}</td>
                         <td>{{ isset($row->available_from) ? date('H:i A', strtotime($row->available_from)) : 'Not Available' }}</td>
                         <td>{{ isset($row->available_to) ? date('H:i A', strtotime($row->available_to)) : 'Not Available' }}</td>
                     </tr>

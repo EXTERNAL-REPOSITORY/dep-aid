@@ -8,9 +8,10 @@
           </button>
         </div>
         <form action="#" method="POST" id="edit-doctor-nurse-form" enctype="multipart/form-data">
-            @method('PUT')
+            @method('POST')
             @csrf
             <div class="modal-body">
+                <input type="hidden" name="employee_id" id="edit_employee_id">
                 <div class="row">
                     <div class="col-md-12">
                         @component('components.inputs.input')

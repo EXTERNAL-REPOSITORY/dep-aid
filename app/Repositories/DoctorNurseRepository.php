@@ -59,7 +59,6 @@ class DoctorNurseRepository
 
         DB::beginTransaction();
         try {
-            $doctorNurse = [];
             foreach ($request->day as $key => $item) {
                 if (in_array($key, array_keys($day))) {
                     $doctorNurse = DoctorNurse::insert([
@@ -85,10 +84,9 @@ class DoctorNurseRepository
         }
     }
 
-    public function updateDoctorNurse($request, $doctorNurseId)
+    public function updateDoctorNurse($request)
     {
         // dd($request);
-
         $day = array(
             '1' => "Monday",
             '2' => "Tuesday",
@@ -102,24 +100,24 @@ class DoctorNurseRepository
         try {
             foreach ($request->day as $key => $item) {
                 if (in_array($key, array_keys($day))) {
-                    $query = DoctorNurse::where('id', $doctorNurseId)->update([
+                    $query = DoctorNurse::where(['availability_days' => $key, 'employee_id' => $request->employee_id])->update([
                         'first_name' => $request->first_name,
                         'middle_name' => $request->middle_name,
                         'last_name' => $request->last_name,
                         'position' => $request->position,
-                        'available_from' => $request->from_time[$key],
-                        'available_to' => $request->to_time[$key],
-                        'is_working' => $request->is_working[$key],
+                        'available_from' => $request->from_time[$key-1],
+                        'available_to' => $request->to_time[$key-1],
+                        'is_working' => $request->is_working[$key-1]??false,
                         'updated_at' => Carbon::now(),
                     ]);
                 }
             }
 
             DB::commit();
-            return $query;
+            return redirect()->route('doctor-nurse.index')->with('success', 'Doctor/Nurse updated successfully');
         } catch (\Throwable $th) {
             DB::rollback();
-            return $th;
+            return redirect()->route('doctor-nurse.index')->with('error', 'Error: ' . $th);
         }
     }
 
@@ -160,7 +158,8 @@ class DoctorNurseRepository
 
     public function getSchedules($request)
     {
-        $result = DoctorNurse::where(['availability_days' => $request->day, 'is_working' => 1])->get();
+        $result = DoctorNurse::where(['availability_days' => $request->day, 'is_working' => 1])->orderBy("availability_days","ASC")->get();
+        // $result = DoctorNurse::where("is_working",1)->orderBy("availability_days","ASC")->get();
 
         return $result;
     }

@@ -26,6 +26,17 @@ class DeseaseForecastController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getIllnesses(Request $request)
+    {
+        $result = $this->desease->getIllnesses($request);
+        return json_encode($result);
+    }
+    
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response

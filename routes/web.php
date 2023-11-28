@@ -105,7 +105,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/doctor-nurse', [DoctorNurseController::class, 'index'])->name('doctor-nurse.index');
 	Route::get('/doctor-nurse/show', [DoctorNurseController::class, 'show'])->name('doctor-nurse.show');
 	Route::post('/doctor-nurse/store', [DoctorNurseController::class, 'store'])->name('doctor-nurse.store');
-	Route::put('/doctor-nurse/update/{id}', [DoctorNurseController::class, 'update'])->name('doctor-nurse.update');
+	Route::post('/doctor-nurse/update', [DoctorNurseController::class, 'update'])->name('doctor-nurse.update');
 	Route::delete('/doctor-nurse/destroy/{id}', [DoctorNurseController::class, 'destroy'])->name('doctor-nurse.destroy');
 	Route::get('/doctor-nurse/generate-pdf', [DoctorNurseController::class, 'generatePdf'])->name('doctor-nurse.generatePdf');
 
@@ -163,10 +163,13 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('/prescription', [SendDiagnosisPrescription::class, 'index'])->name('prescription');
 
 	// Forecast Illness
+	Route::get('/illnesses', [DeseaseForecastController::class, 'getIllnesses'])->name('illness.getIllnesses');
 	Route::get('/top-illness', [DeseaseForecastController::class, 'getTopTen'])->name('top-illness.topTen');
+	Route::get('/top-illness/month', [DeseaseForecastController::class, 'forecastMonth'])->name('top-illness.forecastMonth');
 
-	// Forecast Illness
+	// Forecast Medicine
 	Route::get('/top-medicines', [MedicineForecastController::class, 'getTopTen'])->name('top-medicines.topTen');
+	Route::get('/top-medicines/month', [MedicineForecastController::class, 'forecastMonth'])->name('top-medicines.forecastMonth');
 
 	// Prescribing/Dispensing
 	//Patient Dispensing

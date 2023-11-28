@@ -126,7 +126,9 @@ Good day ' . Str::title($request->name) . ',
 
 Thank you for having an appointment with us, here is your schedule of visit to our clinic.
 
-Schedule: ' . \Carbon\Carbon::parse($request->date)->format('F d, Y') . ' from ' . \Carbon\Carbon::parse($from)->format('g:i A') . ' to ' . \Carbon\Carbon::parse($to)->format('g:i A') . '
+Attending Personnel: '.$request->personnel.
+'Position: '.$request->position
+.'Schedule: ' . \Carbon\Carbon::parse($request->date)->format('F d, Y') . ' from ' . \Carbon\Carbon::parse($from)->format('g:i A') . ' to ' . \Carbon\Carbon::parse($to)->format('g:i A') . '
 
 Please be on time, thank you!
             ',
