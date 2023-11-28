@@ -220,6 +220,67 @@
         </div>
     </div>
     --}}
+
+    
+    <div class="row mt-3 mb-3">
+        <div class="col-xl-12 col-md-12 col-sm-12 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <h6 class="font-weight-bolder text-uppercase pb-0 mb-0">YEAR {{ now()->year }} PREDICTED ILLNESSES</h6>
+                        <small class="mt-0">confidence rates of illnesses this year</small>
+                    </div>
+                    <div class="row mt-3 mb-3">
+                        <div class="col-xl-12 col-xs-12 col-sm-12 col-mb-12 mb-xl-0 mb-1">
+                            <div class="card" title="view list of possible illnesses">
+                                <div class="card-body p-3">
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">Month <i class="fa fa-eye"></i></p>
+                                            <label for="month-forecast">Select:</label>
+                                            <select class="month-forecast" style="
+                                            display: block;
+                                            padding: 0.5rem 0.75rem;
+                                            font-size: 0.875rem;
+                                            font-weight: 400;
+                                            line-height: 1.4rem;
+                                            color: #495057;
+                                            background-color: #fff;
+                                            background-clip: padding-box;
+                                            border: 1px solid #d2d6da;
+                                            -webkit-appearance: none;
+                                            -moz-appearance: none;
+                                            appearance: none;
+                                            border-radius: 0.5rem;
+                                            transition: box-shadow 0.15s ease, border-color 0.15s ease;">
+                                                <option value="1">JANUARY</option>
+                                                <option value="2">FEBRUARY</option>
+                                                <option value="3">MARCH</option>
+                                                <option value="4">APRIL</option>
+                                                <option value="5">MAY</option>
+                                                <option value="6">JUNE</option>
+                                                <option value="7">JULY</option>
+                                                <option value="8">AUGUST</option>
+                                                <option value="9">SEPTEMBER</option>
+                                                <option value="10">OCTOBER</option>
+                                                <option value="11">NOVEMBER</option>
+                                                <option value="12">DECEMBER</option>
+                                            </select>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="topFiveIllnessList">
+                                        <!-- TOP FIVE ILLNESS LIST HERE -->
+                                        <center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Predicting...</center>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <div class="row mb-3">
         <div class="col-lg-12">
@@ -304,66 +365,6 @@
                                         <div class="col">
                                             <div id="TopMedicineChart" class="mx-auto d-flex justify-content-center"><center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</center></div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="row mt-3 mb-3">
-        <div class="col-xl-12 col-md-12 col-sm-12 mb-xl-0 mb-4">
-            <div class="card">
-                <div class="card-body p-3">
-                    <div class="row">
-                        <h6 class="font-weight-bolder text-uppercase pb-0 mb-0">YEAR {{ now()->year }} PREDICTED ILLNESSES</h6>
-                        <small class="mt-0">confidence rates of illnesses this year</small>
-                    </div>
-                    <div class="row mt-3 mb-3">
-                        <div class="col-xl-12 col-xs-12 col-sm-12 col-mb-12 mb-xl-0 mb-1">
-                            <div class="card" title="view list of possible illnesses">
-                                <div class="card-body p-3">
-                                    <div class="row">
-                                        <div class="col">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">Month <i class="fa fa-eye"></i></p>
-                                            <label for="month-forecast">Select:</label>
-                                            <select class="month-forecast" style="
-                                            display: block;
-                                            padding: 0.5rem 0.75rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 400;
-                                            line-height: 1.4rem;
-                                            color: #495057;
-                                            background-color: #fff;
-                                            background-clip: padding-box;
-                                            border: 1px solid #d2d6da;
-                                            -webkit-appearance: none;
-                                            -moz-appearance: none;
-                                            appearance: none;
-                                            border-radius: 0.5rem;
-                                            transition: box-shadow 0.15s ease, border-color 0.15s ease;">
-                                                <option value="1">JANUARY</option>
-                                                <option value="2">FEBRUARY</option>
-                                                <option value="3">MARCH</option>
-                                                <option value="4">APRIL</option>
-                                                <option value="5">MAY</option>
-                                                <option value="6">JUNE</option>
-                                                <option value="7">JULY</option>
-                                                <option value="8">AUGUST</option>
-                                                <option value="9">SEPTEMBER</option>
-                                                <option value="10">OCTOBER</option>
-                                                <option value="11">NOVEMBER</option>
-                                                <option value="12">DECEMBER</option>
-                                            </select>
-                                            <hr>
-                                        </div>
-                                    </div>
-                                    <div class="row" id="topFiveIllnessList">
-                                        <!-- TOP FIVE ILLNESS LIST HERE -->
-                                        <center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Predicting...</center>
                                     </div>
                                 </div>
                             </div>
