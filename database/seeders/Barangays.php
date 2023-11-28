@@ -25,7 +25,6 @@ class Barangays extends Seeder
             ['id' => 7, 'barangay_name' => 'Santo Niño', 'district_id' => 1],
             ['id' => 8, 'barangay_name' => 'Simaya', 'district_id' => 1],
             ['id' => 9, 'barangay_name' => 'Sinanglanan', 'district_id' => 1],
-            ['id' => 10, 'barangay_name' => 'Sinanglanan', 'district_id' => 1],
             ['id' => 11, 'barangay_name' => 'Can-ayan', 'district_id' => 2],
             ['id' => 12, 'barangay_name' => 'Capitan Angel', 'district_id' => 2],
             ['id' => 13, 'barangay_name' => 'Dalwangan', 'district_id' => 2],

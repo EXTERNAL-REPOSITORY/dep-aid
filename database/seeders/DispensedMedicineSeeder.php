@@ -15,6 +15,6 @@ class DispensedMedicineSeeder extends Seeder
      */
     public function run()
     {
-        DispensedMedicines::factory()->count(100)->create();
+        DispensedMedicines::factory()->count(100000)->create();
     }
 }
