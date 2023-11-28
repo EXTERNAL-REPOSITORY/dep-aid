@@ -221,7 +221,7 @@
     </div>
     --}}
     
-    {{-- <div class="row mb-3">
+    <div class="row mb-3">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
@@ -284,7 +284,7 @@
                                                             <tr class="bg-dark text-light">
                                                                 <th scope="col">#</th>
                                                                 <th scope="col" class="text-start">Medicines</th>
-                                                                <th scope="col">Probabilistic Rate(%)</th>
+                                                                <th scope="col">Percentage(%)</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="medicine_forecasting_table" class="text-center">
@@ -312,130 +312,15 @@
                 </div>
             </div>
         </div>
-    </div> --}}
-
-    {{--
-    <div class="row mt-3 mb-3">
-        <div class="col-xl-12 col-md-12 col-sm-12 mb-xl-0 mb-4">
-            <div class="card">
-                <div class="card-body p-3">
-                    <div class="row">
-                        <h6 class="font-weight-bolder text-uppercase pb-0 mb-0">YEAR {{ now()->year }} PROBABILISTIC FORECAST</h6>
-                        <small class="mt-0">probability rates of illness this year</small>
-                    </div>
-                    <div class="row mt-3 mb-3">
-                        <div class="col-xl-12 col-xs-12 col-sm-12 col-mb-12 mb-xl-0 mb-1">
-                            <div class="card" title="view list of possible illnesses">
-                                <div class="card-body p-3">
-                                    <div class="row">
-                                        <div class="col">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">Month <i class="fa fa-eye"></i></p>
-                                            <label for="month-forecast">Select:</label>
-                                            <select class="month-forecast" style="
-                                            display: block;
-                                            padding: 0.5rem 0.75rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 400;
-                                            line-height: 1.4rem;
-                                            color: #495057;
-                                            background-color: #fff;
-                                            background-clip: padding-box;
-                                            border: 1px solid #d2d6da;
-                                            -webkit-appearance: none;
-                                            -moz-appearance: none;
-                                            appearance: none;
-                                            border-radius: 0.5rem;
-                                            transition: box-shadow 0.15s ease, border-color 0.15s ease;">
-                                                <option value="1">JANUARY</option>
-                                                <option value="2">FEBRUARY</option>
-                                                <option value="3">MARCH</option>
-                                                <option value="4">APRIL</option>
-                                                <option value="5">MAY</option>
-                                                <option value="6">JUNE</option>
-                                                <option value="7">JULY</option>
-                                                <option value="8">AUGUST</option>
-                                                <option value="9">SEPTEMBER</option>
-                                                <option value="10">OCTOBER</option>
-                                                <option value="11">NOVEMBER</option>
-                                                <option value="12">DECEMBER</option>
-                                            </select>
-                                            <hr>
-                                        </div>
-                                        <div class="col">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold text-nowrap">Diagnosis <i class="fa fa-eye"></i></p>
-                                            <label for="diagnosis-forecast">Select:</label>
-                                            <select class="diagnosis-forecast" style="
-                                            display: block;
-                                            padding: 0.5rem 0.75rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 400;
-                                            line-height: 1.4rem;
-                                            color: #495057;
-                                            background-color: #fff;
-                                            background-clip: padding-box;
-                                            border: 1px solid #d2d6da;
-                                            -webkit-appearance: none;
-                                            -moz-appearance: none;
-                                            appearance: none;
-                                            border-radius: 0.5rem;
-                                            transition: box-shadow 0.15s ease, border-color 0.15s ease;">
-                                            </select>
-                                            <hr>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="numbers">
-                                                <div class="font-weight-bold text-small table-responsive">
-                                                    <table class="table">
-                                                        <thead class="text-center">
-                                                            <tr class="bg-dark text-light">
-                                                                <th scope="col">#</th>
-                                                                <th scope="col" class="text-start">Year</th>
-                                                                <th scope="col" class="text-start">Month</th>
-                                                                <th scope="col" class="text-start">Diagnosis Count</th>
-                                                                <th scope="col">MA(4)</th>
-                                                                <th scope="col">CMA(4)</th>
-                                                                <th scope="col">S<sub class="text-lowercase">t</sub>, I<sub class="text-lowercase">t</sub></th>
-                                                                <th scope="col">S<sub class="text-lowercase">t</sub></th>
-                                                                <th scope="col">Deseasonalize</th>
-                                                                <th scope="col">T<sub class="text-lowercase">t</sub></th>
-                                                                <th scope="col">Forecast</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody id="forecasting_table" class="text-center">
-                                                            <tr class="text-center">
-                                                                <td scope="col" colspan="3"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- <div class="row">
-                                        <div class="col">
-                                            <div id="TopIllnessChart" class="mx-auto d-flex justify-content-center"><center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</center></div>
-                                        </div>
-                                    </div> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-    --}}
-
     
     <div class="row mt-3 mb-3">
         <div class="col-xl-12 col-md-12 col-sm-12 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-body p-3">
                     <div class="row">
-                        <h6 class="font-weight-bolder text-uppercase pb-0 mb-0">YEAR {{ now()->year }} PROBABILISTIC FORECAST</h6>
-                        <small class="mt-0">probability rates of illness this year</small>
+                        <h6 class="font-weight-bolder text-uppercase pb-0 mb-0">YEAR {{ now()->year }} PREDICTED ILLNESSES</h6>
+                        <small class="mt-0">confidence rates of illnesses this year</small>
                     </div>
                     <div class="row mt-3 mb-3">
                         <div class="col-xl-12 col-xs-12 col-sm-12 col-mb-12 mb-xl-0 mb-1">
@@ -478,11 +363,7 @@
                                     </div>
                                     <div class="row" id="topFiveIllnessList">
                                         <!-- TOP FIVE ILLNESS LIST HERE -->
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div id="TopIllnessChart" class="mx-auto d-flex justify-content-center"><center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</center></div>
-                                        </div>
+                                        <center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Predicting...</center>
                                     </div>
                                 </div>
                             </div>
@@ -503,7 +384,8 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 --}}
 <script type="text/javascript">
-    drawChartTopIllnes(1);
+    illnesPrediction(1);
+    drawChartTopMedicines(1);
 
     function drawChartTopMedicines(month) {
         $('#TopMedicineChart').html('<tr class="text-center">\
@@ -660,7 +542,6 @@
 
             // predictionResult.innerHTML = "<strong>Top 5 Predictions:</strong><br>";
             console.log("Top 5 Prediction Result:");
-            $('#topFiveIllnessList').html(`<div class="col"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</div>`);
             var body="";
             predictions.forEach((prediction, index) => {
             //   predictionResult.innerHTML += `${index + 1}. ${prediction.label} - ${prediction.confidence.toFixed(2)}%<br>`;
@@ -695,16 +576,12 @@
     }
 
 
-    function drawChartTopIllnes(month) {
-        $('#TopIllnessChart').html('<tr class="text-center">\
-            <td scope="col" colspan="3"><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Loading...</td>\
-        </tr>');
+    function illnesPrediction(month) {
+        $('#topFiveIllnessList').html(`<div id="TopIllnessChart" class="mx-auto d-flex justify-content-center"><center><i class="fa fa-spinner fa-spin" style="font-size:24px"></i> Predicting...</center></div>`);
         $.get( "{{route('illness.getIllnesses')}}",{month:month})
         .done(function( rawData ) {
             const illnesses = JSON.parse(rawData);           
             trainAndPredict(month,illnesses);
-            
-            $("#TopIllnessChart").html("");
         });
     }
 
@@ -906,7 +783,7 @@
 
 <script type="text/javascript">
 $('.month-forecast').on('change',function(e){
-    drawChartTopIllnes($(this).val());
+    illnesPrediction($(this).val());
 });
 
 $('.medicine-month-forecast').on('change',function(e){
@@ -914,7 +791,7 @@ $('.medicine-month-forecast').on('change',function(e){
 });
 
 // $('.diagnosis-forecast').on('change',function(e){
-//     drawChartTopIllnes($(this).val(),$('.month-forecast').val());
+//     illnesPrediction($(this).val(),$('.month-forecast').val());
 // });
 
 // $('#reportrange').on('change',function(e){
